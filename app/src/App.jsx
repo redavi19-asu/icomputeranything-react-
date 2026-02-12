@@ -1,5 +1,5 @@
-import Home from "./pages/Home";
+import HomeHorizontal from "./pages/HomeHorizontal";
 
 export default function App() {
-  return <Home />;
+  return <HomeHorizontal />;
 }
