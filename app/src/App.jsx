@@ -1,7 +1,35 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Reveal from "./components/Reveal";
+import Footer from "./components/Footer";
+import VerticalFooter from "./components/VerticalFooter";
+import TechTicker from "./components/TechTicker";
 
 export default function App() {
+        const NAV_H = 56;
+        const TICKER_H = 64;
+      const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+
+      useEffect(() => {
+        const onResize = () => setIsMobile(window.innerWidth < 900);
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+      }, []);
+    // Smoother scroll helper
+    const smoothScrollTo = (el, targetLeft, duration = 700) => {
+      const startLeft = el.scrollLeft;
+      const delta = targetLeft - startLeft;
+      const start = performance.now();
+
+      const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+      const tick = (now) => {
+        const t = Math.min(1, (now - start) / duration);
+        el.scrollLeft = startLeft + delta * easeOutCubic(t);
+        if (t < 1) requestAnimationFrame(tick);
+      };
+
+      requestAnimationFrame(tick);
+    };
   const scrollerRef = useRef(null);
   const lockRef = useRef(false);
 
@@ -14,6 +42,7 @@ export default function App() {
       { key: "skills", title: "Skills" },
       { key: "projects", title: "Projects" },
       { key: "contact", title: "Contact" },
+      { key: "reflection", title: "Reflection" },
     ],
     []
   );
@@ -25,7 +54,7 @@ export default function App() {
     if (!el) return;
     const idx = Math.max(0, Math.min(i, sections.length - 1));
     setActive(idx);
-    el.scrollTo({ left: idx * el.clientWidth, behavior: "smooth" });
+    smoothScrollTo(el, idx * el.clientWidth, 700);
   };
 
   // Helper to go to section by key
@@ -66,7 +95,7 @@ export default function App() {
       else if (intent < -10) goTo(active - 1);
       else lockRef.current = false;
 
-      window.setTimeout(() => (lockRef.current = false), 380);
+      window.setTimeout(() => (lockRef.current = false), 650);
     };
 
     window.addEventListener("wheel", onWheel, { passive: false, capture: true });
@@ -74,11 +103,9 @@ export default function App() {
   }, [active]);
 
   return (
-    <div style={styles.page}>
-      {/* top menu */}
+    <>
       <div style={styles.nav}>
         <div style={{ fontWeight: 800 }}>I Computer Anything</div>
-
         <div style={styles.navBtns}>
           {sections.map((s, i) => (
             <button
@@ -95,51 +122,42 @@ export default function App() {
         </div>
       </div>
 
-      {/* seamless horizontal scroller */}
+      <TechTicker top={NAV_H} height={TICKER_H} />
+
+      {/* horizontal scroll sections */}
       <main ref={scrollerRef} style={styles.scroller}>
-        {sections.map((s) => (
+        {sections.map((s, i) => (
           <section key={s.key} style={styles.section}>
             {s.key === "home" ? (
               <div style={styles.heroWrap}>
-                {/* background */}
-                <div style={styles.heroBg} />
-                <div style={styles.heroOverlay} />
                 <Reveal rootRef={scrollerRef} y={18}>
-                  <div style={styles.heroInner}>
+                  <div style={{ ...styles.heroInner, flexDirection: isMobile ? "column" : "row" }}>
                     {/* left side */}
                     <div style={styles.heroLeft}>
                       <div style={styles.brandRow}>
                         <div style={styles.logoPill}>I COMPUTER ANYTHING</div>
                       </div>
-
                       <div style={styles.heroKicker}>I Computer Anything</div>
-
-                      <h1 style={styles.heroTitle}>
+                      <h1 style={{ ...styles.heroTitle, fontSize: isMobile ? 34 : 44 }}>
                         Bringing Practical IT &<br /> Web to Life
                       </h1>
-
                       <div style={styles.heroSub}>
                         Systems Admin • Networking • Web Dev • Mobile/Wireless network Connectivity
                       </div>
-
                       <div style={styles.heroBody}>
-                        I build clean, reliable websites and networks — from home-lab servers to live
-                        event Wi-Fi across the DMV area.
+                        I build clean, reliable websites and networks — from home-lab servers to live event Wi-Fi across the DMV area.
                       </div>
-
                       <div style={styles.heroBtns}>
                         <button style={styles.heroBtnPrimary} onClick={() => goKey("projects")}>View Projects</button>
                         <button style={styles.heroBtn} onClick={() => goKey("contact")}>Get in Touch</button>
                         <button style={styles.heroBtn} onClick={() => goKey("services")}>Live Chat</button>
                       </div>
                     </div>
-
                     {/* right side profile card */}
                     <div style={styles.heroRight}>
                       <div style={styles.profileCard}>
                         <div style={styles.avatar} />
                         <div style={styles.name}>Ryan Davis</div>
-
                         <div style={styles.skillStack}>
                           {[
                             { ico: "🪟", label: "Windows Server • AD • PowerShell" },
@@ -162,21 +180,22 @@ export default function App() {
               </div>
             ) : s.key === "services" ? (
               <div style={styles.servicesWrap}>
-                <div style={styles.servicesHead}>
-                  <h1 style={styles.servicesTitle}>Services</h1>
-                  <p style={styles.servicesSub}>
-                    Practical, hands-on services for home users and small businesses.
-                  </p>
-                  <p style={styles.servicesNote}>
-                    Click a service card to request a quote — the chosen service will be pre-filled on the request form.
-                  </p>
-                  <p style={styles.servicesPay}>
-                    A deposit / authorization hold may be required after consultation; an email payment link will be provided.
-                    Payments are processed via Square (major credit cards, Apple Pay, Google Pay).
-                  </p>
-                </div>
-                <Reveal rootRef={scrollerRef} delay={0.05}>
-                  <div style={styles.servicesGrid} className="servicesGrid">
+                <Reveal rootRef={scrollerRef} y={18}>
+                  <div style={styles.servicesHead}>
+                    <h1 style={styles.servicesTitle}>Services</h1>
+                    <p style={styles.servicesSub}>
+                      Practical, hands-on services for home users and small businesses.
+                    </p>
+                    <p style={styles.servicesNote}>
+                      Click a service card to request a quote — the chosen service will be pre-filled on the request form.
+                    </p>
+                    <p style={styles.servicesPay}>
+                      A deposit / authorization hold may be required after consultation; an email payment link will be provided.
+                      Payments are processed via Square (major credit cards, Apple Pay, Google Pay).
+                    </p>
+                  </div>
+
+                  <div style={styles.servicesGrid}>
                     {[
                       {
                         ico: "📶",
@@ -184,7 +203,7 @@ export default function App() {
                         b: "rgba(34,197,94,0.35)",
                         title: "Home & Small Business Network Setup",
                         body:
-                          "Setup Wi-Fi, configure routers and switches, secure networks, and optimize home offices for reliable remote work.",
+                          "Setup Wi-Fi, configure routers/switches, secure networks, and optimize home offices for reliable remote work.",
                       },
                       {
                         ico: "☁️",
@@ -192,7 +211,7 @@ export default function App() {
                         b: "rgba(59,130,246,0.35)",
                         title: "Server & Cloud Configuration",
                         body:
-                          "Install and configure Windows Server, Ubuntu, or Debian systems; set up VMs, storage, and migrations to more robust infrastructure.",
+                          "Install/configure Windows Server and Linux; set up storage, VMs, services, and migrations to stronger infrastructure.",
                       },
                       {
                         ico: "🛠️",
@@ -208,7 +227,7 @@ export default function App() {
                         b: "rgba(139,92,246,0.35)",
                         title: "Custom Website & App Development",
                         body:
-                          "Custom websites and simple apps for small businesses: clean, responsive design and practical functionality to get you online fast.",
+                          "Custom websites and simple apps for small businesses: clean, responsive design + practical functionality.",
                       },
                       {
                         ico: "🛡️",
@@ -216,7 +235,7 @@ export default function App() {
                         b: "rgba(34,197,94,0.35)",
                         title: "Cybersecurity Consulting",
                         body:
-                          "Security audits, firewall setup, and practical advice to protect small business networks and data—reducing risk with affordable changes.",
+                          "Security audits, firewall setup, and practical changes that reduce risk without enterprise complexity.",
                       },
                       {
                         ico: "💾",
@@ -224,7 +243,7 @@ export default function App() {
                         b: "rgba(59,130,246,0.35)",
                         title: "Data Backup & Recovery",
                         body:
-                          "Design and deploy automated backup systems (cloud or local) and provide fast recovery services so clients can restore lost data when needed.",
+                          "Automated backups (cloud/local) + fast recovery plans so clients can restore files quickly when something goes wrong.",
                       },
                       {
                         ico: "🧩",
@@ -232,18 +251,18 @@ export default function App() {
                         b: "rgba(245,158,11,0.35)",
                         title: "Hardware Installation & Upgrades",
                         body:
-                          "PC upgrades, new workstation builds, hardware installs, and troubleshooting — on-site or remote depending on the client and location.",
+                          "PC upgrades, new workstation builds, installs, and troubleshooting — on-site or remote depending on the job.",
                       },
                       {
                         ico: "🧰",
                         color: "rgba(245,158,11,0.18)",
                         b: "rgba(245,158,11,0.35)",
-                        title: "Managed IT Services for Small Businesses",
+                        title: "Managed IT Services",
                         body:
-                          "Ongoing IT maintenance, monitoring, and support packages for small businesses that need reliable, outsourced IT without a full-time staff.",
+                          "Ongoing monitoring and support packages for small businesses that need reliable outsourced IT.",
                       },
                     ].map((c) => (
-                      <button key={c.title} style={styles.serviceCard} className="serviceCardHover serviceCardFade">
+                      <button key={c.title} style={styles.serviceCard}>
                         <div style={{ ...styles.serviceIcon, background: c.color, borderColor: c.b }}>
                           {c.ico}
                         </div>
@@ -256,188 +275,447 @@ export default function App() {
               </div>
             ) : s.key === "about" ? (
               <div style={styles.aboutWrap}>
-                <div style={styles.aboutInner}>
-                  <h1 style={styles.aboutTitle}>About Me</h1>
-                  <p style={styles.aboutBody}>
-                    I'm Ryan Davis — an IT student and hands-on technologist based in the DMV area (30-mile radius).
-                    I turn ideas into working technology quickly and reliably. I run projects like
-                    <strong> Triple C Emergency Charging Services</strong> (mobile EV charging and connectivity) and
-                    <strong> I Computer Anything</strong>, and I maintain a home-lab data center where I host sites,
-                    configure servers, and test new tools. I specialize in network setup, server and cloud configuration,
-                    and practical web/app development — I learn by building and enjoy taking projects from concept to deployment.
-                  </p>
-                  <div className="aboutPills" style={styles.aboutPills}>
-                    <div className="aboutPill" style={styles.aboutPill}>
-                      <span style={{ ...styles.aboutPillIco, background: "rgba(245,158,11,0.16)", borderColor: "rgba(245,158,11,0.35)" }}>⚡</span>
-                      Quick prototypes, solid foundations
+                <Reveal rootRef={scrollerRef} y={18}>
+                  <div style={styles.aboutInner}>
+                    <h1 style={styles.aboutTitle}>About</h1>
+                    <p style={styles.aboutBody}>
+                      I’m Ryan Davis — an IT student and hands-on technologist based in the DMV area.
+                      I build clean, reliable websites and networks — from home-lab servers to real-world deployments.
+                      This site is design-first, but everything is built to work in production.
+                    </p>
+                    <div style={styles.aboutPills}>
+                      <div style={styles.aboutPill}>
+                        <span style={{ ...styles.aboutPillIco, background: "rgba(125,211,252,0.14)" }}>⚡</span>
+                        Fast build + clean foundations
+                      </div>
+                      <div style={styles.aboutPill}>
+                        <span style={{ ...styles.aboutPillIco, background: "rgba(34,197,94,0.14)" }}>🛡️</span>
+                        Practical security + reliability
+                      </div>
+                      <div style={styles.aboutPill}>
+                        <span style={{ ...styles.aboutPillIco, background: "rgba(245,158,11,0.14)" }}>🤝</span>
+                        Clear communication + delivery
+                      </div>
                     </div>
-                    <div className="aboutPill" style={styles.aboutPill}>
-                      <span style={{ ...styles.aboutPillIco, background: "rgba(34,197,94,0.16)", borderColor: "rgba(34,197,94,0.35)" }}>🛡️</span>
-                      Practical security & reliability
-                    </div>
-                    <div className="aboutPill" style={styles.aboutPill}>
-                      <span style={{ ...styles.aboutPillIco, background: "rgba(249,115,22,0.16)", borderColor: "rgba(249,115,22,0.35)" }}>🧡</span>
-                      Clear communication with clients
+                    <div style={styles.aboutGrid}>
+                      {[
+                        {
+                          title: "What I do",
+                          body:
+                            "Network setups, server configuration, troubleshooting, and modern web builds (React/Vite) with clean UI that looks professional on day one.",
+                          ico: "🧰",
+                        },
+                        {
+                          title: "How I work",
+                          body:
+                            "Design-first, then harden it. Smooth UX, solid layout, and production-ready structure — no messy “toy demo” setups.",
+                          ico: "🧠",
+                        },
+                        {
+                          title: "Where I’m going",
+                          body:
+                            "Full-stack skills + real deployments. Long-term: secure e-commerce, members areas, and automated workflows backed by Cloudflare + APIs.",
+                          ico: "🚀",
+                        },
+                      ].map((c) => (
+                        <div key={c.title} style={styles.aboutCard}>
+                          <div style={styles.aboutCardHead}>
+                            <div style={styles.aboutCardIco}>{c.ico}</div>
+                            <div style={styles.aboutCardTitle}>{c.title}</div>
+                          </div>
+                          <div style={styles.aboutCardBody}>{c.body}</div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
+                </Reveal>
               </div>
-            ) : s.key === "resume" ? (
-              <div style={styles.resumeWrap}>
-                <div style={styles.resumeInner}>
-                  <div style={styles.resumeHead}>
-                    <span style={styles.resumeHeadIco}>💼</span>
-                    <h1 style={styles.resumeTitle}>EXPERIENCE</h1>
-                  </div>
-
-                  <div className="resumeGrid" style={styles.resumeGrid}>
-                    {[
-                      {
-                        ico: "📡",
-                        icoBg: "rgba(249,115,22,0.16)",
-                        icoBd: "rgba(249,115,22,0.40)",
-                        title: "Comcast Cable Tech",
-                        body:
-                          "Installed and troubleshot broadband cable, modems, and in-home networks. Helped customers get reliable connectivity while learning real-world networking.",
-                      },
-                      {
-                        ico: "🛰️",
-                        icoBg: "rgba(59,130,246,0.16)",
-                        icoBd: "rgba(59,130,246,0.40)",
-                        title: "DirecTV Satellite Tech",
-                        body:
-                          "Mounted and configured satellite dishes, aligned signals, and ensured stable TV/Internet service. Specialized in difficult installs and resolving interference issues.",
-                      },
-                      {
-                        ico: "🧩",
-                        icoBg: "rgba(245,158,11,0.16)",
-                        icoBd: "rgba(245,158,11,0.40)",
-                        title: "Junior Network Admin (Goodwill)",
-                        body:
-                          "Volunteered as a Junior Network Admin, managing small-scale networks, Active Directory basics, and hands-on troubleshooting for staff and equipment.",
-                      },
-                      {
-                        ico: "✉️",
-                        icoBg: "rgba(248,113,113,0.16)",
-                        icoBd: "rgba(248,113,113,0.40)",
-                        title: "USPS",
-                        body:
-                          "Current role at the United States Postal Service. Strong focus on reliability, service, and balancing work with ongoing IT studies.",
-                      },
-                      {
-                        ico: "🖥️",
-                        icoBg: "rgba(34,197,94,0.16)",
-                        icoBd: "rgba(34,197,94,0.40)",
-                        title: "Home Lab / Data Center",
-                        body:
-                          "Maintain multiple Windows Server and Linux machines for web hosting, file sharing, and network experimentation. Hands-on experience with server admin, Samba shares, and remote access.",
-                      },
-                      {
-                        ico: "🛠️",
-                        icoBg: "rgba(125,211,252,0.16)",
-                        icoBd: "rgba(125,211,252,0.40)",
-                        title: "Goodwill Junior Network / Help Desk",
-                        body:
-                          "Volunteered as a Junior Network Admin and A+ Tech. Supported staff through a help desk ticketing system, diagnosing and resolving hardware/software issues, configuring user accounts, and maintaining small office networks.",
-                      },
-                    ].map((c, idx) => (
+            ) : s.key === "projects" ? (
+              <div style={styles.projectsWrap}>
+                <h1 style={styles.projectsTitle}>Projects</h1>
+                <p style={styles.projectsSub}>
+                  A few builds that show real-world UI, systems, and deployment work.
+                </p>
+                <div style={styles.projectsGrid}>
+                  {[
+                    {
+                      tag: "Featured",
+                      title: "IntriguedMutts.com",
+                      body:
+                        "Lifestyle, fashion, and finance brand site — designed for secure e-commerce, checkout, and a premium member-style experience.",
+                      chips: ["React", "GitHub Pages", "Cloudflare", "E-commerce ready"],
+                      cta1: { label: "Live", href: "https://intriguedmutts.com" },
+                      cta2: { label: "GitHub", href: "#" },
+                    },
+                    {
+                      tag: "Web + UI",
+                      title: "I Computer Anything",
+                      body:
+                        "Portfolio + services site with horizontal section navigation and polished card-based layouts.",
+                      chips: ["React", "Responsive UI", "Design system"],
+                      cta1: { label: "Live", href: "#" },
+                      cta2: { label: "GitHub", href: "#" },
+                    },
+                    {
+                      tag: "Network",
+                      title: "Portable Event Wi-Fi",
+                      body:
+                        "Concept + deployment planning for portable connectivity for events and remote sites.",
+                      chips: ["Networking", "Field kit", "Deployment"],
+                      cta1: { label: "Overview", href: "#" },
+                      cta2: { label: "Notes", href: "#" },
+                    },
+                    {
+                      tag: "Automation",
+                      title: "Payments + Fulfillment Pipeline",
+                      body:
+                        "Secure checkout flow with backend protection + webhook automation for order fulfillment (platform-free approach).",
+                      chips: ["Workers", "Webhooks", "Security"],
+                      cta1: { label: "Case Study", href: "#" },
+                      cta2: { label: "GitHub", href: "#" },
+                    },
+                  ].map((p) => (
+                    <Reveal key={p.title} rootRef={scrollerRef} y={18}>
                       <div
-                        key={c.title}
-                        className="resumeCardHover resumeCardFade"
-                        style={{
-                          ...styles.resumeCard,
-                          gridColumn: idx < 4 ? "span 1" : "span 2",
+                        style={styles.projectCard}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = "translateY(-6px) scale(1.01)";
+                          e.currentTarget.style.boxShadow = "0 16px 40px rgba(0,0,0,0.22)";
+                          e.currentTarget.style.background = "rgba(255,255,255,0.10)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = "translateY(0px) scale(1)";
+                          e.currentTarget.style.boxShadow = "0 2px 12px rgba(0,0,0,0.10)";
+                          e.currentTarget.style.background = "rgba(255,255,255,0.08)";
                         }}
                       >
-                        <div style={styles.resumeCardTop}>
-                          <span style={{ ...styles.resumeCardIco, background: c.icoBg, borderColor: c.icoBd }}>
-                            {c.ico}
-                          </span>
-                          <div style={styles.resumeCardTitle}>{c.title}</div>
+                        <div style={styles.projectTagRow}>
+                          <span style={styles.projectTag}>{p.tag}</span>
                         </div>
-                        <div style={styles.resumeCardBody}>{c.body}</div>
+                        <div style={styles.projectTitle}>{p.title}</div>
+                        <div style={styles.projectBody}>{p.body}</div>
+                        <div style={styles.projectChips}>
+                          {p.chips.map((c) => (
+                            <span key={c} style={styles.projectChip}>
+                              {c}
+                            </span>
+                          ))}
+                        </div>
+                        <div style={styles.projectBtns}>
+                          <a style={styles.projectBtnPrimary} href={p.cta1.href} target="_blank" rel="noreferrer">
+                            {p.cta1.label}
+                          </a>
+                          <a style={styles.projectBtn} href={p.cta2.href} target="_blank" rel="noreferrer">
+                            {p.cta2.label}
+                          </a>
+                        </div>
                       </div>
-                    ))}
-                  </div>
+                    </Reveal>
+                  ))}
                 </div>
               </div>
             ) : s.key === "skills" ? (
               <div style={styles.skillsWrap}>
-                <h1 style={styles.skillsTitle}>Skills</h1>
-                <Reveal rootRef={scrollerRef} delay={0.05}>
-                  <div
-                    style={{
-                      ...styles.skillsGrid,
-                      display: "grid",
-                      gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                      gap: 14,
-                    }}
-                  >
-                    {[
-                      {
-                        ico: "🧱",
-                        title: "Web",
-                        body:
-                          "HTML, CSS, JavaScript, responsive layouts, accessibility, basic SEO.",
-                      },
-                      {
-                        ico: "🧬",
-                        title: "Networking",
-                        body:
-                          "TCP/IP, DNS/DHCP, routing basics, VPN (WireGuard), remote access.",
-                      },
-                      {
-                        ico: "🖥️",
-                        title: "Systems",
-                        body:
-                          "Windows Server 2025, Debian/Ubuntu, Samba/SMB shares, IIS/Apache basics.",
-                      },
-                      {
-                        ico: "☁️",
-                        title: "Deploy",
-                        body:
-                          "Git/GitHub, GitHub Pages, environment setup, troubleshooting.",
-                      },
-                      {
-                        ico: "🎧",
-                        title: "Help Desk",
-                        body:
-                          "Ticketing, troubleshooting hardware/software, resolving end-user issues.",
-                      },
-                      {
-                        ico: "🛠️",
-                        title: "A+ Technician",
-                        body:
-                          "PC repair, operating systems, customer-facing technical support.",
-                      },
-                    ].map((c) => (
-                      <div key={c.title} style={styles.skillCard}>
-                        <div style={styles.skillCardHead}>
-                          <span style={styles.skillIco}>{c.ico}</span>
-                          <div style={styles.skillTitleText}>{c.title}</div>
+                <Reveal rootRef={scrollerRef} y={18}>
+                  <div style={styles.skillsInner}>
+                    <h1 style={styles.skillsTitle}>Skills</h1>
+                    <p style={styles.skillsSub}>
+                      The tools I use to build real systems, clean UI, and production-ready deployments.
+                    </p>
+                    <div style={styles.skillsGrid}>
+                      {[
+                        {
+                          ico: "🪟",
+                          title: "Windows + Admin",
+                          body: "Windows Server • Active Directory • Group Policy • PowerShell basics • troubleshooting",
+                          chips: ["Windows Server", "AD", "GPO", "PowerShell"],
+                        },
+                        {
+                          ico: "🐧",
+                          title: "Linux + Servers",
+                          body: "Debian/Fedora/Ubuntu • SSH • basic hardening • Nginx • services + logs",
+                          chips: ["Linux", "SSH", "Nginx", "Services"],
+                        },
+                        {
+                          ico: "🌐",
+                          title: "Networking",
+                          body: "LAN/Wi-Fi setup • routers/switches • IP/DNS basics • diagnostics • field deployment mindset",
+                          chips: ["Wi-Fi", "Routing", "Switching", "Troubleshooting"],
+                        },
+                        {
+                          ico: "⚛️",
+                          title: "Frontend",
+                          body: "React • Vite • component UI • responsive layout • modern UX patterns",
+                          chips: ["React", "Vite", "Responsive UI", "UX"],
+                        },
+                        {
+                          ico: "🎨",
+                          title: "Web Basics",
+                          body: "HTML • CSS • accessibility habits • clean structure • polished styling",
+                          chips: ["HTML", "CSS", "Accessibility", "Design"],
+                        },
+                        {
+                          ico: "☁️",
+                          title: "Deploy + Automation",
+                          body: "GitHub workflows • Cloudflare basics • deployment discipline • API-safe patterns",
+                          chips: ["GitHub", "Cloudflare", "Deploy", "APIs"],
+                        },
+                      ].map((k) => (
+                        <div key={k.title} style={styles.skillCard}>
+                          <div style={styles.skillCardHead}>
+                            <div style={styles.skillIcon}>{k.ico}</div>
+                            <div>
+                              <div style={styles.skillTitle}>{k.title}</div>
+                              <div style={styles.skillBody}>{k.body}</div>
+                            </div>
+                          </div>
+                          <div style={styles.skillChips}>
+                            {k.chips.map((c) => (
+                              <span key={c} style={styles.skillChip}>
+                                {c}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                        <div style={styles.skillBody}>{c.body}</div>
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+            ) : s.key === "resume" ? (
+              <div style={styles.resumeWrap}>
+                <div style={styles.resumeInner}>
+                  <div style={styles.resumeHeaderRow}>
+                    <div style={styles.resumeHeaderLeft}>
+                      <div style={styles.resumeKicker}>
+                        <span style={styles.resumeKickerIco}>💼</span>
+                        EXPERIENCE
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={styles.resumeGrid}>
+                    {[{
+                      ico: "📡",
+                      title: "Comcast Cable Tech",
+                      body:
+                        "Installed and troubleshot broadband cable, modems, and in-home networks. Helped customers get reliable connectivity while learning real-world networking.",
+                    },
+                    {
+                      ico: "🛰️",
+                      title: "DirecTV Satellite Tech",
+                      body:
+                        "Mounted and configured satellite dishes, aligned signals, and ensured stable TV/Internet service. Specialized in difficult installs and resolving interference issues.",
+                    },
+                    {
+                      ico: "🧩",
+                      title: "Junior Network Admin (Goodwill)",
+                      body:
+                        "Volunteered as a Junior Network Admin, managing small-scale networks, Active Directory basics, and hands-on troubleshooting for staff and equipment.",
+                    },
+                    {
+                      ico: "✉️",
+                      title: "USPS",
+                      body:
+                        "Current role at the United States Postal Service. Strong focus on reliability, service, and balancing work with ongoing IT studies.",
+                    },
+                    {
+                      ico: "🧪",
+                      title: "Home Lab / Data Center",
+                      body:
+                        "Maintain multiple Windows Server and Linux machines for web hosting, file sharing, and network experimentation. Hands-on experience with server admin, shares, and remote access.",
+                    },
+                    {
+                      ico: "🛠️",
+                      title: "Goodwill Junior Network / Help Desk",
+                      body:
+                        "Supported staff through a help desk ticketing flow, diagnosing and resolving hardware/software issues, configuring user accounts, and maintaining small office networks.",
+                    }].map((x) => (
+                      <div key={x.title} style={styles.expCard}>
+                        <div style={styles.expTop}>
+                          <div style={styles.expIco}>{x.ico}</div>
+                          <div style={styles.expTitle}>{x.title}</div>
+                        </div>
+                        <div style={styles.expBody}>{x.body}</div>
                       </div>
                     ))}
                   </div>
-                </Reveal>
+                </div>
+              </div>
+            ) : s.key === "contact" ? (
+              <div style={styles.contactWrap}>
+                <h1 style={styles.contactTitle}>Contact</h1>
+                <p style={styles.contactSub}>
+                  Want to collaborate or have a project in mind? Reach out:
+                </p>
+
+                <div style={styles.contactList}>
+                  <a style={styles.contactLink} href="mailto:redavi19@asu.edu">
+                    <span style={styles.contactIco}>✉️</span>
+                    <span>redavi19@asu.edu</span>
+                  </a>
+
+                  <a
+                    style={styles.contactLink}
+                    href="https://github.com/redavi19-asu"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span style={styles.contactIco}>🐙</span>
+                    <span>github.com/redavi19-asu</span>
+                  </a>
+
+                  <a style={styles.contactLink} href="mailto:ryanedavis@gmail.com">
+                    <span style={styles.contactIco}>✉️</span>
+                    <span>ryanedavis@gmail.com</span>
+                  </a>
+                </div>
+              </div>
+            ) : s.key === "reflection" ? (
+              <div style={styles.reflectionWrap}>
+                <h1 style={styles.reflectionTitle}>Reflection</h1>
+
+                <div style={styles.reflectionKicker}>BUILDING WEBSITES WITH AI</div>
+                <p style={styles.reflectionPara}>
+                  Using AI helped me move faster on layout ideas, semantic HTML, and CSS structure.
+                  I still made the key decisions—section order, copy, and how to present my real projects
+                  like Triple C and Portable Event Wi-Fi. I also focused on accessibility (skip link, headings, contrast)
+                  and responsiveness. The main learning for me was how small details (spacing, icon accents, mobile nav)
+                  make a site feel professional. Going forward I’ll use AI for brainstorming and troubleshooting while I
+                  deepen fundamentals in CSS and JavaScript.
+                </p>
+
+                <h2 style={styles.reflectionH2}>TECHNOLOGY. WE LOVE IT.</h2>
+                <p style={styles.reflectionPara}>
+                  Technology has transformed our world from the earliest mechanical inventions to today’s intelligent
+                  digital systems. In the past, innovations like the printing press, telegraph, and steam engine
+                  revolutionized communication and industry. The 20th century brought rapid advances—radio, television,
+                  and the first computers changed how people lived and worked.
+                </p>
+                <p style={styles.reflectionPara}>
+                  In recent decades, the rise of the internet, mobile devices, and cloud computing has connected billions
+                  and made information instantly accessible. Today, artificial intelligence and automation are shaping
+                  the future, making technology more adaptive and powerful than ever. Each era builds on the last,
+                  driving progress and opening new possibilities for how we learn, create, and connect.
+                </p>
+
+                <h2 style={styles.reflectionH2}>MY MISSION</h2>
+                <p style={styles.reflectionPara}>
+                  My mission is to build something great with others—starting a business, growing together, and turning
+                  good ideas into real success. If you have a vision or want to become an owner, let’s connect and make
+                  it happen. Every strong business begins with a good idea and the drive to see it through.
+                </p>
               </div>
             ) : (
               <div style={styles.card}>
                 <h1 style={{ margin: 0, fontSize: 42 }}>{s.title}</h1>
-                <p style={{ marginTop: 10, opacity: 0.85 }}>Placeholder content for {s.title}.</p>
+                <p style={{ marginTop: 10, opacity: 0.85 }}>
+                  Placeholder content for {s.title}.
+                </p>
               </div>
             )}
           </section>
         ))}
       </main>
-    </div>
+      {/* vertical right-edge footer */}
+      <div style={styles.vFooter} aria-label="Site footer">
+        <div style={styles.vFooterInner}>
+          © 2026 Ryan Davis • Built with React, HTML, CSS & a dash of JS
+        </div>
+      </div>
+      {/* simple bottom footer */}
+      <footer style={styles.footer}>
+        <div style={styles.footerInner}>
+          © {new Date().getFullYear()} Ryan Davis • Built with React (Vite), HTML, CSS & a dash of JS
+        </div>
+      </footer>
+    </>
   );
 }
 
-// Duplicate styles and import block removed. Only one definition remains below.
-
+// Styles object (single, flat, valid)
 const styles = {
+  resumeWrap: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  resumeInner: {
+    width: "min(1200px, calc(100vw - 56px))",
+    padding: 24,
+  },
+  resumeHeaderRow: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 16,
+  },
+  resumeHeaderLeft: {
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+  },
+  resumeKicker: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    fontWeight: 950,
+    fontSize: 28,
+    letterSpacing: 0.6,
+  },
+  resumeKickerIco: {
+    width: 34,
+    height: 34,
+    borderRadius: 12,
+    display: "grid",
+    placeItems: "center",
+    background: "rgba(245,158,11,0.16)",
+    border: "1px solid rgba(245,158,11,0.35)",
+  },
+  resumeGrid: {
+    display: "grid",
+    gap: 14,
+    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+    gridAutoRows: "1fr",
+  },
+  expCard: {
+    borderRadius: 18,
+    padding: 18,
+    background: "rgba(10, 18, 24, 0.55)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+    backdropFilter: "blur(10px)",
+    minHeight: 170,
+  },
+  expTop: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 10,
+  },
+  expIco: {
+    width: 34,
+    height: 34,
+    borderRadius: 12,
+    display: "grid",
+    placeItems: "center",
+    border: "1px solid rgba(255,255,255,0.18)",
+    background: "rgba(255,255,255,0.06)",
+    fontSize: 18,
+  },
+  expTitle: {
+    fontWeight: 950,
+    fontSize: 18,
+    lineHeight: 1.15,
+  },
+  expBody: {
+    opacity: 0.9,
+    fontWeight: 650,
+    lineHeight: 1.45,
+    fontSize: 14.5,
+  },
   page: {
     width: "100vw",
     height: "100vh",
@@ -451,14 +729,14 @@ const styles = {
     top: 0,
     left: 0,
     right: 0,
+    height: 56,
     zIndex: 9999,
     display: "flex",
     alignItems: "center",
-    gap: 12,
-    padding: "10px 12px",
-    background: "rgba(0,0,0,0.55)",
-    borderBottom: "1px solid rgba(255,255,255,0.14)",
-    backdropFilter: "blur(10px)",
+    padding: "12px 24px",
+    background: "rgba(0,0,0,0.7)",
+    borderBottom: "1px solid rgba(255,255,255,0.08)",
+    backdropFilter: "blur(8px)",
   },
   navBtns: {
     marginLeft: "auto",
@@ -471,419 +749,736 @@ const styles = {
     padding: "8px 10px",
     borderRadius: 10,
     border: "1px solid rgba(255,255,255,0.18)",
-    background: "rgba(255,255,255,0.08)",
+    background: "rgba(255,255,255,0.04)",
     color: "white",
+    fontWeight: 600,
     cursor: "pointer",
-    fontWeight: 700,
-    whiteSpace: "nowrap",
+    fontSize: 16,
+    marginRight: 2,
+    transition: "background 0.2s, color 0.2s",
   },
   navBtnActive: {
     background: "rgba(125,211,252,0.18)",
-    border: "1px solid rgba(125,211,252,0.35)",
+    color: "#7dd3fc",
   },
   scroller: {
-    position: "absolute",
-    inset: 0,
-    paddingTop: 56, // space for nav
     display: "flex",
+    flexDirection: "row",
+    width: "100vw",
+    height: `calc(100vh - ${56 + 64}px)`,
+    marginTop: 56 + 64,
     overflowX: "auto",
-    overflowY: "hidden",
     scrollSnapType: "x mandatory",
-    WebkitOverflowScrolling: "touch",
+    scrollBehavior: "smooth",
   },
+    tickerBar: {
+      position: "fixed",
+      top: 56, // adjust if nav height changes
+      left: 0,
+      right: 0,
+      zIndex: 9998,
+      height: 34,
+      display: "flex",
+      alignItems: "center",
+      background: "rgba(0,0,0,0.55)",
+      borderBottom: "1px solid rgba(255,255,255,0.08)",
+      backdropFilter: "blur(8px)",
+    },
+
+    tickerMask: {
+      width: "100%",
+      overflow: "hidden",
+    },
+
+    tickerTrack: {
+      display: "flex",
+      width: "max-content",
+      animation: "tickerMove 22s linear infinite",
+    },
+
+    tickerRow: {
+      display: "flex",
+      alignItems: "center",
+      whiteSpace: "nowrap",
+    },
+
+    tickerItem: {
+      fontSize: 13,
+      fontWeight: 700,
+      letterSpacing: 0.6,
+      opacity: 0.9,
+      padding: "0 18px",
+      borderRight: "1px solid rgba(255,255,255,0.10)",
+    },
   section: {
+    width: "100vw",
+    height: `calc(100vh - ${56 + 64}px)`,
     flex: "0 0 100vw",
-    height: "calc(100vh - 56px)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     scrollSnapAlign: "start",
-    display: "grid",
-    placeItems: "center",
-    padding: 24,
-  },
-  card: {
-    width: "min(980px, calc(100vw - 48px))",
-    borderRadius: 18,
-    padding: "22px 26px",
-    background: "rgba(255,255,255,0.06)",
-    border: "1px solid rgba(255,255,255,0.14)",
-    boxShadow: "0 10px 40px rgba(0,0,0,0.35)",
-    backdropFilter: "blur(10px)",
+    position: "relative",
+    padding: 0,
   },
   heroWrap: {
-    width: "min(1200px, calc(100vw - 48px))",
-    height: "min(640px, calc(100vh - 120px))",
-    borderRadius: 22,
+    width: "100%",
+    height: "100%",
     position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     overflow: "hidden",
-    border: "1px solid rgba(255,255,255,0.14)",
-    boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
   },
-
   heroBg: {
     position: "absolute",
     inset: 0,
-    background: "transparent",
+    background: "radial-gradient(1000px 600px at 50% 15%, rgba(125,211,252,0.12), rgba(0,0,0,0.85)), #000",
+    zIndex: 0,
   },
-
   heroOverlay: {
     position: "absolute",
     inset: 0,
-    background:
-      "radial-gradient(900px 520px at 20% 30%, rgba(0,0,0,0.25), rgba(0,0,0,0.88))",
+    background: "linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.55) 100%)",
+    zIndex: 1,
   },
-
   heroInner: {
     position: "relative",
     zIndex: 2,
-    height: "100%",
-    display: "grid",
-    gridTemplateColumns: "1.2fr 0.8fr",
-    gap: 22,
-    padding: 28,
+    display: "flex",
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    maxWidth: 1200,
+    margin: "0 auto",
+    gap: 48,
   },
-
   heroLeft: {
-    maxWidth: 640,
+    flex: 1,
+    minWidth: 320,
+    maxWidth: 520,
+    display: "flex",
+    flexDirection: "column",
+    gap: 12,
   },
-
-  brandRow: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 },
-
+  brandRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 8,
+  },
   logoPill: {
-    padding: "8px 12px",
-    borderRadius: 999,
-    background: "rgba(0,0,0,0.35)",
-    border: "1px solid rgba(255,255,255,0.14)",
-    fontWeight: 900,
+    background: "rgba(125,211,252,0.18)",
+    color: "#7dd3fc",
+    fontWeight: 700,
+    fontSize: 14,
+    borderRadius: 16,
+    padding: "4px 14px",
     letterSpacing: 1.2,
-    fontSize: 12,
-    color: "rgba(255,255,255,0.9)",
   },
-
   heroKicker: {
     fontSize: 18,
-    fontWeight: 800,
-    opacity: 0.95,
-    marginBottom: 10,
+    fontWeight: 600,
+    color: "#7dd3fc",
+    marginBottom: 4,
   },
-
   heroTitle: {
-    margin: 0,
-    fontSize: 56,
-    lineHeight: 1.02,
-    fontWeight: 900,
-  },
-
-  heroSub: {
-    marginTop: 14,
+    fontSize: 44,
     fontWeight: 800,
+    margin: 0,
+    lineHeight: 1.1,
+  },
+  heroSub: {
+    fontSize: 18,
+    opacity: 0.85,
+    marginBottom: 8,
+  },
+  heroBody: {
+    fontSize: 16,
+    opacity: 0.85,
+    marginBottom: 16,
+  },
+  heroBtns: {
+    display: "flex",
+    gap: 12,
+    marginTop: 8,
+  },
+  heroBtnPrimary: {
+    background: "#7dd3fc",
+    color: "#222",
+    fontWeight: 700,
+    border: "none",
+    borderRadius: 10,
+    padding: "10px 22px",
+    fontSize: 16,
+    cursor: "pointer",
+    boxShadow: "0 2px 8px rgba(125,211,252,0.12)",
+    transition: "background 0.2s, color 0.2s",
+  },
+  heroBtn: {
+    background: "rgba(255,255,255,0.08)",
+    color: "white",
+    fontWeight: 600,
+    border: "1px solid rgba(255,255,255,0.18)",
+    borderRadius: 10,
+    padding: "10px 22px",
+    fontSize: 16,
+    cursor: "pointer",
+    transition: "background 0.2s, color 0.2s",
+  },
+  heroRight: {
+    flex: 1,
+    minWidth: 320,
+    maxWidth: 420,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  profileCard: {
+    background: "rgba(255,255,255,0.08)",
+    borderRadius: 24,
+    padding: 32,
+    boxShadow: "0 4px 24px rgba(0,0,0,0.18)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 16,
+    minWidth: 260,
+    maxWidth: 340,
+  },
+  avatar: {
+    width: 72,
+    height: 72,
+    borderRadius: "50%",
+    background: "#7dd3fc",
+    marginBottom: 8,
+  },
+  name: {
+    fontWeight: 700,
+    fontSize: 20,
+    marginBottom: 4,
+  },
+  skillStack: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
+    width: "100%",
+  },
+  skillRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+  },
+  skillIco: {
+    fontSize: 20,
+  },
+  skillLbl: {
+    fontSize: 15,
     opacity: 0.9,
   },
-
-  heroBody: {
-    marginTop: 12,
+  servicesWrap: {
+    width: "min(1200px, calc(100vw - 48px))",
+    margin: "0 auto",
+    padding: 28,
+    borderRadius: 22,
+    border: "1px solid rgba(255,255,255,0.14)",
+    background: "rgba(0,0,0,0.20)",
+    boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
+  },
+  servicesHead: {
+    textAlign: "center",
+    marginBottom: 18,
+  },
+  servicesTitle: {
+    margin: 0,
+    fontSize: 44,
+    fontWeight: 900,
+  },
+  servicesSub: {
+    marginTop: 10,
+    opacity: 0.88,
+    fontWeight: 750,
+  },
+  servicesNote: {
+    marginTop: 10,
     opacity: 0.85,
-    maxWidth: 560,
   },
-
-  heroBtns: {
+  servicesPay: {
+    marginTop: 10,
+    opacity: 0.8,
+    fontSize: 14,
+  },
+  servicesGrid: {
     marginTop: 18,
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+    gap: 14,
+  },
+  serviceCard: {
+    all: "unset",
+    boxSizing: "border-box",
     display: "flex",
-    gap: 10,
-    flexWrap: "wrap",
-  },
-
-  heroBtnPrimary: {
-    padding: "12px 14px",
-    borderRadius: 14,
-    border: "1px solid rgba(125,211,252,0.55)",
-    background: "rgba(125,211,252,0.18)",
+    flexDirection: "column",
+    gap: 8,
+    borderRadius: 16,
+    padding: 16,
+    minHeight: 190,
+    background: "rgba(255,255,255,0.06)",
+    border: "1px solid rgba(255,255,255,0.14)",
     color: "white",
-    fontWeight: 900,
     cursor: "pointer",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+    backdropFilter: "blur(10px)",
+    transition: "transform 160ms ease, border-color 160ms ease, background 160ms ease",
   },
-
-  heroBtn: {
-    padding: "12px 14px",
+  serviceIcon: {
+    width: 44,
+    height: 44,
     borderRadius: 14,
-    border: "1px solid rgba(255,255,255,0.16)",
-    background: "rgba(0,0,0,0.25)",
-    color: "white",
-    fontWeight: 900,
-    cursor: "pointer",
-  },
-
-  heroRight: {
     display: "grid",
     placeItems: "center",
+    border: "1px solid rgba(255,255,255,0.18)",
+    fontSize: 20,
   },
-
-  profileCard: {
-    width: "min(360px, 100%)",
-    borderRadius: 22,
-    padding: 18,
-    background: "rgba(0,0,0,0.35)",
-    border: "1px solid rgba(255,255,255,0.14)",
-    backdropFilter: "blur(10px)",
-  },
-
-  avatar: {
-    width: 96,
-    height: 96,
-    borderRadius: "50%",
-    margin: "6px auto 10px",
-    background:
-      "url('https://i.pravatar.cc/200?img=12') center/cover no-repeat",
-    border: "3px solid rgba(125,211,252,0.75)",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.45)",
-  },
-
-  name: {
-    textAlign: "center",
+  serviceTitle: {
     fontWeight: 900,
-    fontSize: 18,
-    marginBottom: 10,
+    fontSize: 16,
+    lineHeight: 1.25,
   },
-
-  skillsText: {
-    marginTop: 10,
+  serviceBody: {
+    opacity: 0.86,
+    fontWeight: 650,
+    lineHeight: 1.4,
+    fontSize: 14,
+  },
+  aboutWrap: {
+    width: "min(1200px, calc(100vw - 48px))",
+    margin: "0 auto",
+    padding: 28,
+    borderRadius: 22,
+    border: "1px solid rgba(255,255,255,0.14)",
+    background: "rgba(0,0,0,0.20)",
+    boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
+  },
+  aboutInner: {
+    maxWidth: 1020,
+    margin: "0 auto",
+  },
+  aboutTitle: {
+    margin: 0,
+    fontSize: 44,
+    fontWeight: 900,
+    textAlign: "center",
+  },
+  aboutBody: {
+    marginTop: 14,
+    opacity: 0.9,
+    fontWeight: 700,
+    lineHeight: 1.55,
+    textAlign: "center",
+  },
+  aboutPills: {
+    marginTop: 18,
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+    gap: 12,
+  },
+  aboutPill: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
     padding: "12px 14px",
     borderRadius: 16,
     background: "rgba(255,255,255,0.06)",
     border: "1px solid rgba(255,255,255,0.12)",
-    lineHeight: 1.55,
-    fontWeight: 800,
+    fontWeight: 850,
     opacity: 0.92,
   },
-};
-
-styles.serviceCard = {
-  all: "unset",
-  boxSizing: "border-box",
-  display: "flex",
-  flexDirection: "column",
-  gap: 8,
-
-  borderRadius: 16,                 // a bit squarer
-  padding: 16,
-  minHeight: 180,                   // taller cards
-  background: "rgba(255,255,255,0.06)",
-  border: "1px solid rgba(255,255,255,0.14)",
-  color: "white",
-  cursor: "pointer",
-  boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
-  backdropFilter: "blur(10px)",
-
-  transition: "transform 160ms ease, border-color 160ms ease, background 160ms ease",
-};
-
-styles.aboutWrap = {
-  width: "min(1200px, calc(100vw - 48px))",
-  height: "min(560px, calc(100vh - 120px))",
-  borderRadius: 22,
-  position: "relative",
-  overflow: "hidden",
-  border: "1px solid rgba(255,255,255,0.14)",
-  background: "rgba(0,0,0,0.20)",
-  boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
-  padding: 28,
-  display: "grid",
-  alignItems: "center",
-};
-
-styles.aboutInner = {
-  maxWidth: 980,
-};
-
-styles.aboutTitle = {
-  margin: 0,
-  fontSize: 44,
-  fontWeight: 900,
-};
-
-styles.aboutBody = {
-  marginTop: 14,
-  opacity: 0.9,
-  fontWeight: 750,
-  lineHeight: 1.55,
-  maxWidth: 980,
-};
-
-styles.aboutPills = {
-  marginTop: 18,
-  display: "grid",
-  gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-  gap: 12,
-};
-
-styles.aboutPill = {
-  display: "flex",
-  alignItems: "center",
-  gap: 10,
-  padding: "12px 14px",
-  borderRadius: 16,
-  background: "rgba(255,255,255,0.06)",
-  border: "1px solid rgba(255,255,255,0.12)",
-  fontWeight: 850,
-  opacity: 0.92,
-};
-
-styles.aboutPillIco = {
-  width: 30,
-  height: 30,
-  borderRadius: 12,
-  display: "grid",
-  placeItems: "center",
-  border: "1px solid rgba(255,255,255,0.18)",
-};
-
-styles.skillsWrap = {
-  width: "min(1200px, calc(100vw - 48px))",
-  height: "min(560px, calc(100vh - 120px))",
-  borderRadius: 22,
-  position: "relative",
-  overflow: "hidden",
-  border: "1px solid rgba(255,255,255,0.14)",
-  background: "rgba(0,0,0,0.20)",
-  boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
-  padding: 28,
-};
-
-styles.skillsTitle = {
-  margin: 0,
-  fontSize: 44,
-  fontWeight: 900,
-  color: "#fff",
-};
-
-styles.skillsGrid = {
-  marginTop: 18,
-};
-
-styles.skillCard = {
-  borderRadius: 18,
-  padding: 18,
-  background: "rgba(255,255,255,0.06)",
-  border: "1px solid rgba(255,255,255,0.14)",
-  boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
-  backdropFilter: "blur(10px)",
-  color: "#fff",
-};
-
-styles.skillCardHead = {
-  display: "flex",
-  alignItems: "center",
-  gap: 10,
-  marginBottom: 10,
-};
-
-styles.skillIco = {
-  width: 34,
-  height: 34,
-  borderRadius: 12,
-  display: "grid",
-  placeItems: "center",
-  border: "1px solid rgba(255,255,255,0.18)",
-  background: "rgba(125,211,252,0.14)",
-};
-
-styles.skillTitleText = {
-  fontWeight: 950,
-  fontSize: 18,
-};
-
-styles.skillBody = {
-  opacity: 0.86,
-  fontWeight: 750,
-  lineHeight: 1.4,
-};
-
-// Resume section styles
-styles.resumeWrap = {
-  width: "min(1200px, calc(100vw - 48px))",
-  height: "min(640px, calc(100vh - 120px))",
-  borderRadius: 22,
-  position: "relative",
-  overflow: "hidden",
-  border: "1px solid rgba(255,255,255,0.14)",
-  background: "rgba(0,0,0,0.20)",
-  boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
-  padding: 28,
-};
-
-styles.resumeInner = {
-  height: "100%",
-  display: "grid",
-  gridTemplateRows: "auto 1fr",
-  gap: 18,
-};
-
-styles.resumeHead = {
-  display: "flex",
-  alignItems: "center",
-  gap: 10,
-};
-
-styles.resumeHeadIco = {
-  width: 34,
-  height: 34,
-  borderRadius: 12,
-  display: "grid",
-  placeItems: "center",
-  background: "rgba(245,158,11,0.16)",
-  border: "1px solid rgba(245,158,11,0.35)",
-};
-
-styles.resumeTitle = {
-  margin: 0,
-  fontSize: 34,
-  fontWeight: 950,
-  letterSpacing: 0.6,
-};
-
-styles.resumeGrid = {
-  display: "grid",
-  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-  gap: 14,
-  alignContent: "start",
-};
-
-styles.resumeCard = {
-  borderRadius: 18,
-  padding: 18,
-  background: "rgba(255,255,255,0.06)",
-  border: "1px solid rgba(255,255,255,0.14)",
-  boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
-  backdropFilter: "blur(10px)",
-  color: "#fff",
-  minHeight: 150,
-  transition: "transform 160ms ease, border-color 160ms ease, background 160ms ease",
-};
-
-styles.resumeCardTop = {
-  display: "flex",
-  alignItems: "center",
-  gap: 10,
-  marginBottom: 10,
-};
-
-styles.resumeCardIco = {
-  width: 34,
-  height: 34,
-  borderRadius: 12,
-  display: "grid",
-  placeItems: "center",
-  border: "1px solid rgba(255,255,255,0.18)",
-};
-
-styles.resumeCardTitle = {
-  fontWeight: 950,
-  fontSize: 16,
-  lineHeight: 1.15,
-};
-
-styles.resumeCardBody = {
-  opacity: 0.88,
-  fontWeight: 750,
-  lineHeight: 1.4,
-  fontSize: 13.5,
+  aboutPillIco: {
+    width: 32,
+    height: 32,
+    borderRadius: 12,
+    display: "grid",
+    placeItems: "center",
+    border: "1px solid rgba(255,255,255,0.18)",
+  },
+  aboutGrid: {
+    marginTop: 16,
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: 14,
+  },
+  aboutCard: {
+    borderRadius: 18,
+    padding: 18,
+    background: "rgba(255,255,255,0.06)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+    backdropFilter: "blur(10px)",
+  },
+  aboutCardHead: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 10,
+  },
+  aboutCardIco: {
+    width: 40,
+    height: 40,
+    borderRadius: 14,
+    display: "grid",
+    placeItems: "center",
+    border: "1px solid rgba(255,255,255,0.18)",
+    background: "rgba(125,211,252,0.14)",
+    fontSize: 18,
+  },
+  aboutCardTitle: {
+    fontWeight: 950,
+    fontSize: 16,
+  },
+  aboutCardBody: {
+    opacity: 0.86,
+    fontWeight: 650,
+    lineHeight: 1.45,
+    fontSize: 14,
+  },
+  projectsWrap: {
+    width: "100%",
+    maxWidth: 980,
+    margin: "0 auto",
+    padding: "32px",
+    paddingBottom: 130,          // ✅ this is the fix (space for footer)
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  projectsTitle: {
+    fontSize: 38,
+    fontWeight: 800,
+    marginBottom: 8,
+  },
+  projectsSub: {
+    fontSize: 18,
+    opacity: 0.85,
+    marginBottom: 24,
+    textAlign: "center",
+  },
+  projectsGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: 24,
+    width: "100%",
+    marginTop: 16,
+    paddingBottom: 110,          // ✅ extra safety so the last row clears footer
+  },
+  projectCard: {
+    background: "rgba(255,255,255,0.08)",
+    borderRadius: 18,
+    padding: 24,
+    boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
+    display: "flex",
+    flexDirection: "column",
+    gap: 12,
+    minWidth: 220,
+    transform: "translateY(0px) scale(1)",
+    transition: "transform 240ms ease, box-shadow 240ms ease, background 240ms ease",
+  },
+  projectTagRow: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+  projectTag: {
+    background: "#7dd3fc",
+    color: "#222",
+    fontWeight: 700,
+    fontSize: 12,
+    borderRadius: 10,
+    padding: "2px 10px",
+    letterSpacing: 1.1,
+  },
+  projectTitle: {
+    fontWeight: 700,
+    fontSize: 20,
+    marginBottom: 2,
+  },
+  projectBody: {
+    fontSize: 15,
+    opacity: 0.9,
+    marginBottom: 8,
+  },
+  projectChips: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 8,
+    marginBottom: 8,
+  },
+  projectChip: {
+    background: "rgba(125,211,252,0.18)",
+    color: "#7dd3fc",
+    fontWeight: 600,
+    fontSize: 13,
+    borderRadius: 8,
+    padding: "2px 10px",
+    marginBottom: 2,
+  },
+  projectBtns: {
+    display: "flex",
+    gap: 10,
+    marginTop: 6,
+  },
+  projectBtnPrimary: {
+    background: "#7dd3fc",
+    color: "#222",
+    fontWeight: 700,
+    border: "none",
+    borderRadius: 8,
+    padding: "7px 18px",
+    fontSize: 15,
+    cursor: "pointer",
+    textDecoration: "none",
+    transition: "background 0.2s, color 0.2s",
+  },
+  projectBtn: {
+    background: "rgba(255,255,255,0.08)",
+    color: "white",
+    fontWeight: 600,
+    border: "1px solid rgba(255,255,255,0.18)",
+    borderRadius: 8,
+    padding: "7px 18px",
+    fontSize: 15,
+    cursor: "pointer",
+    textDecoration: "none",
+    transition: "background 0.2s, color 0.2s",
+  },
+  skillsWrap: {
+    width: "min(1200px, calc(100vw - 48px))",
+    margin: "0 auto",
+    padding: 28,
+    borderRadius: 22,
+    border: "1px solid rgba(255,255,255,0.14)",
+    background: "rgba(0,0,0,0.20)",
+    boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
+  },
+  skillsInner: {
+    maxWidth: 1100,
+    margin: "0 auto",
+  },
+  skillsTitle: {
+    margin: 0,
+    fontSize: 44,
+    fontWeight: 900,
+    textAlign: "center",
+  },
+  skillsSub: {
+    marginTop: 10,
+    opacity: 0.88,
+    fontWeight: 700,
+    textAlign: "center",
+  },
+  skillsGrid: {
+    marginTop: 18,
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+    gap: 14,
+  },
+  skillCard: {
+    borderRadius: 18,
+    padding: 18,
+    background: "rgba(255,255,255,0.06)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+    backdropFilter: "blur(10px)",
+  },
+  skillCardHead: {
+    display: "flex",
+    gap: 12,
+    alignItems: "flex-start",
+  },
+  skillIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 16,
+    display: "grid",
+    placeItems: "center",
+    border: "1px solid rgba(255,255,255,0.18)",
+    background: "rgba(125,211,252,0.14)",
+    fontSize: 20,
+    flex: "0 0 auto",
+  },
+  skillTitle: {
+    fontWeight: 950,
+    fontSize: 16,
+    marginTop: 2,
+  },
+  skillBody: {
+    opacity: 0.86,
+    fontWeight: 650,
+    lineHeight: 1.45,
+    fontSize: 14,
+    marginTop: 6,
+  },
+  skillChips: {
+    marginTop: 12,
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  skillChip: {
+    display: "inline-flex",
+    padding: "4px 10px",
+    borderRadius: 999,
+    background: "rgba(125,211,252,0.14)",
+    border: "1px solid rgba(125,211,252,0.22)",
+    color: "rgba(255,255,255,0.92)",
+    fontWeight: 800,
+    fontSize: 12,
+  },
+  card: {
+    background: "rgba(255,255,255,0.08)",
+    borderRadius: 18,
+    padding: 48,
+    boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: 320,
+    maxWidth: 520,
+    margin: "0 auto",
+  },
+  contactWrap: {
+    width: "min(980px, calc(100vw - 48px))",
+    padding: "28px 28px",
+    borderRadius: 22,
+    background: "rgba(255,255,255,0.06)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    boxShadow: "0 18px 70px rgba(0,0,0,0.50)",
+    backdropFilter: "blur(10px)",
+    textAlign: "left",
+  },
+  contactTitle: {
+    margin: 0,
+    fontSize: 48,
+    fontWeight: 900,
+    letterSpacing: -0.6,
+  },
+  contactSub: {
+    marginTop: 10,
+    opacity: 0.86,
+    fontWeight: 700,
+    lineHeight: 1.5,
+  },
+  contactList: {
+    marginTop: 18,
+    display: "flex",
+    flexDirection: "column",
+    gap: 12,
+  },
+  contactLink: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    padding: "12px 14px",
+    borderRadius: 16,
+    background: "rgba(0,0,0,0.22)",
+    border: "1px solid rgba(255,255,255,0.12)",
+    color: "white",
+    textDecoration: "none",
+    fontWeight: 800,
+    width: "fit-content",
+    maxWidth: "100%",
+  },
+  contactIco: {
+    width: 22,
+    display: "inline-grid",
+    placeItems: "center",
+    opacity: 0.95,
+  },
+  reflectionWrap: {
+    width: "min(1100px, calc(100vw - 72px))",
+    padding: "34px 34px",
+    borderRadius: 22,
+    background: "rgba(0,0,0,0.28)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    boxShadow: "0 18px 70px rgba(0,0,0,0.55)",
+    backdropFilter: "blur(10px)",
+    textAlign: "left",
+  },
+  reflectionTitle: {
+    margin: 0,
+    fontSize: 48,
+    fontWeight: 900,
+    letterSpacing: -0.6,
+  },
+  reflectionKicker: {
+    marginTop: 10,
+    fontWeight: 900,
+    letterSpacing: 0.6,
+    opacity: 0.95,
+  },
+  reflectionH2: {
+    marginTop: 22,
+    marginBottom: 8,
+    fontSize: 18,
+    fontWeight: 900,
+    letterSpacing: 0.6,
+  },
+  reflectionPara: {
+    marginTop: 10,
+    opacity: 0.9,
+    fontWeight: 650,
+    lineHeight: 1.55,
+    maxWidth: 980,
+  },
+  reflectionList: {
+    marginTop: 14,
+    paddingLeft: 18,
+    opacity: 0.9,
+    fontWeight: 750,
+    lineHeight: 1.6,
+  },
+  vFooter: {
+    position: "fixed",
+    right: 10,
+    bottom: 16,
+    zIndex: 9999,
+    pointerEvents: "none",           // doesn't block clicks
+    opacity: 0.85,
+  },
+  vFooterInner: {
+    transform: "rotate(-90deg)",     // makes it vertical
+    transformOrigin: "right bottom",
+    fontSize: 12,
+    fontWeight: 700,
+    letterSpacing: 0.6,
+    color: "rgba(255,255,255,0.75)",
+    background: "rgba(0,0,0,0.35)",
+    border: "1px solid rgba(255,255,255,0.12)",
+    borderRadius: 12,
+    padding: "8px 12px",
+    backdropFilter: "blur(8px)",
+    whiteSpace: "nowrap",
+  },
+  footer: {
+    position: "fixed",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 9999,
+    padding: "10px 12px",
+    background: "rgba(0,0,0,0.55)",
+    borderTop: "1px solid rgba(255,255,255,0.12)",
+    backdropFilter: "blur(10px)",
+  },
+  footerInner: {
+    maxWidth: 1200,
+    margin: "0 auto",
+    textAlign: "center",
+    fontSize: 12,
+    fontWeight: 700,
+    letterSpacing: 0.4,
+    color: "rgba(255,255,255,0.75)",
+  },
 };

@@ -1,5 +1,36 @@
+
 import { useEffect, useRef } from "react";
 import "./home.css";
+
+// Set your real background image path here
+const BG_URL = "/assets/office-bg.png"; // <-- CHANGE THIS to your actual image path
+
+const styles = {
+  hero: {
+    minHeight: "100vh",
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "140px 32px 80px", // leaves room for nav + ticker
+    backgroundImage: `url(${BG_URL})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundColor: "#0b0f14", // fallback while image loads
+  },
+  overlay: {
+    position: "absolute",
+    inset: 0,
+    background: "rgba(0,0,0,0.10)", // very light overlay
+    pointerEvents: "none",
+  },
+  content: {
+    position: "relative",
+    zIndex: 1,
+    width: "min(1100px, 92vw)",
+  },
+};
 
 export default function Home() {
   const cardsRef = useRef(null);
@@ -21,9 +52,13 @@ export default function Home() {
 
   return (
     <main className="home" style={{ paddingTop: 80 }}>
-      <section className="hero">
-        <h1>I Computer Anything</h1>
-        <p>Diagnostics • Repair • Web • Servers</p>
+      <section style={styles.hero}>
+        {/* If you want FULL CLEAR background: remove this overlay line */}
+        <div style={styles.overlay} />
+        <div style={styles.content}>
+          <h1>I Computer Anything</h1>
+          <p>Diagnostics • Repair • Web • Servers</p>
+        </div>
       </section>
 
       {/* IMPORTANT: this wrapper MUST be here */}
