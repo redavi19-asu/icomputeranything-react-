@@ -64,7 +64,7 @@ function IframePanel({ title, file, onWheelIntent }) {
         height: "100vh",
         scrollSnapAlign: "start",
         position: "relative",
-        background: "#000",
+        background: "transparent",
       }}
     >
       <iframe
@@ -76,7 +76,15 @@ function IframePanel({ title, file, onWheelIntent }) {
           height: "100%",
           border: 0,
           display: "block",
-          background: "#000",
+        }}
+      />
+
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "rgba(0,0,0,0.55)",
+          pointerEvents: "none",
         }}
       />
 
@@ -257,7 +265,16 @@ export default function HomeHorizontal() {
   }, [loc.search]);
 
   return (
-    <div style={{ width: "100vw", height: "100vh", overflow: "hidden", background: "#000" }}>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        overflow: "hidden",
+        background: "#000",
+        backgroundImage:
+          "radial-gradient(ellipse at center, rgba(0,0,0,0.20), rgba(0,0,0,0.75))",
+      }}
+    >
       {/* Top nav */}
       <div
         style={{
