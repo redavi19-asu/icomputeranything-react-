@@ -5,6 +5,20 @@ import VerticalFooter from "./components/VerticalFooter";
 import TechTicker from "./components/TechTicker";
 
 export default function App() {
+  // Opens the existing legacy service request form (keeps your Gmail hookup)
+  const openServiceForm = (serviceTitle) => {
+    const base = (import.meta?.env?.BASE_URL) || "/";
+    const url = `${base}legacy/services-form.html?service=${encodeURIComponent(serviceTitle || "")}`;
+    console.log("[service form url]", url);
+
+    const w = window.open(url, "_blank", "noopener,noreferrer");
+    if (!w) {
+      // popup blocked -> force same-tab navigation so it never opens "nothing"
+      window.location.assign(url);
+    }
+  };
+
+
         const NAV_H = 56;
         const TICKER_H = 64;
       const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
@@ -156,7 +170,11 @@ export default function App() {
                     {/* right side profile card */}
                     <div style={styles.heroRight}>
                       <div style={styles.profileCard}>
-                        <div style={styles.avatar} />
+                        <img
+                          src="/legacy/images/profile.jpeg"
+                          alt="Ryan Davis"
+                          style={styles.avatar}
+                        />
                         <div style={styles.name}>Ryan Davis</div>
                         <div style={styles.skillStack}>
                           {[
@@ -262,7 +280,7 @@ export default function App() {
                           "Ongoing monitoring and support packages for small businesses that need reliable outsourced IT.",
                       },
                     ].map((c) => (
-                      <button key={c.title} style={styles.serviceCard}>
+                      <button onClick={() => openServiceForm(c.title)} type="button" key={c.title} style={styles.serviceCard} onClick={() => openRequest(c.title)}>
                         <div style={{ ...styles.serviceIcon, background: c.color, borderColor: c.b }}>
                           {c.ico}
                         </div>
@@ -948,11 +966,14 @@ const styles = {
     maxWidth: 340,
   },
   avatar: {
-    width: 72,
-    height: 72,
-    borderRadius: "50%",
-    background: "#7dd3fc",
-    marginBottom: 8,
+    width: 120,
+    height: 150,
+    borderRadius: 28,          // oval corners (not circle)
+    objectFit: "cover",
+    objectPosition: "center",
+    border: "2px solid rgba(0,180,255,0.55)",
+    boxShadow: "0 0 18px rgba(0,180,255,0.25)",
+    background: "rgba(0,180,255,0.12)",
   },
   name: {
     fontWeight: 700,
@@ -1016,6 +1037,9 @@ const styles = {
     gap: 14,
   },
   serviceCard: {
+    position: "relative",
+    zIndex: 50,
+    pointerEvents: "auto",
     all: "unset",
     boxSizing: "border-box",
     display: "flex",

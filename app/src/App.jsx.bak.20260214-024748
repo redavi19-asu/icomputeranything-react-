@@ -1,0 +1,1491 @@
+import { useEffect, useMemo, useRef, useState } from "react";
+import Reveal from "./components/Reveal";
+import Footer from "./components/Footer";
+import VerticalFooter from "./components/VerticalFooter";
+import TechTicker from "./components/TechTicker";
+
+export default function App() {
+        const NAV_H = 56;
+        const TICKER_H = 64;
+      const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+
+      useEffect(() => {
+        const onResize = () => setIsMobile(window.innerWidth < 900);
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+      }, []);
+    // Smoother scroll helper
+    const smoothScrollTo = (el, targetLeft, duration = 700) => {
+      const startLeft = el.scrollLeft;
+      const delta = targetLeft - startLeft;
+      const start = performance.now();
+
+      const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+      const tick = (now) => {
+        const t = Math.min(1, (now - start) / duration);
+        el.scrollLeft = startLeft + delta * easeOutCubic(t);
+        if (t < 1) requestAnimationFrame(tick);
+      };
+
+      requestAnimationFrame(tick);
+    };
+  const scrollerRef = useRef(null);
+  const lockRef = useRef(false);
+
+  const sections = useMemo(
+    () => [
+      { key: "home", title: "Home" },
+      { key: "resume", title: "Resume" },
+      { key: "services", title: "Services" },
+      { key: "about", title: "About" },
+      { key: "skills", title: "Skills" },
+      { key: "projects", title: "Projects" },
+      { key: "contact", title: "Contact" },
+      { key: "reflection", title: "Reflection" },
+    ],
+    []
+  );
+
+  const [active, setActive] = useState(0);
+
+  const goTo = (i) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const idx = Math.max(0, Math.min(i, sections.length - 1));
+    setActive(idx);
+    smoothScrollTo(el, idx * el.clientWidth, 700);
+  };
+
+  // Helper to go to section by key
+  const goKey = (key) => {
+    const idx = sections.findIndex((s) => s.key === key);
+    if (idx >= 0) goTo(idx);
+  };
+
+  // keep active index synced if user drags horizontally
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    const onScroll = () => {
+      const idx = Math.round(el.scrollLeft / el.clientWidth);
+      if (idx !== active) setActive(idx);
+    };
+
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, [active]);
+
+  // wheel -> horizontal section stepping (global, seamless)
+  useEffect(() => {
+    const onWheel = (e) => {
+      const dx = e.deltaX || 0;
+      const dy = e.deltaY || 0;
+      const intent = Math.abs(dx) > Math.abs(dy) ? dx : dy;
+      if (!intent) return;
+
+      e.preventDefault();
+
+      if (lockRef.current) return;
+      lockRef.current = true;
+
+      // down/forward = next (to the right)
+      if (intent > 10) goTo(active + 1);
+      else if (intent < -10) goTo(active - 1);
+      else lockRef.current = false;
+
+      window.setTimeout(() => (lockRef.current = false), 650);
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false, capture: true });
+    return () => window.removeEventListener("wheel", onWheel, { capture: true });
+  }, [active]);
+
+  return (
+    <>
+      <div style={styles.nav}>
+        <div style={{ fontWeight: 800 }}>I Computer Anything</div>
+        <div style={styles.navBtns}>
+          {sections.map((s, i) => (
+            <button
+              key={s.key}
+              onClick={() => goTo(i)}
+              style={{
+                ...styles.navBtn,
+                ...(i === active ? styles.navBtnActive : null),
+              }}
+            >
+              {s.title}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <TechTicker top={NAV_H} height={TICKER_H} />
+
+      {/* horizontal scroll sections */}
+      <main ref={scrollerRef} style={styles.scroller}>
+        {sections.map((s, i) => (
+          <section key={s.key} style={styles.section}>
+            {s.key === "home" ? (
+              <div style={styles.heroWrap}>
+                <Reveal rootRef={scrollerRef} y={18}>
+                  <div style={{ ...styles.heroInner, flexDirection: isMobile ? "column" : "row" }}>
+                    {/* left side */}
+                    <div style={styles.heroLeft}>
+                      <div style={styles.brandRow}>
+                        <div style={styles.logoPill}>I COMPUTER ANYTHING</div>
+                      </div>
+                      <div style={styles.heroKicker}>I Computer Anything</div>
+                      <h1 style={{ ...styles.heroTitle, fontSize: isMobile ? 34 : 44 }}>
+                        Bringing Practical IT &<br /> Web to Life
+                      </h1>
+                      <div style={styles.heroSub}>
+                        Systems Admin • Networking • Web Dev • Mobile/Wireless network Connectivity
+                      </div>
+                      <div style={styles.heroBody}>
+                        I build clean, reliable websites and networks — from home-lab servers to live event Wi-Fi across the DMV area.
+                      </div>
+                      <div style={styles.heroBtns}>
+                        <button style={styles.heroBtnPrimary} onClick={() => goKey("projects")}>View Projects</button>
+                        <button style={styles.heroBtn} onClick={() => goKey("contact")}>Get in Touch</button>
+                        <button style={styles.heroBtn} onClick={() => goKey("services")}>Live Chat</button>
+                      </div>
+                    </div>
+                    {/* right side profile card */}
+                    <div style={styles.heroRight}>
+                      <div style={styles.profileCard}>
+                        <img
+                          src="/legacy/images/profile.jpeg"
+                          alt="Ryan Davis"
+                          style={styles.avatar}
+                        />
+                        <div style={styles.name}>Ryan Davis</div>
+                        <div style={styles.skillStack}>
+                          {[
+                            { ico: "🪟", label: "Windows Server • AD • PowerShell" },
+                            { ico: "🐧", label: "Linux (Debian/Fedora/Ubuntu) • SSH • Nginx" },
+                            { ico: "🌐", label: "Networking • Wi-Fi • Troubleshooting" },
+                            { ico: "⚛️", label: "React • Vite • JavaScript" },
+                            { ico: "🎨", label: "HTML • CSS • Responsive UI" },
+                            { ico: "☁️", label: "Cloudflare • GitHub • Deployments" },
+                          ].map((s) => (
+                            <div key={s.label} style={styles.skillRow}>
+                              <span style={styles.skillIco}>{s.ico}</span>
+                              <span style={styles.skillLbl}>{s.label}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+            ) : s.key === "services" ? (
+              <div style={styles.servicesWrap}>
+                <Reveal rootRef={scrollerRef} y={18}>
+                  <div style={styles.servicesHead}>
+                    <h1 style={styles.servicesTitle}>Services</h1>
+                    <p style={styles.servicesSub}>
+                      Practical, hands-on services for home users and small businesses.
+                    </p>
+                    <p style={styles.servicesNote}>
+                      Click a service card to request a quote — the chosen service will be pre-filled on the request form.
+                    </p>
+                    <p style={styles.servicesPay}>
+                      A deposit / authorization hold may be required after consultation; an email payment link will be provided.
+                      Payments are processed via Square (major credit cards, Apple Pay, Google Pay).
+                    </p>
+                  </div>
+
+                  <div style={styles.servicesGrid}>
+                    {[
+                      {
+                        ico: "📶",
+                        color: "rgba(34,197,94,0.18)",
+                        b: "rgba(34,197,94,0.35)",
+                        title: "Home & Small Business Network Setup",
+                        body:
+                          "Setup Wi-Fi, configure routers/switches, secure networks, and optimize home offices for reliable remote work.",
+                      },
+                      {
+                        ico: "☁️",
+                        color: "rgba(59,130,246,0.18)",
+                        b: "rgba(59,130,246,0.35)",
+                        title: "Server & Cloud Configuration",
+                        body:
+                          "Install/configure Windows Server and Linux; set up storage, VMs, services, and migrations to stronger infrastructure.",
+                      },
+                      {
+                        ico: "🛠️",
+                        color: "rgba(168,85,247,0.18)",
+                        b: "rgba(168,85,247,0.35)",
+                        title: "IT Support & Troubleshooting",
+                        body:
+                          "On-call and scheduled support for PCs, networks, and software — remote assistance or local visits for hands-on fixes.",
+                      },
+                      {
+                        ico: "💻",
+                        color: "rgba(139,92,246,0.18)",
+                        b: "rgba(139,92,246,0.35)",
+                        title: "Custom Website & App Development",
+                        body:
+                          "Custom websites and simple apps for small businesses: clean, responsive design + practical functionality.",
+                      },
+                      {
+                        ico: "🛡️",
+                        color: "rgba(34,197,94,0.18)",
+                        b: "rgba(34,197,94,0.35)",
+                        title: "Cybersecurity Consulting",
+                        body:
+                          "Security audits, firewall setup, and practical changes that reduce risk without enterprise complexity.",
+                      },
+                      {
+                        ico: "💾",
+                        color: "rgba(59,130,246,0.18)",
+                        b: "rgba(59,130,246,0.35)",
+                        title: "Data Backup & Recovery",
+                        body:
+                          "Automated backups (cloud/local) + fast recovery plans so clients can restore files quickly when something goes wrong.",
+                      },
+                      {
+                        ico: "🧩",
+                        color: "rgba(245,158,11,0.18)",
+                        b: "rgba(245,158,11,0.35)",
+                        title: "Hardware Installation & Upgrades",
+                        body:
+                          "PC upgrades, new workstation builds, installs, and troubleshooting — on-site or remote depending on the job.",
+                      },
+                      {
+                        ico: "🧰",
+                        color: "rgba(245,158,11,0.18)",
+                        b: "rgba(245,158,11,0.35)",
+                        title: "Managed IT Services",
+                        body:
+                          "Ongoing monitoring and support packages for small businesses that need reliable outsourced IT.",
+                      },
+                    ].map((c) => (
+                      <button key={c.title} style={styles.serviceCard} onClick={() => openRequest(c.title)}>
+                        <div style={{ ...styles.serviceIcon, background: c.color, borderColor: c.b }}>
+                          {c.ico}
+                        </div>
+                        <div style={styles.serviceTitle}>{c.title}</div>
+                        <div style={styles.serviceBody}>{c.body}</div>
+                      </button>
+                    ))}
+                  </div>
+                </Reveal>
+              </div>
+            ) : s.key === "about" ? (
+              <div style={styles.aboutWrap}>
+                <Reveal rootRef={scrollerRef} y={18}>
+                  <div style={styles.aboutInner}>
+                    <h1 style={styles.aboutTitle}>About</h1>
+                    <p style={styles.aboutBody}>
+                      I’m Ryan Davis — an IT student and hands-on technologist based in the DMV area.
+                      I build clean, reliable websites and networks — from home-lab servers to real-world deployments.
+                      This site is design-first, but everything is built to work in production.
+                    </p>
+                    <div style={styles.aboutPills}>
+                      <div style={styles.aboutPill}>
+                        <span style={{ ...styles.aboutPillIco, background: "rgba(125,211,252,0.14)" }}>⚡</span>
+                        Fast build + clean foundations
+                      </div>
+                      <div style={styles.aboutPill}>
+                        <span style={{ ...styles.aboutPillIco, background: "rgba(34,197,94,0.14)" }}>🛡️</span>
+                        Practical security + reliability
+                      </div>
+                      <div style={styles.aboutPill}>
+                        <span style={{ ...styles.aboutPillIco, background: "rgba(245,158,11,0.14)" }}>🤝</span>
+                        Clear communication + delivery
+                      </div>
+                    </div>
+                    <div style={styles.aboutGrid}>
+                      {[
+                        {
+                          title: "What I do",
+                          body:
+                            "Network setups, server configuration, troubleshooting, and modern web builds (React/Vite) with clean UI that looks professional on day one.",
+                          ico: "🧰",
+                        },
+                        {
+                          title: "How I work",
+                          body:
+                            "Design-first, then harden it. Smooth UX, solid layout, and production-ready structure — no messy “toy demo” setups.",
+                          ico: "🧠",
+                        },
+                        {
+                          title: "Where I’m going",
+                          body:
+                            "Full-stack skills + real deployments. Long-term: secure e-commerce, members areas, and automated workflows backed by Cloudflare + APIs.",
+                          ico: "🚀",
+                        },
+                      ].map((c) => (
+                        <div key={c.title} style={styles.aboutCard}>
+                          <div style={styles.aboutCardHead}>
+                            <div style={styles.aboutCardIco}>{c.ico}</div>
+                            <div style={styles.aboutCardTitle}>{c.title}</div>
+                          </div>
+                          <div style={styles.aboutCardBody}>{c.body}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+            ) : s.key === "projects" ? (
+              <div style={styles.projectsWrap}>
+                <h1 style={styles.projectsTitle}>Projects</h1>
+                <p style={styles.projectsSub}>
+                  A few builds that show real-world UI, systems, and deployment work.
+                </p>
+                <div style={styles.projectsGrid}>
+                  {[
+                    {
+                      tag: "Featured",
+                      title: "IntriguedMutts.com",
+                      body:
+                        "Lifestyle, fashion, and finance brand site — designed for secure e-commerce, checkout, and a premium member-style experience.",
+                      chips: ["React", "GitHub Pages", "Cloudflare", "E-commerce ready"],
+                      cta1: { label: "Live", href: "https://intriguedmutts.com" },
+                      cta2: { label: "GitHub", href: "#" },
+                    },
+                    {
+                      tag: "Web + UI",
+                      title: "I Computer Anything",
+                      body:
+                        "Portfolio + services site with horizontal section navigation and polished card-based layouts.",
+                      chips: ["React", "Responsive UI", "Design system"],
+                      cta1: { label: "Live", href: "#" },
+                      cta2: { label: "GitHub", href: "#" },
+                    },
+                    {
+                      tag: "Network",
+                      title: "Portable Event Wi-Fi",
+                      body:
+                        "Concept + deployment planning for portable connectivity for events and remote sites.",
+                      chips: ["Networking", "Field kit", "Deployment"],
+                      cta1: { label: "Overview", href: "#" },
+                      cta2: { label: "Notes", href: "#" },
+                    },
+                    {
+                      tag: "Automation",
+                      title: "Payments + Fulfillment Pipeline",
+                      body:
+                        "Secure checkout flow with backend protection + webhook automation for order fulfillment (platform-free approach).",
+                      chips: ["Workers", "Webhooks", "Security"],
+                      cta1: { label: "Case Study", href: "#" },
+                      cta2: { label: "GitHub", href: "#" },
+                    },
+                  ].map((p) => (
+                    <Reveal key={p.title} rootRef={scrollerRef} y={18}>
+                      <div
+                        style={styles.projectCard}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = "translateY(-6px) scale(1.01)";
+                          e.currentTarget.style.boxShadow = "0 16px 40px rgba(0,0,0,0.22)";
+                          e.currentTarget.style.background = "rgba(255,255,255,0.10)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = "translateY(0px) scale(1)";
+                          e.currentTarget.style.boxShadow = "0 2px 12px rgba(0,0,0,0.10)";
+                          e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                        }}
+                      >
+                        <div style={styles.projectTagRow}>
+                          <span style={styles.projectTag}>{p.tag}</span>
+                        </div>
+                        <div style={styles.projectTitle}>{p.title}</div>
+                        <div style={styles.projectBody}>{p.body}</div>
+                        <div style={styles.projectChips}>
+                          {p.chips.map((c) => (
+                            <span key={c} style={styles.projectChip}>
+                              {c}
+                            </span>
+                          ))}
+                        </div>
+                        <div style={styles.projectBtns}>
+                          <a style={styles.projectBtnPrimary} href={p.cta1.href} target="_blank" rel="noreferrer">
+                            {p.cta1.label}
+                          </a>
+                          <a style={styles.projectBtn} href={p.cta2.href} target="_blank" rel="noreferrer">
+                            {p.cta2.label}
+                          </a>
+                        </div>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            ) : s.key === "skills" ? (
+              <div style={styles.skillsWrap}>
+                <Reveal rootRef={scrollerRef} y={18}>
+                  <div style={styles.skillsInner}>
+                    <h1 style={styles.skillsTitle}>Skills</h1>
+                    <p style={styles.skillsSub}>
+                      The tools I use to build real systems, clean UI, and production-ready deployments.
+                    </p>
+                    <div style={styles.skillsGrid}>
+                      {[
+                        {
+                          ico: "🪟",
+                          title: "Windows + Admin",
+                          body: "Windows Server • Active Directory • Group Policy • PowerShell basics • troubleshooting",
+                          chips: ["Windows Server", "AD", "GPO", "PowerShell"],
+                        },
+                        {
+                          ico: "🐧",
+                          title: "Linux + Servers",
+                          body: "Debian/Fedora/Ubuntu • SSH • basic hardening • Nginx • services + logs",
+                          chips: ["Linux", "SSH", "Nginx", "Services"],
+                        },
+                        {
+                          ico: "🌐",
+                          title: "Networking",
+                          body: "LAN/Wi-Fi setup • routers/switches • IP/DNS basics • diagnostics • field deployment mindset",
+                          chips: ["Wi-Fi", "Routing", "Switching", "Troubleshooting"],
+                        },
+                        {
+                          ico: "⚛️",
+                          title: "Frontend",
+                          body: "React • Vite • component UI • responsive layout • modern UX patterns",
+                          chips: ["React", "Vite", "Responsive UI", "UX"],
+                        },
+                        {
+                          ico: "🎨",
+                          title: "Web Basics",
+                          body: "HTML • CSS • accessibility habits • clean structure • polished styling",
+                          chips: ["HTML", "CSS", "Accessibility", "Design"],
+                        },
+                        {
+                          ico: "☁️",
+                          title: "Deploy + Automation",
+                          body: "GitHub workflows • Cloudflare basics • deployment discipline • API-safe patterns",
+                          chips: ["GitHub", "Cloudflare", "Deploy", "APIs"],
+                        },
+                      ].map((k) => (
+                        <div key={k.title} style={styles.skillCard}>
+                          <div style={styles.skillCardHead}>
+                            <div style={styles.skillIcon}>{k.ico}</div>
+                            <div>
+                              <div style={styles.skillTitle}>{k.title}</div>
+                              <div style={styles.skillBody}>{k.body}</div>
+                            </div>
+                          </div>
+                          <div style={styles.skillChips}>
+                            {k.chips.map((c) => (
+                              <span key={c} style={styles.skillChip}>
+                                {c}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+            ) : s.key === "resume" ? (
+              <div style={styles.resumeWrap}>
+                <div style={styles.resumeInner}>
+                  <div style={styles.resumeHeaderRow}>
+                    <div style={styles.resumeHeaderLeft}>
+                      <div style={styles.resumeKicker}>
+                        <span style={styles.resumeKickerIco}>💼</span>
+                        EXPERIENCE
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={styles.resumeGrid}>
+                    {[{
+                      ico: "📡",
+                      title: "Comcast Cable Tech",
+                      body:
+                        "Installed and troubleshot broadband cable, modems, and in-home networks. Helped customers get reliable connectivity while learning real-world networking.",
+                    },
+                    {
+                      ico: "🛰️",
+                      title: "DirecTV Satellite Tech",
+                      body:
+                        "Mounted and configured satellite dishes, aligned signals, and ensured stable TV/Internet service. Specialized in difficult installs and resolving interference issues.",
+                    },
+                    {
+                      ico: "🧩",
+                      title: "Junior Network Admin (Goodwill)",
+                      body:
+                        "Volunteered as a Junior Network Admin, managing small-scale networks, Active Directory basics, and hands-on troubleshooting for staff and equipment.",
+                    },
+                    {
+                      ico: "✉️",
+                      title: "USPS",
+                      body:
+                        "Current role at the United States Postal Service. Strong focus on reliability, service, and balancing work with ongoing IT studies.",
+                    },
+                    {
+                      ico: "🧪",
+                      title: "Home Lab / Data Center",
+                      body:
+                        "Maintain multiple Windows Server and Linux machines for web hosting, file sharing, and network experimentation. Hands-on experience with server admin, shares, and remote access.",
+                    },
+                    {
+                      ico: "🛠️",
+                      title: "Goodwill Junior Network / Help Desk",
+                      body:
+                        "Supported staff through a help desk ticketing flow, diagnosing and resolving hardware/software issues, configuring user accounts, and maintaining small office networks.",
+                    }].map((x) => (
+                      <div key={x.title} style={styles.expCard}>
+                        <div style={styles.expTop}>
+                          <div style={styles.expIco}>{x.ico}</div>
+                          <div style={styles.expTitle}>{x.title}</div>
+                        </div>
+                        <div style={styles.expBody}>{x.body}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : s.key === "contact" ? (
+              <div style={styles.contactWrap}>
+                <h1 style={styles.contactTitle}>Contact</h1>
+                <p style={styles.contactSub}>
+                  Want to collaborate or have a project in mind? Reach out:
+                </p>
+
+                <div style={styles.contactList}>
+                  <a style={styles.contactLink} href="mailto:redavi19@asu.edu">
+                    <span style={styles.contactIco}>✉️</span>
+                    <span>redavi19@asu.edu</span>
+                  </a>
+
+                  <a
+                    style={styles.contactLink}
+                    href="https://github.com/redavi19-asu"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span style={styles.contactIco}>🐙</span>
+                    <span>github.com/redavi19-asu</span>
+                  </a>
+
+                  <a style={styles.contactLink} href="mailto:ryanedavis@gmail.com">
+                    <span style={styles.contactIco}>✉️</span>
+                    <span>ryanedavis@gmail.com</span>
+                  </a>
+                </div>
+              </div>
+            ) : s.key === "reflection" ? (
+              <div style={styles.reflectionWrap}>
+                <h1 style={styles.reflectionTitle}>Reflection</h1>
+
+                <div style={styles.reflectionKicker}>BUILDING WEBSITES WITH AI</div>
+                <p style={styles.reflectionPara}>
+                  Using AI helped me move faster on layout ideas, semantic HTML, and CSS structure.
+                  I still made the key decisions—section order, copy, and how to present my real projects
+                  like Triple C and Portable Event Wi-Fi. I also focused on accessibility (skip link, headings, contrast)
+                  and responsiveness. The main learning for me was how small details (spacing, icon accents, mobile nav)
+                  make a site feel professional. Going forward I’ll use AI for brainstorming and troubleshooting while I
+                  deepen fundamentals in CSS and JavaScript.
+                </p>
+
+                <h2 style={styles.reflectionH2}>TECHNOLOGY. WE LOVE IT.</h2>
+                <p style={styles.reflectionPara}>
+                  Technology has transformed our world from the earliest mechanical inventions to today’s intelligent
+                  digital systems. In the past, innovations like the printing press, telegraph, and steam engine
+                  revolutionized communication and industry. The 20th century brought rapid advances—radio, television,
+                  and the first computers changed how people lived and worked.
+                </p>
+                <p style={styles.reflectionPara}>
+                  In recent decades, the rise of the internet, mobile devices, and cloud computing has connected billions
+                  and made information instantly accessible. Today, artificial intelligence and automation are shaping
+                  the future, making technology more adaptive and powerful than ever. Each era builds on the last,
+                  driving progress and opening new possibilities for how we learn, create, and connect.
+                </p>
+
+                <h2 style={styles.reflectionH2}>MY MISSION</h2>
+                <p style={styles.reflectionPara}>
+                  My mission is to build something great with others—starting a business, growing together, and turning
+                  good ideas into real success. If you have a vision or want to become an owner, let’s connect and make
+                  it happen. Every strong business begins with a good idea and the drive to see it through.
+                </p>
+              </div>
+            ) : (
+              <div style={styles.card}>
+                <h1 style={{ margin: 0, fontSize: 42 }}>{s.title}</h1>
+                <p style={{ marginTop: 10, opacity: 0.85 }}>
+                  Placeholder content for {s.title}.
+                </p>
+              </div>
+            )}
+          </section>
+        ))}
+      </main>
+      {/* vertical right-edge footer */}
+      <div style={styles.vFooter} aria-label="Site footer">
+        <div style={styles.vFooterInner}>
+          © 2026 Ryan Davis • Built with React, HTML, CSS & a dash of JS
+        </div>
+      </div>
+      {/* simple bottom footer */}
+      <footer style={styles.footer}>
+        <div style={styles.footerInner}>
+          © {new Date().getFullYear()} Ryan Davis • Built with React (Vite), HTML, CSS & a dash of JS
+        </div>
+      </footer>
+    </>
+  );
+}
+
+// Styles object (single, flat, valid)
+const styles = {
+  resumeWrap: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  resumeInner: {
+    width: "min(1200px, calc(100vw - 56px))",
+    padding: 24,
+  },
+  resumeHeaderRow: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 16,
+  },
+  resumeHeaderLeft: {
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+  },
+  resumeKicker: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    fontWeight: 950,
+    fontSize: 28,
+    letterSpacing: 0.6,
+  },
+  resumeKickerIco: {
+    width: 34,
+    height: 34,
+    borderRadius: 12,
+    display: "grid",
+    placeItems: "center",
+    background: "rgba(245,158,11,0.16)",
+    border: "1px solid rgba(245,158,11,0.35)",
+  },
+  resumeGrid: {
+    display: "grid",
+    gap: 14,
+    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+    gridAutoRows: "1fr",
+  },
+  expCard: {
+    borderRadius: 18,
+    padding: 18,
+    background: "rgba(10, 18, 24, 0.55)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+    backdropFilter: "blur(10px)",
+    minHeight: 170,
+  },
+  expTop: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 10,
+  },
+  expIco: {
+    width: 34,
+    height: 34,
+    borderRadius: 12,
+    display: "grid",
+    placeItems: "center",
+    border: "1px solid rgba(255,255,255,0.18)",
+    background: "rgba(255,255,255,0.06)",
+    fontSize: 18,
+  },
+  expTitle: {
+    fontWeight: 950,
+    fontSize: 18,
+    lineHeight: 1.15,
+  },
+  expBody: {
+    opacity: 0.9,
+    fontWeight: 650,
+    lineHeight: 1.45,
+    fontSize: 14.5,
+  },
+  page: {
+    width: "100vw",
+    height: "100vh",
+    overflow: "hidden",
+    background:
+      "radial-gradient(1000px 600px at 50% 15%, rgba(125,211,252,0.12), rgba(0,0,0,0.85)), #000",
+    color: "white",
+  },
+  nav: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 56,
+    zIndex: 9999,
+    display: "flex",
+    alignItems: "center",
+    padding: "12px 24px",
+    background: "rgba(0,0,0,0.7)",
+    borderBottom: "1px solid rgba(255,255,255,0.08)",
+    backdropFilter: "blur(8px)",
+  },
+  navBtns: {
+    marginLeft: "auto",
+    display: "flex",
+    gap: 8,
+    overflowX: "auto",
+    paddingBottom: 2,
+  },
+  navBtn: {
+    padding: "8px 10px",
+    borderRadius: 10,
+    border: "1px solid rgba(255,255,255,0.18)",
+    background: "rgba(255,255,255,0.04)",
+    color: "white",
+    fontWeight: 600,
+    cursor: "pointer",
+    fontSize: 16,
+    marginRight: 2,
+    transition: "background 0.2s, color 0.2s",
+  },
+  navBtnActive: {
+    background: "rgba(125,211,252,0.18)",
+    color: "#7dd3fc",
+  },
+  scroller: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100vw",
+    height: `calc(100vh - ${56 + 64}px)`,
+    marginTop: 56 + 64,
+    overflowX: "auto",
+    scrollSnapType: "x mandatory",
+    scrollBehavior: "smooth",
+  },
+    tickerBar: {
+      position: "fixed",
+      top: 56, // adjust if nav height changes
+      left: 0,
+      right: 0,
+      zIndex: 9998,
+      height: 34,
+      display: "flex",
+      alignItems: "center",
+      background: "rgba(0,0,0,0.55)",
+      borderBottom: "1px solid rgba(255,255,255,0.08)",
+      backdropFilter: "blur(8px)",
+    },
+
+    tickerMask: {
+      width: "100%",
+      overflow: "hidden",
+    },
+
+    tickerTrack: {
+      display: "flex",
+      width: "max-content",
+      animation: "tickerMove 22s linear infinite",
+    },
+
+    tickerRow: {
+      display: "flex",
+      alignItems: "center",
+      whiteSpace: "nowrap",
+    },
+
+    tickerItem: {
+      fontSize: 13,
+      fontWeight: 700,
+      letterSpacing: 0.6,
+      opacity: 0.9,
+      padding: "0 18px",
+      borderRight: "1px solid rgba(255,255,255,0.10)",
+    },
+  section: {
+    width: "100vw",
+    height: `calc(100vh - ${56 + 64}px)`,
+    flex: "0 0 100vw",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    scrollSnapAlign: "start",
+    position: "relative",
+    padding: 0,
+  },
+  heroWrap: {
+    width: "100%",
+    height: "100%",
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  heroBg: {
+    position: "absolute",
+    inset: 0,
+    background: "radial-gradient(1000px 600px at 50% 15%, rgba(125,211,252,0.12), rgba(0,0,0,0.85)), #000",
+    zIndex: 0,
+  },
+  heroOverlay: {
+    position: "absolute",
+    inset: 0,
+    background: "linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.55) 100%)",
+    zIndex: 1,
+  },
+  heroInner: {
+    position: "relative",
+    zIndex: 2,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    maxWidth: 1200,
+    margin: "0 auto",
+    gap: 48,
+  },
+  heroLeft: {
+    flex: 1,
+    minWidth: 320,
+    maxWidth: 520,
+    display: "flex",
+    flexDirection: "column",
+    gap: 12,
+  },
+  brandRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 8,
+  },
+  logoPill: {
+    background: "rgba(125,211,252,0.18)",
+    color: "#7dd3fc",
+    fontWeight: 700,
+    fontSize: 14,
+    borderRadius: 16,
+    padding: "4px 14px",
+    letterSpacing: 1.2,
+  },
+  heroKicker: {
+    fontSize: 18,
+    fontWeight: 600,
+    color: "#7dd3fc",
+    marginBottom: 4,
+  },
+  heroTitle: {
+    fontSize: 44,
+    fontWeight: 800,
+    margin: 0,
+    lineHeight: 1.1,
+  },
+  heroSub: {
+    fontSize: 18,
+    opacity: 0.85,
+    marginBottom: 8,
+  },
+  heroBody: {
+    fontSize: 16,
+    opacity: 0.85,
+    marginBottom: 16,
+  },
+  heroBtns: {
+    display: "flex",
+    gap: 12,
+    marginTop: 8,
+  },
+  heroBtnPrimary: {
+    background: "#7dd3fc",
+    color: "#222",
+    fontWeight: 700,
+    border: "none",
+    borderRadius: 10,
+    padding: "10px 22px",
+    fontSize: 16,
+    cursor: "pointer",
+    boxShadow: "0 2px 8px rgba(125,211,252,0.12)",
+    transition: "background 0.2s, color 0.2s",
+  },
+  heroBtn: {
+    background: "rgba(255,255,255,0.08)",
+    color: "white",
+    fontWeight: 600,
+    border: "1px solid rgba(255,255,255,0.18)",
+    borderRadius: 10,
+    padding: "10px 22px",
+    fontSize: 16,
+    cursor: "pointer",
+    transition: "background 0.2s, color 0.2s",
+  },
+  heroRight: {
+    flex: 1,
+    minWidth: 320,
+    maxWidth: 420,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  profileCard: {
+    background: "rgba(255,255,255,0.08)",
+    borderRadius: 24,
+    padding: 32,
+    boxShadow: "0 4px 24px rgba(0,0,0,0.18)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 16,
+    minWidth: 260,
+    maxWidth: 340,
+  },
+  avatar: {
+    width: 120,
+    height: 150,
+    borderRadius: 28,          // oval corners (not circle)
+    objectFit: "cover",
+    objectPosition: "center",
+    border: "2px solid rgba(0,180,255,0.55)",
+    boxShadow: "0 0 18px rgba(0,180,255,0.25)",
+    background: "rgba(0,180,255,0.12)",
+  },
+  name: {
+    fontWeight: 700,
+    fontSize: 20,
+    marginBottom: 4,
+  },
+  skillStack: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
+    width: "100%",
+  },
+  skillRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+  },
+  skillIco: {
+    fontSize: 20,
+  },
+  skillLbl: {
+    fontSize: 15,
+    opacity: 0.9,
+  },
+  servicesWrap: {
+    width: "min(1200px, calc(100vw - 48px))",
+    margin: "0 auto",
+    padding: 28,
+    borderRadius: 22,
+    border: "1px solid rgba(255,255,255,0.14)",
+    background: "rgba(0,0,0,0.20)",
+    boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
+  },
+  servicesHead: {
+    textAlign: "center",
+    marginBottom: 18,
+  },
+  servicesTitle: {
+    margin: 0,
+    fontSize: 44,
+    fontWeight: 900,
+  },
+  servicesSub: {
+    marginTop: 10,
+    opacity: 0.88,
+    fontWeight: 750,
+  },
+  servicesNote: {
+    marginTop: 10,
+    opacity: 0.85,
+  },
+  servicesPay: {
+    marginTop: 10,
+    opacity: 0.8,
+    fontSize: 14,
+  },
+  servicesGrid: {
+    marginTop: 18,
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+    gap: 14,
+  },
+  serviceCard: {
+    all: "unset",
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
+    borderRadius: 16,
+    padding: 16,
+    minHeight: 190,
+    background: "rgba(255,255,255,0.06)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    color: "white",
+    cursor: "pointer",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+    backdropFilter: "blur(10px)",
+    transition: "transform 160ms ease, border-color 160ms ease, background 160ms ease",
+  },
+  serviceIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 14,
+    display: "grid",
+    placeItems: "center",
+    border: "1px solid rgba(255,255,255,0.18)",
+    fontSize: 20,
+  },
+  serviceTitle: {
+    fontWeight: 900,
+    fontSize: 16,
+    lineHeight: 1.25,
+  },
+  serviceBody: {
+    opacity: 0.86,
+    fontWeight: 650,
+    lineHeight: 1.4,
+    fontSize: 14,
+  },
+  aboutWrap: {
+    width: "min(1200px, calc(100vw - 48px))",
+    margin: "0 auto",
+    padding: 28,
+    borderRadius: 22,
+    border: "1px solid rgba(255,255,255,0.14)",
+    background: "rgba(0,0,0,0.20)",
+    boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
+  },
+  aboutInner: {
+    maxWidth: 1020,
+    margin: "0 auto",
+  },
+  aboutTitle: {
+    margin: 0,
+    fontSize: 44,
+    fontWeight: 900,
+    textAlign: "center",
+  },
+  aboutBody: {
+    marginTop: 14,
+    opacity: 0.9,
+    fontWeight: 700,
+    lineHeight: 1.55,
+    textAlign: "center",
+  },
+  aboutPills: {
+    marginTop: 18,
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+    gap: 12,
+  },
+  aboutPill: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    padding: "12px 14px",
+    borderRadius: 16,
+    background: "rgba(255,255,255,0.06)",
+    border: "1px solid rgba(255,255,255,0.12)",
+    fontWeight: 850,
+    opacity: 0.92,
+  },
+  aboutPillIco: {
+    width: 32,
+    height: 32,
+    borderRadius: 12,
+    display: "grid",
+    placeItems: "center",
+    border: "1px solid rgba(255,255,255,0.18)",
+  },
+  aboutGrid: {
+    marginTop: 16,
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: 14,
+  },
+  aboutCard: {
+    borderRadius: 18,
+    padding: 18,
+    background: "rgba(255,255,255,0.06)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+    backdropFilter: "blur(10px)",
+  },
+  aboutCardHead: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 10,
+  },
+  aboutCardIco: {
+    width: 40,
+    height: 40,
+    borderRadius: 14,
+    display: "grid",
+    placeItems: "center",
+    border: "1px solid rgba(255,255,255,0.18)",
+    background: "rgba(125,211,252,0.14)",
+    fontSize: 18,
+  },
+  aboutCardTitle: {
+    fontWeight: 950,
+    fontSize: 16,
+  },
+  aboutCardBody: {
+    opacity: 0.86,
+    fontWeight: 650,
+    lineHeight: 1.45,
+    fontSize: 14,
+  },
+  projectsWrap: {
+    width: "100%",
+    maxWidth: 980,
+    margin: "0 auto",
+    padding: "32px",
+    paddingBottom: 130,          // ✅ this is the fix (space for footer)
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  projectsTitle: {
+    fontSize: 38,
+    fontWeight: 800,
+    marginBottom: 8,
+  },
+  projectsSub: {
+    fontSize: 18,
+    opacity: 0.85,
+    marginBottom: 24,
+    textAlign: "center",
+  },
+  projectsGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: 24,
+    width: "100%",
+    marginTop: 16,
+    paddingBottom: 110,          // ✅ extra safety so the last row clears footer
+  },
+  projectCard: {
+    background: "rgba(255,255,255,0.08)",
+    borderRadius: 18,
+    padding: 24,
+    boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
+    display: "flex",
+    flexDirection: "column",
+    gap: 12,
+    minWidth: 220,
+    transform: "translateY(0px) scale(1)",
+    transition: "transform 240ms ease, box-shadow 240ms ease, background 240ms ease",
+  },
+  projectTagRow: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+  projectTag: {
+    background: "#7dd3fc",
+    color: "#222",
+    fontWeight: 700,
+    fontSize: 12,
+    borderRadius: 10,
+    padding: "2px 10px",
+    letterSpacing: 1.1,
+  },
+  projectTitle: {
+    fontWeight: 700,
+    fontSize: 20,
+    marginBottom: 2,
+  },
+  projectBody: {
+    fontSize: 15,
+    opacity: 0.9,
+    marginBottom: 8,
+  },
+  projectChips: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 8,
+    marginBottom: 8,
+  },
+  projectChip: {
+    background: "rgba(125,211,252,0.18)",
+    color: "#7dd3fc",
+    fontWeight: 600,
+    fontSize: 13,
+    borderRadius: 8,
+    padding: "2px 10px",
+    marginBottom: 2,
+  },
+  projectBtns: {
+    display: "flex",
+    gap: 10,
+    marginTop: 6,
+  },
+  projectBtnPrimary: {
+    background: "#7dd3fc",
+    color: "#222",
+    fontWeight: 700,
+    border: "none",
+    borderRadius: 8,
+    padding: "7px 18px",
+    fontSize: 15,
+    cursor: "pointer",
+    textDecoration: "none",
+    transition: "background 0.2s, color 0.2s",
+  },
+  projectBtn: {
+    background: "rgba(255,255,255,0.08)",
+    color: "white",
+    fontWeight: 600,
+    border: "1px solid rgba(255,255,255,0.18)",
+    borderRadius: 8,
+    padding: "7px 18px",
+    fontSize: 15,
+    cursor: "pointer",
+    textDecoration: "none",
+    transition: "background 0.2s, color 0.2s",
+  },
+  skillsWrap: {
+    width: "min(1200px, calc(100vw - 48px))",
+    margin: "0 auto",
+    padding: 28,
+    borderRadius: 22,
+    border: "1px solid rgba(255,255,255,0.14)",
+    background: "rgba(0,0,0,0.20)",
+    boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
+  },
+  skillsInner: {
+    maxWidth: 1100,
+    margin: "0 auto",
+  },
+  skillsTitle: {
+    margin: 0,
+    fontSize: 44,
+    fontWeight: 900,
+    textAlign: "center",
+  },
+  skillsSub: {
+    marginTop: 10,
+    opacity: 0.88,
+    fontWeight: 700,
+    textAlign: "center",
+  },
+  skillsGrid: {
+    marginTop: 18,
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+    gap: 14,
+  },
+  skillCard: {
+    borderRadius: 18,
+    padding: 18,
+    background: "rgba(255,255,255,0.06)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+    backdropFilter: "blur(10px)",
+  },
+  skillCardHead: {
+    display: "flex",
+    gap: 12,
+    alignItems: "flex-start",
+  },
+  skillIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 16,
+    display: "grid",
+    placeItems: "center",
+    border: "1px solid rgba(255,255,255,0.18)",
+    background: "rgba(125,211,252,0.14)",
+    fontSize: 20,
+    flex: "0 0 auto",
+  },
+  skillTitle: {
+    fontWeight: 950,
+    fontSize: 16,
+    marginTop: 2,
+  },
+  skillBody: {
+    opacity: 0.86,
+    fontWeight: 650,
+    lineHeight: 1.45,
+    fontSize: 14,
+    marginTop: 6,
+  },
+  skillChips: {
+    marginTop: 12,
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  skillChip: {
+    display: "inline-flex",
+    padding: "4px 10px",
+    borderRadius: 999,
+    background: "rgba(125,211,252,0.14)",
+    border: "1px solid rgba(125,211,252,0.22)",
+    color: "rgba(255,255,255,0.92)",
+    fontWeight: 800,
+    fontSize: 12,
+  },
+  card: {
+    background: "rgba(255,255,255,0.08)",
+    borderRadius: 18,
+    padding: 48,
+    boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: 320,
+    maxWidth: 520,
+    margin: "0 auto",
+  },
+  contactWrap: {
+    width: "min(980px, calc(100vw - 48px))",
+    padding: "28px 28px",
+    borderRadius: 22,
+    background: "rgba(255,255,255,0.06)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    boxShadow: "0 18px 70px rgba(0,0,0,0.50)",
+    backdropFilter: "blur(10px)",
+    textAlign: "left",
+  },
+  contactTitle: {
+    margin: 0,
+    fontSize: 48,
+    fontWeight: 900,
+    letterSpacing: -0.6,
+  },
+  contactSub: {
+    marginTop: 10,
+    opacity: 0.86,
+    fontWeight: 700,
+    lineHeight: 1.5,
+  },
+  contactList: {
+    marginTop: 18,
+    display: "flex",
+    flexDirection: "column",
+    gap: 12,
+  },
+  contactLink: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    padding: "12px 14px",
+    borderRadius: 16,
+    background: "rgba(0,0,0,0.22)",
+    border: "1px solid rgba(255,255,255,0.12)",
+    color: "white",
+    textDecoration: "none",
+    fontWeight: 800,
+    width: "fit-content",
+    maxWidth: "100%",
+  },
+  contactIco: {
+    width: 22,
+    display: "inline-grid",
+    placeItems: "center",
+    opacity: 0.95,
+  },
+  reflectionWrap: {
+    width: "min(1100px, calc(100vw - 72px))",
+    padding: "34px 34px",
+    borderRadius: 22,
+    background: "rgba(0,0,0,0.28)",
+    border: "1px solid rgba(255,255,255,0.14)",
+    boxShadow: "0 18px 70px rgba(0,0,0,0.55)",
+    backdropFilter: "blur(10px)",
+    textAlign: "left",
+  },
+  reflectionTitle: {
+    margin: 0,
+    fontSize: 48,
+    fontWeight: 900,
+    letterSpacing: -0.6,
+  },
+  reflectionKicker: {
+    marginTop: 10,
+    fontWeight: 900,
+    letterSpacing: 0.6,
+    opacity: 0.95,
+  },
+  reflectionH2: {
+    marginTop: 22,
+    marginBottom: 8,
+    fontSize: 18,
+    fontWeight: 900,
+    letterSpacing: 0.6,
+  },
+  reflectionPara: {
+    marginTop: 10,
+    opacity: 0.9,
+    fontWeight: 650,
+    lineHeight: 1.55,
+    maxWidth: 980,
+  },
+  reflectionList: {
+    marginTop: 14,
+    paddingLeft: 18,
+    opacity: 0.9,
+    fontWeight: 750,
+    lineHeight: 1.6,
+  },
+  vFooter: {
+    position: "fixed",
+    right: 10,
+    bottom: 16,
+    zIndex: 9999,
+    pointerEvents: "none",           // doesn't block clicks
+    opacity: 0.85,
+  },
+  vFooterInner: {
+    transform: "rotate(-90deg)",     // makes it vertical
+    transformOrigin: "right bottom",
+    fontSize: 12,
+    fontWeight: 700,
+    letterSpacing: 0.6,
+    color: "rgba(255,255,255,0.75)",
+    background: "rgba(0,0,0,0.35)",
+    border: "1px solid rgba(255,255,255,0.12)",
+    borderRadius: 12,
+    padding: "8px 12px",
+    backdropFilter: "blur(8px)",
+    whiteSpace: "nowrap",
+  },
+  footer: {
+    position: "fixed",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 9999,
+    padding: "10px 12px",
+    background: "rgba(0,0,0,0.55)",
+    borderTop: "1px solid rgba(255,255,255,0.12)",
+    backdropFilter: "blur(10px)",
+  },
+  footerInner: {
+    maxWidth: 1200,
+    margin: "0 auto",
+    textAlign: "center",
+    fontSize: 12,
+    fontWeight: 700,
+    letterSpacing: 0.4,
+    color: "rgba(255,255,255,0.75)",
+  },
+};
