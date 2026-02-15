@@ -185,7 +185,7 @@ export default function App() {
                     <div style={styles.heroRight}>
                       <div style={styles.profileCard}>
                         <img
-                          src={`${import.meta.env.BASE_URL}legacy/images/profile.jpeg`}
+                          src="/legacy/images/profile.jpeg"
                           alt="Ryan Davis"
                           style={styles.avatar}
                         />
