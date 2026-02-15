@@ -57,26 +57,6 @@ export default function App() {
 
   const [active, setActive] = useState(0);
 
-  // ✅ Allow legacy pages to deep-link into React panels, e.g. ?panel=services
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const key = params.get("panel");
-    if (!key) return;
-
-    const idx = sections.findIndex((x) => x.key === key);
-    if (idx < 0) return;
-
-    setActive(idx);
-
-    const el = scrollerRef.current;
-    if (!el) return;
-
-    const targetLeft = idx * window.innerWidth;
-    // use your existing smooth scroll helper
-    smoothScrollTo(el, targetLeft, 700);
-  }, [sections]);
-
-
   const goTo = (i) => {
     const el = scrollerRef.current;
     if (!el) return;

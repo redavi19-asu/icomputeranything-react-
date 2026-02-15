@@ -18,7 +18,7 @@
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="../" aria-label="Return to the home page">
+      <a class="brand" href="index.html" aria-label="Return to the home page">
         <span class="brand-logo">⚡</span>
         <span class="brand-text">RYAN E DAVIS</span>
         <span class="brand-return">Back to Home</span>
@@ -28,7 +28,7 @@
 
   <main class="container" style="padding:3rem 0;">
     <nav class="form-nav" aria-label="Form navigation">
-      <a class="btn btn-ghost" href="../?panel=services" aria-label="Go back to the services section on the home page">&larr; Back to Services</a>
+      <a class="btn btn-ghost" href="index.html#services" aria-label="Go back to the services section on the home page">&larr; Back to Services</a>
     </nav>
     <h1 id="service-title">Request Service</h1>
     <p id="service-desc">Please provide some details so I can follow up.</p>

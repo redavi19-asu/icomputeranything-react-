@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 
+
 function renderIcon(icon, label) {
   if (!icon) return null;
 
@@ -8,22 +9,23 @@ function renderIcon(icon, label) {
     return <i className={icon} aria-hidden="true" />;
   }
 
-  // Local/static asset path or URL
-  if (typeof icon === "string") {
+  // Local/static asset path (svg/png/jpg/webp etc.)
+  if (typeof icon === "string" && (icon.startsWith("/") || icon.includes(".svg") || icon.includes(".png") || icon.includes(".jpg") || icon.includes(".jpeg") || icon.includes(".webp"))) {
     return (
       <img
         src={icon}
-        alt={label || ""}
+        alt={label ? `${label} icon` : "icon"}
         style={{ width: 16, height: 16, display: "block" }}
-        onError={(e) => {
-          // hide broken icon to avoid layout weirdness
-          e.currentTarget.style.display = "none";
-        }}
       />
     );
   }
 
-  return null;
+  // Emoji/text fallback (ALWAYS shows)
+  return (
+    <span aria-hidden="true" style={{ fontSize: 16, lineHeight: 1 }}>
+      {String(icon)}
+    </span>
+  );
 }
 
 
@@ -42,7 +44,7 @@ export default function TechTicker({ top = 56, height = 64, speed = 60 }) {
       { label: "Apple", href: "https://apple.com", icon: "fa-brands fa-apple", color: "#FFFFFF" },
       { label: "Linux", href: "https://www.kernel.org", icon: "fa-brands fa-linux", color: "#FCC624" },
       { label: "Windows", href: "https://www.microsoft.com/windows", icon: "fa-brands fa-windows", color: "#00A4EF" },
-      { label: "IBM", href: "https://www.ibm.com", icon: "/logos/ibm.svg", color: "#0F62FE" },
+      { label: "IBM", href: "https://www.ibm.com", icon: "fa-brands fa-ibm", color: "#0F62FE" },
 
       // Social / media
       { label: "Spotify", href: "https://spotify.com", icon: "fa-brands fa-spotify", color: "#1DB954" },
@@ -132,12 +134,9 @@ export default function TechTicker({ top = 56, height = 64, speed = 60 }) {
             target="_blank"
             rel="noreferrer"
             style={s.pill}
-            title={it.label}
           >
             <span style={s.icoBox}>
-              <span style={{ display: "block", color: it.color, lineHeight: 1 }}>
-                {renderIcon(it.icon, it.label)}
-              </span>
+              <i className={it.icon} style={{ ...s.ico, color: it.color }} aria-hidden="true" />
             </span>
             <span style={s.txt}>{it.label}</span>
           </a>

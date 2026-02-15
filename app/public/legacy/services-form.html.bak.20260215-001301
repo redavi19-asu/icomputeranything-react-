@@ -28,7 +28,7 @@
 
   <main class="container" style="padding:3rem 0;">
     <nav class="form-nav" aria-label="Form navigation">
-      <a class="btn btn-ghost" href="../?panel=services" aria-label="Go back to the services section on the home page">&larr; Back to Services</a>
+      <a class="btn btn-ghost" href="../#services" aria-label="Go back to the services section on the home page">&larr; Back to Services</a>
     </nav>
     <h1 id="service-title">Request Service</h1>
     <p id="service-desc">Please provide some details so I can follow up.</p>

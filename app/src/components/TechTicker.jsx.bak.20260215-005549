@@ -135,9 +135,7 @@ export default function TechTicker({ top = 56, height = 64, speed = 60 }) {
             title={it.label}
           >
             <span style={s.icoBox}>
-              <span style={{ display: "block", color: it.color, lineHeight: 1 }}>
-                {renderIcon(it.icon, it.label)}
-              </span>
+              <i className={it.icon} style={{ ...s.ico, color: it.color }} aria-hidden="true" />
             </span>
             <span style={s.txt}>{it.label}</span>
           </a>
