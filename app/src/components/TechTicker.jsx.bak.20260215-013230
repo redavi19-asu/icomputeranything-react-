@@ -42,7 +42,7 @@ export default function TechTicker({ top = 56, height = 64, speed = 60 }) {
       { label: "Apple", href: "https://apple.com", icon: "fa-brands fa-apple", color: "#FFFFFF" },
       { label: "Linux", href: "https://www.kernel.org", icon: "fa-brands fa-linux", color: "#FCC624" },
       { label: "Windows", href: "https://www.microsoft.com/windows", icon: "fa-brands fa-windows", color: "#00A4EF" },
-      { label: "IBM", href: "https://www.ibm.com", icon: `logos/ibm.svg`, color: "#0F62FE" },
+      { label: "IBM", href: "https://www.ibm.com", icon: "/logos/ibm.svg", color: "#0F62FE" },
 
       // Social / media
       { label: "Spotify", href: "https://spotify.com", icon: "fa-brands fa-spotify", color: "#1DB954" },
