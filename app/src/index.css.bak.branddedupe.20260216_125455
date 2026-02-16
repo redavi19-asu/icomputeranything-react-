@@ -225,15 +225,3 @@ html, body, #root {
     -webkit-overflow-scrolling: touch;
   }
 }
-
-/* ===== DESKTOP HERO BRAND DEDUPE =====
-   Avoids showing "I Computer Anything" twice on desktop.
-   Mobile keeps hero label for clarity.
-*/
-@media (min-width: 900px) {
-  .heroBadge,
-  .heroLabel,
-  .heroEyebrow {
-    display: none !important;
-  }
-}
