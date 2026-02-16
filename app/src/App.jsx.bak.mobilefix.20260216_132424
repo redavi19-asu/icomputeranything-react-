@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState , useLayoutEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Reveal from "./components/Reveal";
 import Footer from "./components/Footer";
 import VerticalFooter from "./components/VerticalFooter";
@@ -766,8 +766,7 @@ const styles = {
     top: 0,
     left: 0,
     right: 0,
-    minHeight: 56,
-    height: "auto",
+    height: 56,
     zIndex: 9999,
     display: "flex",
     alignItems: "center",

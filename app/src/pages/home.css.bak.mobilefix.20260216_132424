@@ -168,7 +168,7 @@
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  padding-top: calc(var(--safeTop) + var(--topbarH) + var(--tickerH)); /* space for fixed header + ticker */
+  padding-top: 56px; /* space for fixed nav */
   scrollbar-width: none;
 }
 .hscroll::-webkit-scrollbar{ display:none; }

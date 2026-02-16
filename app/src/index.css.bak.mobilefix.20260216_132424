@@ -1,14 +1,3 @@
-/* ===== CSS VARS: header offsets v2 ===== */
-:root{
-  --safeTop: env(safe-area-inset-top, 0px);
-  --topbarH: 56px;
-  --tickerH: 64px;
-}
-@media (max-width: 520px){
-  :root{
-    --tickerH: 56px;
-  }
-}
 /* ===== CSS VARS: header offsets v1 =====
    Single source of truth for all header/ticker offsets.
 */
