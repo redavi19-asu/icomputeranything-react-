@@ -44,7 +44,7 @@ html, body, #root {
 
 body {
   background: #000;
-  /* overflow: hidden;  desktop: main handles scroll */
+  overflow: hidden; /* desktop: main handles scroll */
 }
 
 /* optional horizontal scroll helper (desktop) */
@@ -63,6 +63,24 @@ html, body, #root {
   overflow-x: hidden;
 }
 
+@media (max-width: 900px) {
+  body { overflow: hidden; } /* keep body locked; main will scroll */
+
+  main {
+    width: 100%;
+    flex-direction: column;   /* horizontal → vertical on phones */
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-snap-type: none;   /* snap breaks mobile */
+  }
+
+  section {
+    width: 100%;
+    min-height: calc(100vh - 120px);
+    height: auto;
+    flex: none;
+  }
+}
 /* service card hover/press */
 button[style*="serviceCard"], .serviceCard {
   /* (kept for future if we add a class) */
