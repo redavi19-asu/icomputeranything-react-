@@ -132,29 +132,3 @@ button[style*="serviceCard"], .serviceCard {
 @media (max-width: 640px){
   .skillsGrid{ grid-template-columns: 1fr; }
 }
-
-/* ===== MOBILE FIX: stop iPhone jumble (horizontal overflow) ===== */
-html, body, #root {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-* { box-sizing: border-box; }
-
-@media (max-width: 900px) {
-  main {
-    width: 100%;
-    flex-direction: column;   /* horizontal → vertical on phones */
-    overflow-x: hidden;
-    overflow-y: auto;
-    scroll-snap-type: none;   /* snap breaks mobile */
-  }
-
-  section {
-    width: 100%;
-    min-height: calc(100vh - 120px);
-    height: auto;
-    flex: none;
-  }
-}
