@@ -14,7 +14,7 @@ function renderIcon(icon, label) {
       <img
         src={icon}
         alt={label || ""}
-        style={{ width: 16, height: "var(--tickerH)", display: "block" }}
+        style={{ width: 16, height: 16, display: "block" }}
         onError={(e) => {
           // hide broken icon to avoid layout weirdness
           e.currentTarget.style.display = "none";
@@ -184,7 +184,7 @@ const s = {
   },
   icoBox: {
     width: 28,
-    height: "var(--tickerH)",
+    height: 28,
     borderRadius: 10,
     display: "inline-flex",
     alignItems: "center",
