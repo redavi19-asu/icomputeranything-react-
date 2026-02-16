@@ -669,14 +669,15 @@ const styles = {
     overflowY: "hidden",
   },
   sectionMobile: {
-    height: `calc(100dvh - ${NAV_H + TICKER_H}px)`,
-    minHeight: 0,
+    minHeight: `calc(100dvh - ${NAV_H}px)`,
     padding: 0,
     alignItems: "flex-start",
     justifyContent: "flex-start",
     flexDirection: "column",
     overflowY: "auto",
     scrollSnapAlign: "start",
+    height: "auto",
+    // maxHeight removed to allow full vertical scroll
   },
   heroLeftMobile: {
     minWidth: 0,
@@ -1458,6 +1459,8 @@ const styles = {
     minWidth: 320,
     maxWidth: 520,
     margin: "0 auto",
+    paddingBottom: 48,
+    marginBottom: 0,
   },
   contactWrap: {
     width: "min(980px, calc(100vw - 48px))",
@@ -1578,7 +1581,7 @@ const styles = {
     right: 0,
     bottom: 0,
     zIndex: 9999,
-    padding: "10px 12px",
+    padding: "0px 0px",
     background: "rgba(0,0,0,0.55)",
     borderTop: "1px solid rgba(255,255,255,0.12)",
     backdropFilter: "blur(10px)",
@@ -1587,10 +1590,10 @@ const styles = {
     maxWidth: 1200,
     margin: "0 auto",
     textAlign: "center",
-    fontSize: 12,
-    fontWeight: 700,
-    letterSpacing: 0.4,
-    color: "rgba(255,255,255,0.75)",
+    fontSize: 6,
+    fontWeight: 400,
+    letterSpacing: 0,
+    color: "rgba(255,255,255,0.40)",
   },
   // Further resume (2nd page) mobile tweaks
   resumeWrapMobile: {
