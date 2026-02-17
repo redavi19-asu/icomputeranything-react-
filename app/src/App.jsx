@@ -206,12 +206,19 @@ export default function App() {
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || /Mobi|Android|iPad|iPhone/i.test(navigator.userAgent);
     if (isTouch) return;
     const onWheel = (e) => {
-      // Only allow horizontal snap if the current section is scrolled to the top
+
+      // Only allow horizontal snap if the current section's scrollable content is at the top
       const scroller = scrollerRef.current;
       if (!scroller) return;
       const sections = scroller.querySelectorAll('section');
       const currentSection = sections[active];
-      if (currentSection && currentSection.scrollTop > 0) return;
+      if (currentSection) {
+        // Find the first scrollable child (div) inside the section
+        const scrollable = currentSection.querySelector('div[style*="overflow"]');
+        if (scrollable && scrollable.scrollTop > 0) return;
+        // Fallback: if no scrollable child, check section itself
+        if (!scrollable && currentSection.scrollTop > 0) return;
+      }
 
       const dx = e.deltaX || 0;
       const dy = e.deltaY || 0;
