@@ -60,7 +60,7 @@ function IframePanel({ title, file, onWheelIntent }) {
     <section
       aria-label={title}
       style={{
-        flex: "0 0 100vw",
+          flex: "0 0 100%",
         height: "100vh",
         scrollSnapAlign: "start",
         position: "relative",
@@ -108,7 +108,7 @@ function HomePanel({ goTo }) {
     <section
       aria-label="Home"
       style={{
-        flex: "0 0 100vw",
+          flex: "0 0 100%",
         height: "100vh",
         scrollSnapAlign: "start",
         display: "grid",
@@ -136,7 +136,8 @@ function HomePanel({ goTo }) {
       <div
         style={{
           position: "relative",
-          width: "min(980px, calc(100vw - 48px))",
+          width: "min(980px, calc(100% - 48px))",
+            width: "min(980px, calc(100% - 48px))",
           padding: "22px 26px",
           borderRadius: 18,
           background: "rgba(10, 18, 24, 0.55)",
@@ -267,7 +268,7 @@ export default function HomeHorizontal() {
   return (
     <div
       style={{
-        width: "100vw",
+        width: "100%",
         height: "100vh",
         overflow: "hidden",
         background: "#000",
@@ -321,7 +322,7 @@ export default function HomeHorizontal() {
         className="hscroll"
         style={{
           height: "100vh",
-          width: "100vw",
+          width: "100%",
           display: "flex",
           overflowX: "auto",
           overflowY: "hidden",

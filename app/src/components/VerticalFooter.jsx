@@ -13,11 +13,11 @@ export default function VerticalFooter() {
           </div>
 
           <div style={links}>
-            <a style={a} href="mailto:ryanedavis@gmail.com">Email</a>
-            <a style={a} href="https://github.com/redavi19-asu" target="_blank" rel="noreferrer">
+            <a style={a} href="mailto:ryanedavis@gmail.com" aria-label="Email ryanedavis@gmail.com">Email</a>
+            <a style={a} href="https://github.com/redavi19-asu" target="_blank" rel="noreferrer" aria-label="GitHub profile for redavi19-asu">
               GitHub
             </a>
-            <a style={a} href="https://intriguedmutts.com" target="_blank" rel="noreferrer">
+            <a style={a} href="https://intriguedmutts.com" target="_blank" rel="noreferrer" aria-label="IntriguedMutts.com website">
               IntriguedMutts.com
             </a>
           </div>

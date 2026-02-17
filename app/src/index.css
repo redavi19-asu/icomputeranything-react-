@@ -1,3 +1,9 @@
+html, body, #root {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+* { box-sizing: border-box; }
 /* ===== CSS VARS: header offsets v2 ===== */
 :root{
   --safeTop: env(safe-area-inset-top, 0px);
@@ -34,17 +40,18 @@
 /* ===== BASE RESET (clean + valid) ===== */
 * { box-sizing: border-box; }
 
-html, body, #root {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  max-width: 100%;
+
+html {
+  background: radial-gradient(1000px 600px at 50% 15%, rgba(125,211,252,0.12), rgba(0,0,0,0.85));
 }
 
-body {
-  background: #000;
-  /* overflow: hidden;  desktop: main handles scroll */
+body, #root {
+  background: transparent !important;
+}
+}
+
+body, #root {
+  background: transparent !important;
 }
 
 /* optional horizontal scroll helper (desktop) */

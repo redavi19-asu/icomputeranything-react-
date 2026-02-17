@@ -1,3 +1,11 @@
+/* Explicit avatar size for layout stability */
+.avatar {
+  width: 120px;
+  height: 155px;
+  border-radius: 28px;
+  object-fit: cover;
+  display: block;
+}
 
 #legacyOverlay{
   min-height: 100vh;
@@ -180,10 +188,6 @@ html, body {
   background:
     /* fade overlay to reduce image intensity */
     linear-gradient(rgba(11,15,20,0.62), rgba(11,15,20,0.62)),
-    /* main PNG at half size */
-    url('images/code-more-worry-less.png') center center / 50% auto no-repeat,
-    /* fallback PNG at half size */
-  url('images/newback%20maybe.png') center center / 50% auto no-repeat,
     /* keep site accent gradients behind */
     radial-gradient(1200px 800px at 10% -10%, rgba(92,200,255,.15), transparent 60%),
     radial-gradient(1200px 800px at 110% 10%, rgba(135,255,161,.12), transparent 60%),
@@ -207,16 +211,16 @@ body.transition-enabled.page-transition-exit {
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
-  background-image: url('images/newback%20maybe.png');
+  z-index: 0;
+  pointer-events: none;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('images/newback-maybe-1200w.webp');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 50% auto; /* half size */
-  opacity: 0.32; /* fade */
-  pointer-events: none; /* ignore clicks */
-  z-index: 0; /* keep behind content */
+  opacity: 0.22;
+  filter: blur(0.5px);
 }
-
 /* Ensure main layout sits above watermark */
 main, header, footer { position: relative; z-index: 1; }
 
@@ -238,8 +242,6 @@ main, header, footer { position: relative; z-index: 1; }
   html, body {
     background:
       linear-gradient(rgba(11,15,20,0.62), rgba(11,15,20,0.62)),
-      url('images/code-more-worry-less.png') center center / 125% auto no-repeat,
-  url('images/newback%20maybe.png') center center / 125% auto no-repeat,
       radial-gradient(1200px 800px at 10% -10%, rgba(92,200,255,.15), transparent 60%),
       radial-gradient(1200px 800px at 110% 10%, rgba(135,255,161,.12), transparent 60%),
       var(--bg) !important;

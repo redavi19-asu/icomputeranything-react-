@@ -5,6 +5,49 @@ import VerticalFooter from "./components/VerticalFooter";
 import TechTicker from "./components/TechTicker";
 
 export default function App() {
+    // Splash screen state
+    const [showSplash, setShowSplash] = useState(true);
+    const [splashHiding, setSplashHiding] = useState(false);
+
+    // Advanced mobile viewport fix: set --vh for iPhone/mobile
+    useEffect(() => {
+      const setVh = () => {
+        if (window.innerWidth < 800) {
+          const vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+      };
+      setVh();
+      window.addEventListener('resize', setVh);
+      window.addEventListener('orientationchange', setVh);
+      return () => {
+        window.removeEventListener('resize', setVh);
+        window.removeEventListener('orientationchange', setVh);
+      };
+    }, []);
+
+    // Splash screen effect
+    useEffect(() => {
+      // Respect reduced motion
+      const prefersReduced =
+        typeof window !== "undefined" &&
+        window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReduced) {
+        // show briefly, no fancy animation
+        const t = setTimeout(() => setShowSplash(false), 800);
+        return () => clearTimeout(t);
+      }
+
+      // Normal: show then fade out
+      const hold = setTimeout(() => setSplashHiding(true), 1800); // time visible
+      const done = setTimeout(() => setShowSplash(false), 2200); // after fade
+      return () => {
+        clearTimeout(hold);
+        clearTimeout(done);
+      };
+    }, []);
   // Open the legacy service form (keeps your existing Google wiring)
   const openServiceForm = (serviceTitle) => {
     const base = import.meta.env.BASE_URL || "/";
@@ -42,10 +85,55 @@ export default function App() {
   const scrollerRef = useRef(null);
   const lockRef = useRef(false);
 
+  // Services cards data
+  const SERVICES = [
+    {
+      title: "Home & Small Business Network Setup",
+      desc: "Setup Wi-Fi, configure routers/switches, secure networks, and optimize home offices for reliable remote work.",
+      icon: "📶"
+    },
+    {
+      title: "Server & Cloud Configuration",
+      desc: "Install/configure Windows Server and Linux; set up storage, VMs, services, and migrations to stronger infrastructure.",
+      icon: "☁️"
+    },
+    {
+      title: "IT Support & Troubleshooting",
+      desc: "On-call and scheduled support for PCs, networks, and software — remote assistance or local visits for hands-on fixes.",
+      icon: "🛠️"
+    },
+    {
+      title: "Custom Website & App Development",
+      desc: "Custom websites and simple apps for small businesses: clean, responsive design + practical functionality.",
+      icon: "💻"
+    },
+    {
+      title: "Cybersecurity Consulting",
+      desc: "Security audits, firewall setup, and practical changes that reduce risk without enterprise complexity.",
+      icon: "🛡️"
+    },
+    {
+      title: "Data Backup & Recovery",
+      desc: "Automated backups (cloud/local) + fast recovery plans so clients can restore files quickly when something goes wrong.",
+      icon: "💾"
+    },
+    {
+      title: "Hardware Installation & Upgrades",
+      desc: "PC upgrades, new workstation builds, installs, and troubleshooting — on-site or remote depending on the job.",
+      icon: "🧩"
+    },
+    {
+      title: "Managed IT Services",
+      desc: "Ongoing monitoring and support packages for small businesses that need reliable outsourced IT.",
+      icon: "🧰"
+    },
+  ];
+
   const sections = useMemo(
     () => [
       { key: "home", title: "Home" },
       { key: "resume", title: "Resume" },
+      { key: "services", title: "Services", desc: "Tap a service to open the request form." },
       { key: "about", title: "About" },
       { key: "skills", title: "Skills" },
       { key: "projects", title: "Projects" },
@@ -59,22 +147,29 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // ✅ Allow legacy pages to deep-link into React panels, e.g. ?panel=services
+
+  // Always go to home on refresh unless ?panel= is present
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const key = params.get("panel");
-    if (!key) return;
-
-    const idx = sections.findIndex((x) => x.key === key);
-    if (idx < 0) return;
-
-    setActive(idx);
-
-    const el = scrollerRef.current;
-    if (!el) return;
-
-    const targetLeft = idx * window.innerWidth;
-    // use your existing smooth scroll helper
-    smoothScrollTo(el, targetLeft, 700);
+    if (key) {
+      const idx = sections.findIndex((x) => x.key === key);
+      if (idx >= 0) {
+        setActive(idx);
+        const el = scrollerRef.current;
+        if (el) {
+          const targetLeft = idx * window.innerWidth;
+          smoothScrollTo(el, targetLeft, 700);
+        }
+      }
+    } else {
+      // Always go to Home (index 0) on refresh if no ?panel= is present
+      setActive(0);
+      const el = scrollerRef.current;
+      if (el) {
+        smoothScrollTo(el, 0, 700);
+      }
+    }
   }, [sections]);
 
 
@@ -108,7 +203,16 @@ export default function App() {
 
   // wheel -> horizontal section stepping (global, seamless)
   useEffect(() => {
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || /Mobi|Android|iPad|iPhone/i.test(navigator.userAgent);
+    if (isTouch) return;
     const onWheel = (e) => {
+      // Only allow horizontal snap if the current section is scrolled to the top
+      const scroller = scrollerRef.current;
+      if (!scroller) return;
+      const sections = scroller.querySelectorAll('section');
+      const currentSection = sections[active];
+      if (currentSection && currentSection.scrollTop > 0) return;
+
       const dx = e.deltaX || 0;
       const dy = e.deltaY || 0;
       const intent = Math.abs(dx) > Math.abs(dy) ? dx : dy;
@@ -138,6 +242,35 @@ export default function App() {
 
   return (
     <>
+      {/* Splash screen overlay */}
+      {showSplash && (
+        <div
+          onClick={() => {
+            setSplashHiding(true);
+            setTimeout(() => setShowSplash(false), 250);
+          }}
+          style={{
+            ...styles.splashOverlay,
+            opacity: splashHiding ? 0 : 1,
+            pointerEvents: "auto",
+          }}
+        >
+          <div style={styles.splashCard}>
+            <picture>
+              <source srcSet={import.meta.env.BASE_URL + "legacy/images/responsive/logo-320x320-q60.webp"} type="image/webp" />
+              <img
+                src={import.meta.env.BASE_URL + "legacy/images/logo.png"}
+                alt="I Computer Anything"
+                style={styles.splashLogoLarge}
+                width={320}
+                height={320}
+                draggable={false}
+                fetchPriority="high"
+              />
+            </picture>
+          </div>
+        </div>
+      )}
       <div style={m({ ...styles.nav, justifyContent: "space-between", gap: 12 }, styles.navMobile)}>
         <div style={{ fontWeight: 800, whiteSpace: "nowrap" }}>I Computer Anything</div>
         {!mobile ? (
@@ -191,7 +324,7 @@ export default function App() {
               top: `calc(var(--safeTop) + ${56}px)`,
               right: 12,
               zIndex: 10001,
-              width: "min(260px, calc(100vw - 24px))",
+              width: "min(260px, calc(100% - 24px))",
               padding: 10,
               borderRadius: 14,
               border: "1px solid rgba(255,255,255,0.18)",
@@ -234,17 +367,65 @@ export default function App() {
       {/* horizontal scroll sections */}
       <main ref={scrollerRef} style={m(styles.scroller, styles.scrollerMobile)}>
         {sections.map((s, i) => (
-          <section key={s.key} style={m(styles.section, styles.sectionMobile)}>
+          <section key={s.key} style={m(styles.section, styles.sectionMobile)} className={s.key === "home" ? "home-section" : undefined}>
             {s.key === "home" ? (
-              <div style={m(styles.heroWrap, styles.heroWrapMobile)}>
+              <div
+                style={{
+                  ...m(styles.heroWrap, styles.heroWrapMobile),
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  minHeight: '100%',
+                  width: '100%',
+                }}
+                className="heroWrap"
+              >
                 <Reveal rootRef={scrollerRef} y={18}>
-                  <div style={{ ...m(styles.heroInner, styles.heroInnerMobile), flexDirection: isMobile ? "column" : "row" }}>
+                  <div
+                    style={{
+                      ...m(styles.heroInner, styles.heroInnerMobile),
+                      display: 'flex',
+                      flexDirection: isMobile ? 'column' : 'row',
+                      alignItems: 'center',
+                      justifyContent: isMobile ? 'center' : 'space-evenly',
+                      minHeight: '100%',
+                      width: '100%',
+                      gap: isMobile ? 24 : 48,
+                    }}
+                  >
                     {/* left side */}
-                    <div style={m(styles.heroLeft, styles.heroLeftMobile)}>
-                      <div style={styles.brandRow}>
-                        <div style={styles.logoPill}>I COMPUTER ANYTHING</div>
+                    <div
+                      style={{
+                        ...m(styles.heroLeft, styles.heroLeftMobile),
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flex: 1,
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: 'center', width: '100%' }}>
+                        <picture>
+                          <source srcSet={`${import.meta.env.BASE_URL}legacy/images/responsive/logo-320x320-q60.webp`} type="image/webp" />
+                          <img
+                            src={`${import.meta.env.BASE_URL}legacy/images/logo.png`}
+                            alt="I Computer Anything"
+                            width={98}
+                            height={98}
+                            style={{
+                              width: 98,
+                              height: 98,
+                              borderRadius: 18,
+                              objectFit: "contain",
+                              display: "block",
+                              flex: "0 0 auto",
+                            }}
+                            fetchPriority="high"
+                          />
+                        </picture>
+                        <div style={styles.heroKicker}>I Computer Anything</div>
                       </div>
-                      <div style={styles.heroKicker}>I Computer Anything</div>
                       <h1 style={m(styles.heroTitle, styles.heroTitleMobile)}>
                         Bringing Practical IT &<br /> Web to Life
                       </h1>
@@ -261,33 +442,91 @@ export default function App() {
                       </div>
                     </div>
                     {/* right side profile card */}
-                    <div style={m(styles.heroRight, styles.heroRightMobile)}>
-                      <div style={styles.profileCard}>
-                        <img
-                          src={`${import.meta.env.BASE_URL}legacy/images/profile.jpeg`}
-                          alt="Ryan Davis"
-                          style={styles.avatar}
-                        />
-                        <div style={styles.name}>Ryan Davis</div>
-                        <div style={styles.skillStack}>
-                          {[
-                            { ico: "🪟", label: "Windows Server • AD • PowerShell" },
-                            { ico: "🐧", label: "Linux (Debian/Fedora/Ubuntu) • SSH • Nginx" },
-                            { ico: "🌐", label: "Networking • Wi-Fi • Troubleshooting" },
-                            { ico: "⚛️", label: "React • Vite • JavaScript" },
-                            { ico: "🎨", label: "HTML • CSS • Responsive UI" },
-                            { ico: "☁️", label: "Cloudflare • GitHub • Deployments" },
-                          ].map((s) => (
-                            <div key={s.label} style={styles.skillRow}>
-                              <span style={styles.skillIco}>{s.ico}</span>
-                              <span style={styles.skillLbl}>{s.label}</span>
+                    <div
+                      style={{
+                        ...m(styles.heroRight, styles.heroRightMobile),
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flex: 1,
+                      }}
+                    >
+                      <div style={styles.cardCenter}>
+                        <div
+                          style={{
+                            ...styles.profileCard,
+                            ...(isMobile ? styles.profileCardMobile : null),
+                          }}
+                        >
+                          <picture>
+                            <source srcSet={`${import.meta.env.BASE_URL}legacy/images/responsive/profile-120x155.webp`} type="image/webp" />
+                            <img
+                              src={`${import.meta.env.BASE_URL}legacy/images/profile.jpeg`}
+                              alt="Portrait of Ryan Davis, IT technologist"
+                              style={{
+                                ...styles.avatar,
+                                width: 100,
+                                height: 100,
+                                borderRadius: 20,
+                                objectFit: 'cover',
+                                marginRight: 0,
+                              }}
+                              width={100}
+                              height={100}
+                              fetchPriority="high"
+                            />
+                          </picture>
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
+                            <div style={{ ...styles.name, marginBottom: 0 }}>Ryan Davis</div>
+                            <div style={styles.skillStack}>
+                              {[
+                                { ico: "🪟", label: "Windows Server • AD • PowerShell" },
+                                { ico: "🐧", label: "Linux (Debian/Fedora/Ubuntu) • SSH • Nginx" },
+                                { ico: "🌐", label: "Networking • Wi-Fi • Troubleshooting" },
+                                { ico: "⚛️", label: "React • Vite • JavaScript" },
+                                { ico: "🎨", label: "HTML • CSS • Responsive UI" },
+                                { ico: "☁️", label: "Cloudflare • GitHub • Deployments" },
+                              ].map((s) => (
+                                <div key={s.label} style={styles.skillRow}>
+                                  <span style={styles.skillIco}>{s.ico}</span>
+                                  <span style={styles.skillLbl}>{s.label}</span>
+                                </div>
+                              ))}
                             </div>
-                          ))}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </Reveal>
+              </div>
+            ) : s.key === "services" ? (
+              <div style={styles.servicesWrap}>
+                <h2 style={{ ...styles.servicesTitle, ...(isMobile ? styles.servicesTitleMobile : null) }}>
+                  Services
+                </h2>
+
+                <p style={{ ...styles.servicesSub, ...(isMobile ? styles.servicesSubMobile : null) }}>
+                  Request IT help, repairs, or a web job. Tap a card to open the service request form.
+                </p>
+
+                <div style={{ ...styles.servicesGrid, ...(isMobile ? styles.servicesGridMobile : null) }}>
+                  {SERVICES.map((svc) => (
+                    <div key={svc.title} style={styles.serviceCard}>
+                      <div style={styles.serviceIcon}>{svc.icon}</div>
+                      <div style={styles.serviceTitle}>{svc.title}</div>
+                      <div style={styles.serviceBody}>{svc.desc}</div>
+
+                      <button
+                        style={styles.serviceCta}
+                        onClick={() => openServiceForm(svc.title)}
+                      >
+                        Open Form
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             ) : s.key === "about" ? (
               <div style={styles.aboutWrap}>
@@ -418,10 +657,10 @@ export default function App() {
                           ))}
                         </div>
                         <div style={styles.projectBtns}>
-                          <a style={styles.projectBtnPrimary} href={p.cta1.href} target="_blank" rel="noreferrer">
+                          <a style={styles.projectBtnPrimary} href={p.cta1.href} target="_blank" rel="noreferrer" aria-label={`Project: ${p.title} - ${p.cta1.label}`}>
                             {p.cta1.label}
                           </a>
-                          <a style={styles.projectBtn} href={p.cta2.href} target="_blank" rel="noreferrer">
+                          <a style={styles.projectBtn} href={p.cta2.href} target="_blank" rel="noreferrer" aria-label={`Project: ${p.title} - ${p.cta2.label}`}>
                             {p.cta2.label}
                           </a>
                         </div>
@@ -566,7 +805,7 @@ export default function App() {
                 </p>
 
                 <div style={m(styles.contactList, styles.contactListMobile)}>
-                  <a style={styles.contactLink} href="mailto:redavi19@asu.edu">
+                  <a style={styles.contactLink} href="mailto:redavi19@asu.edu" aria-label="Email redavi19@asu.edu">
                     <span style={styles.contactIco}>✉️</span>
                     <span>redavi19@asu.edu</span>
                   </a>
@@ -576,12 +815,13 @@ export default function App() {
                     href="https://github.com/redavi19-asu"
                     target="_blank"
                     rel="noreferrer"
+                    aria-label="GitHub profile for redavi19-asu"
                   >
                     <span style={styles.contactIco}>🐙</span>
                     <span>github.com/redavi19-asu</span>
                   </a>
 
-                  <a style={styles.contactLink} href="mailto:ryanedavis@gmail.com">
+                  <a style={styles.contactLink} href="mailto:ryanedavis@gmail.com" aria-label="Email ryanedavis@gmail.com">
                     <span style={styles.contactIco}>✉️</span>
                     <span>ryanedavis@gmail.com</span>
                   </a>
@@ -655,6 +895,84 @@ const TICKER_H = 64;
 
 // Styles object (single, flat, valid)
 const styles = {
+        splashLogoLarge: {
+          width: 320,
+          height: "auto",
+          filter: "drop-shadow(0 18px 30px rgba(0,0,0,0.65))",
+          margin: "0 auto",
+          display: "block",
+        },
+      splashOverlay: {
+        position: "fixed",
+        inset: 0,
+        width: "100%",
+        height: "100vh",
+        zIndex: 20000,
+        display: "grid",
+        placeItems: "center",
+        background: "radial-gradient(circle at 50% 35%, rgba(0,0,0,0.65), rgba(0,0,0,0.92))",
+        backdropFilter: "blur(6px)",
+        transition: "opacity 450ms ease",
+      },
+      splashCard: {
+        width: "min(560px, calc(100% - 40px))",
+        padding: 22,
+        borderRadius: 20,
+        border: "1px solid rgba(255,255,255,0.14)",
+        background: "rgba(10,12,14,0.72)",
+        boxShadow: "0 30px 90px rgba(0,0,0,0.65)",
+        textAlign: "center",
+      },
+      splashLogo: {
+        width: 180,
+        height: "auto",
+        filter: "drop-shadow(0 18px 30px rgba(0,0,0,0.65))",
+        margin: "0 auto 10px",
+        display: "block",
+      },
+      splashTitle: {
+        fontSize: 22,
+        fontWeight: 900,
+        letterSpacing: 0.6,
+        color: "white",
+        marginTop: 6,
+      },
+      splashSub: {
+        marginTop: 6,
+        fontSize: 14,
+        color: "rgba(255,255,255,0.75)",
+        lineHeight: 1.35,
+      },
+      splashHint: {
+        marginTop: 14,
+        fontSize: 12,
+        color: "rgba(125,211,252,0.95)",
+        fontWeight: 800,
+        letterSpacing: 0.4,
+      },
+    // ...existing styles...
+    servicesWrapMobile: {
+      width: "100%",
+      margin: 0,
+      padding: 10,
+      borderRadius: 14,
+      boxShadow: "0 4px 24px rgba(0,0,0,0.18)",
+      background: "rgba(0,0,0,0.18)",
+      border: "1px solid rgba(255,255,255,0.10)",
+    },
+    servicesSubMobile: {
+      fontSize: 13,
+      marginTop: 6,
+    },
+    servicesNoteMobile: {
+      fontSize: 12,
+      marginTop: 6,
+    },
+    servicesPayMobile: {
+      fontSize: 11,
+      marginTop: 6,
+      opacity: 0.7,
+    },
   // --- MOBILE OVERRIDES ---
   navMobile: {
     padding: "10px 10px",
@@ -666,18 +984,22 @@ const styles = {
     height: `calc(100dvh - ${NAV_H + TICKER_H}px)`,
     marginTop: NAV_H + TICKER_H,
     overflowX: "auto",
-    overflowY: "hidden",
+    overflowY: "auto",
+    WebkitOverflowScrolling: "touch",
+    scrollSnapType: "x mandatory",
+    scrollBehavior: "smooth",
   },
   sectionMobile: {
-    minHeight: `calc(100dvh - ${NAV_H}px)`,
+    minHeight: 0,
     padding: 0,
     alignItems: "flex-start",
     justifyContent: "flex-start",
     flexDirection: "column",
-    overflowY: "auto",
+    overflowY: "visible",
     scrollSnapAlign: "start",
     height: "auto",
-    // maxHeight removed to allow full vertical scroll
+    flex: "0 0 100%",
+    width: "100%",
   },
   heroLeftMobile: {
     minWidth: 0,
@@ -792,7 +1114,7 @@ const styles = {
     justifyContent: "flex-start",
   },
   resumeInner: {
-    width: "min(1200px, calc(100vw - 56px))",
+    width: "min(1200px, calc(100% - 56px))",
     padding: 24,
   },
   resumeHeaderRow: {
@@ -866,11 +1188,10 @@ const styles = {
     fontSize: 14.5,
   },
   page: {
-    width: "100vw",
+    width: "100%",
     height: "100vh",
-    overflow: "hidden",
-    background:
-      "radial-gradient(1000px 600px at 50% 15%, rgba(125,211,252,0.12), rgba(0,0,0,0.85)), #000",
+    overflow: "visible",
+    background: "transparent",
     color: "white",
   },
   nav: {
@@ -878,6 +1199,7 @@ const styles = {
     top: 0,
     left: 0,
     right: 0,
+    width: "100%",
     minHeight: 56,
     height: "auto",
     zIndex: 9999,
@@ -914,7 +1236,7 @@ const styles = {
   scroller: {
     display: "flex",
     flexDirection: "row",
-    width: "100vw",
+    width: "100%",
     height: `calc(100vh - ${NAV_H + TICKER_H}px)`,
     marginTop: NAV_H + TICKER_H,
     overflowX: "auto",
@@ -928,6 +1250,7 @@ const styles = {
       top: "calc(var(--safeTop) + var(--topbarH))", // adjust if nav height changes
       left: 0,
       right: 0,
+      width: "100%",
       zIndex: 9998,
       height: 34,
       display: "flex",
@@ -939,7 +1262,7 @@ const styles = {
 
     tickerMask: {
       width: "100%",
-      overflow: "hidden",
+      overflow: "visible",
     },
 
     tickerTrack: {
@@ -963,12 +1286,12 @@ const styles = {
       borderRight: "1px solid rgba(255,255,255,0.10)",
     },
   section: {
-    width: "100vw",
+    width: "100%",
     height: `calc(100vh - ${NAV_H + TICKER_H}px)`,
-    flex: "0 0 100vw",
+    flex: "0 0 100%",
     display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
+    alignItems: "center",
+    justifyContent: "center",
     scrollSnapAlign: "start",
     position: "relative",
     padding: 0,
@@ -982,11 +1305,12 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    overflow: "hidden",
+    overflow: "visible",
+    background: "transparent",
   },
   heroWrapMobile: {
     padding: `calc(${NAV_H}px + 8px) 0 0 0`, // Add space for nav
-    minHeight: `calc(100vh - ${NAV_H}px)`
+    minHeight: "100%",
   },
   heroInnerMobile: {
     gap: 4,
@@ -1041,6 +1365,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
   },
+
   profileCard: {
     background: "rgba(255,255,255,0.08)",
     borderRadius: 24,
@@ -1052,6 +1377,20 @@ const styles = {
     gap: 16,
     minWidth: 260,
     maxWidth: 340,
+    margin: "0 auto",
+    alignSelf: "center",
+  },
+
+  cardCenter: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+  },
+
+  cardCenter: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
   },
   avatar: {
     width: 120,
@@ -1087,12 +1426,12 @@ const styles = {
     opacity: 0.9,
   },
   servicesWrap: {
-    width: "min(1200px, calc(100vw - 48px))",
+    width: "min(1200px, calc(100% - 48px))",
     margin: "0 auto",
     padding: 28,
     borderRadius: 22,
     border: "1px solid rgba(255,255,255,0.14)",
-    background: "rgba(0,0,0,0.20)",
+    background: "transparent",
     boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
   },
   servicesHead: {
@@ -1165,12 +1504,12 @@ const styles = {
     fontSize: 14,
   },
   aboutWrap: {
-    width: "min(1200px, calc(100vw - 48px))",
+    width: "min(1200px, calc(100% - 48px))",
     margin: "0 auto",
     padding: 28,
     borderRadius: 22,
     border: "1px solid rgba(255,255,255,0.14)",
-    background: "rgba(0,0,0,0.20)",
+    background: "transparent",
     boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
   },
   aboutInner: {
@@ -1264,6 +1603,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    background: "transparent",
   },
   projectsTitle: {
     fontSize: 38,
@@ -1365,7 +1705,7 @@ const styles = {
     transition: "background 0.2s, color 0.2s",
   },
   skillsWrap: {
-    width: "min(1200px, calc(100vw - 48px))",
+    width: "min(1200px, calc(100% - 48px))",
     margin: "0 auto",
     padding: 28,
     borderRadius: 22,
@@ -1463,7 +1803,7 @@ const styles = {
     marginBottom: 0,
   },
   contactWrap: {
-    width: "min(980px, calc(100vw - 48px))",
+    width: "min(980px, calc(100% - 48px))",
     padding: "28px 28px",
     borderRadius: 22,
     background: "rgba(255,255,255,0.06)",
@@ -1511,7 +1851,7 @@ const styles = {
     opacity: 0.95,
   },
   reflectionWrap: {
-    width: "min(1100px, calc(100vw - 72px))",
+    width: "min(1100px, calc(100% - 72px))",
     padding: "34px 34px",
     borderRadius: 22,
     background: "rgba(0,0,0,0.28)",
@@ -1555,7 +1895,8 @@ const styles = {
   },
   vFooter: {
     position: "fixed",
-    right: 10,
+    left: 0,
+    right: 0,
     bottom: 16,
     zIndex: 9999,
     pointerEvents: "none",           // doesn't block clicks
@@ -1579,6 +1920,7 @@ const styles = {
     position: "fixed",
     left: 0,
     right: 0,
+    width: "100%",
     bottom: 0,
     zIndex: 9999,
     padding: "0px 0px",
@@ -1588,6 +1930,7 @@ const styles = {
   },
   footerInner: {
     maxWidth: 1200,
+    width: "min(1200px, calc(100% - 48px))",
     margin: "0 auto",
     textAlign: "center",
     fontSize: 6,
@@ -1602,7 +1945,7 @@ const styles = {
     paddingRight: 0,
     paddingBottom: 0,
     minHeight: `calc(100vh - ${NAV_H}px)`,
-    width: "100vw",
+    width: "100%",
     boxSizing: "border-box",
   },
   resumeTitleMobile: {

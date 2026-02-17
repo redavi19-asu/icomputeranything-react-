@@ -64,14 +64,14 @@ export default function Home() {
       {/* IMPORTANT: this wrapper MUST be here */}
       <div className="cardsWrap">
         <section ref={cardsRef} className="cards horizontal">
-          <a className="card" href="/legacy/merch.html">Merch</a>
-          <a className="card" href="/legacy/servers.html">Servers</a>
-          <a className="card" href="/legacy/licensing.html">Licensing</a>
-          <a className="card" href="/legacy/services-form.html">Service Form</a>
+          <a className="card" href="/legacy/merch.html" aria-label="Merch page">Merch</a>
+          <a className="card" href="/legacy/servers.html" aria-label="Servers page">Servers</a>
+          <a className="card" href="/legacy/licensing.html" aria-label="Licensing page">Licensing</a>
+          <a className="card" href="/legacy/services-form.html" aria-label="Service Form page">Service Form</a>
 
           {/* add 2 temp cards just to prove scroll */}
-          <a className="card" href="/legacy/index.html">Home</a>
-          <a className="card" href="/legacy/index.html">Extra</a>
+          <a className="card" href="/legacy/index.html" aria-label="Legacy Home page">Home</a>
+          <a className="card" href="/legacy/index.html" aria-label="Legacy Extra page">Extra</a>
         </section>
       </div>
     </main>

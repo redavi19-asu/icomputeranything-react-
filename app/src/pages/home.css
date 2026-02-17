@@ -1,7 +1,7 @@
 /* --- Horizontal page system --- */
 .hwrap {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100dvh;
   overflow: hidden;
 }
 
@@ -46,8 +46,8 @@
 }
 
 .hpanel {
-  flex: 0 0 100vw;
-  height: 100vh;
+  flex: 0 0 100%;
+  height: 100dvh;
   scroll-snap-align: start;
   position: relative;
 }
@@ -142,7 +142,7 @@
   flex:0 0 240px !important;
 }
 /* Horizontal snap scroller styles for HomeHorizontal */
-.hpage { width: 100vw; height: 100vh; overflow: hidden; color: #fff; }
+.hpage { width: 100%; height: 100dvh; overflow: hidden; color: #fff; }
 
 .hnav{
   position: fixed; top: 0; left: 0; right: 0;
@@ -162,7 +162,7 @@
 }
 
 .hscroll{
-  height: 100vh; width: 100vw;
+  height: 100dvh; width: 100%;
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
@@ -174,12 +174,12 @@
 .hscroll::-webkit-scrollbar{ display:none; }
 
 .panel{
-  flex: 0 0 100vw;
-  height: calc(100vh - 56px);
+  flex: 0 0 100%;
+  height: calc(100dvh - 56px);
   scroll-snap-align: start;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  flex: 0 0 100%;
   padding: 28px;
 }
 .panelInner{
@@ -205,7 +205,7 @@
   flex:0 0 240px;
 }
 .home {
-  min-height: 100vh;
+  min-height: 100dvh;
   padding: 24px;
   color: #fff;
 }
@@ -233,7 +233,7 @@
 
 /* Page */
 .home{
-  min-height: 100vh;
+  min-height: 100dvh;
   padding: 28px;
   color: #fff;
   display: flex;

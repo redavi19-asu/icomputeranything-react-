@@ -36,7 +36,7 @@ export default function HomeHorizontal() {
   };
 
   return (
-    <div style={{ width: "100vw", height: "100vh", overflow: "hidden" }}>
+    <div style={{ width: "100%", height: "100dvh", overflow: "hidden" }}>
       {/* top nav */}
       <div style={topbar}>
         <strong style={{ color: "#fff" }}>I Computer Anything</strong>
@@ -55,8 +55,8 @@ export default function HomeHorizontal() {
         className="hscroll"
         style={{
           display: "flex",
-          width: "100vw",
-          height: "100vh",
+          width: "100%",
+          height: "100dvh",
           overflowX: "auto",
           overflowY: "hidden",
           scrollSnapType: "x mandatory",
@@ -67,8 +67,8 @@ export default function HomeHorizontal() {
           <section
             key={s.key}
             style={{
-              flex: "0 0 100vw",
-              height: "100vh",
+              flex: "0 0 100%",
+              height: "100dvh",
               scrollSnapAlign: "start",
             }}
           >
@@ -105,7 +105,7 @@ const btn = {
 };
 
 const panelCenter = {
-  height: "100vh",
+  height: "100dvh",
   display: "grid",
   placeItems: "center",
   color: "#fff",
