@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/legacy/">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6N1Y3E0TZK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-6N1Y3E0TZK');
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RYAN E DAVIS • PORTFOLIO</title>
+  <meta name="description" content="Portfolio of Ryan Davis — IT, Web Development, Networking, and Emergency Connectivity Projects." />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <!-- Preconnects for external resources to reduce DNS/connection latency -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Pacifico for cursive badges -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+  <!-- High-priority stylesheet load to avoid unstyled flashes on return navigations -->
+  <link rel="stylesheet" href="styles.css" fetchpriority="high">
+
+  <!-- Inline splash styles (ensure immediate appearance & transition) -->
+  <style>
+    /* splash covers viewport and centers the logo */
+    #splash{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#0b0f14; z-index:9999; transition: opacity 1.4s ease, transform 1s ease; opacity:1 !important; visibility:visible !important; will-change:opacity,transform; }
+    /* much larger, more responsive splash logo */
+    #splash img{ width:clamp(320px,48vw,1200px); max-width:98%; height:auto; transform:translateY(0); transition: transform 1s ease, opacity 1.4s ease; display:block; object-fit:contain; }
+    /* class added by script triggers hide animation then JS removes the node */
+    #splash.is-hiding{ opacity:0 !important; visibility:hidden !important; transform:scale(.985) !important; pointer-events:none !important; }
+  </style>
+  <!-- Inline badge styles for nav coming-soon -->
+  <style>
+    /* small cursive 'Coming Soon' badge above the Merch nav item */
+    .site-nav .merch-item{ position:relative; display:inline-block; }
+    .coming-soon-badge{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      top:-0.9rem;
+      font-family:'Pacifico', cursive;
+      font-size:0.68rem;
+      color:#ff9800;
+      opacity:0.95;
+      pointer-events:none;
+      white-space:nowrap;
+      text-transform:none;
+      letter-spacing:0.2px;
+    }
+    @media (max-width:640px){
+      .coming-soon-badge{ font-size:0.56rem; top:-0.7rem; }
+    }
+  </style></head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="icon-amd" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="4" fill="#30B767" />
+        <path fill="#ffffff" d="M6.4 17l3-8h1.6l3 8h-1.8l-.6-1.6H8.8L8.2 17H6.4Zm3-3h2.4l-1.2-3.4L9.4 14Z" />
+      </symbol>
+      <symbol id="icon-intel" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="4" fill="#0071C5" />
+        <rect x="11" y="6" width="2" height="8" rx="1" fill="#ffffff" />
+        <circle cx="12" cy="5" r="1" fill="#ffffff" />
+        <rect x="7" y="15" width="10" height="2.4" rx="1.2" fill="#ffffff" />
+        <path fill="#ffffff" opacity="0.85" d="M6 12.5c0-2.7 2.1-4.9 4.8-4.9h2.4c2.7 0 4.8 2.2 4.8 4.9v.5h-2v-.5c0-1.6-1.2-3-2.8-3h-2.4c-1.6 0-2.8 1.4-2.8 3v.5H6v-.5z" />
+      </symbol>
+      <symbol id="icon-zoom" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="4" fill="#2D8CFF" />
+        <rect x="5" y="7.2" width="9.2" height="9.6" rx="2" fill="#ffffff" />
+        <path fill="#ffffff" opacity="0.9" d="M14.8 9.2L19 11.6v2.8l-4.2 2.4v-7.6z" />
+        <rect x="6.6" y="9.2" width="5.2" height="5.6" rx="1.4" fill="#2D8CFF" opacity="0.7" />
+      </symbol>
+      <symbol id="icon-ibm" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="4" fill="#0B1B4D" />
+        <g fill="#3A8DFF">
+          <rect x="5" y="6" width="14" height="1.2" />
+          <rect x="5" y="8.4" width="14" height="1.2" />
+          <rect x="5" y="10.8" width="14" height="1.2" />
+          <rect x="5" y="13.2" width="14" height="1.2" />
+          <rect x="5" y="15.6" width="14" height="1.2" />
+          <rect x="5" y="18" width="14" height="1.2" />
+        </g>
+      </symbol>
+      <symbol id="icon-oracle" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="4" fill="#F80000" />
+        <ellipse cx="12" cy="12" rx="6.6" ry="4" fill="none" stroke="#ffffff" stroke-width="2.1" />
+      </symbol>
+      <symbol id="icon-dell" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="4" fill="#007DB8" />
+        <circle cx="12" cy="12" r="7.2" fill="none" stroke="#ffffff" stroke-width="1.6" />
+        <path fill="#ffffff" d="M7.4 8.6h2.1c2 0 3.5 1.6 3.5 3.9s-1.5 3.9-3.5 3.9H7.4V8.6Zm2 5.9c.9 0 1.6-.8 1.6-2s-.7-2-1.6-2h-.2v4h.2Z" />
+        <rect x="13.4" y="10.2" width="2.4" height="1.2" fill="#ffffff" />
+        <rect x="13.4" y="12.2" width="2.4" height="1.2" fill="#ffffff" />
+        <rect x="13.4" y="14.2" width="2.4" height="1.2" fill="#ffffff" />
+      </symbol>
+      <symbol id="icon-hp" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="4" fill="#0096D6" />
+        <path fill="#ffffff" d="M8.6 8.4h1.8v3.1c.4-.5 1-.7 1.6-.7 1.4 0 2.4 1 2.4 2.7v3.4h-1.8v-3.1c0-.7-.3-1-.9-1s-1 .4-1 1v3.1H8.6V8.4Z" />
+        <path fill="#ffffff" d="M15.1 8.4h1.8v2.2c.4-.3.9-.5 1.4-.5 1.4 0 2.5 1.1 2.5 2.8s-1.1 2.8-2.5 2.8c-.6 0-1.1-.2-1.5-.5v2.3h-1.8V8.4Zm3.2 4.3c-.6 0-1 .4-1 1s.4 1 1 1 1-.4 1-1-.4-1-1-1Z" />
+      </symbol>
+      <symbol id="icon-kubernetes" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="11" fill="#326CE5" />
+        <circle cx="12" cy="12" r="6" fill="none" stroke="#ffffff" stroke-width="1.6" />
+        <line x1="12" y1="6" x2="12" y2="9" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+        <line x1="12" y1="15" x2="12" y2="18" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+        <line x1="6" y1="12" x2="9" y2="12" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+        <line x1="15" y1="12" x2="18" y2="12" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+        <line x1="8.2" y1="8.2" x2="10" y2="10" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+        <line x1="14" y1="14" x2="15.8" y2="15.8" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+        <line x1="8.2" y1="15.8" x2="10" y2="14" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+        <line x1="14" y1="10" x2="15.8" y2="8.2" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" />
+        <circle cx="12" cy="12" r="2.4" fill="#ffffff" />
+      </symbol>
+    </defs>
+  </svg>
+  <!-- Splash screen -->
+  <div id="splash" aria-hidden="true">
+    <img src="images/logo.png" alt="" loading="eager" fetchpriority="high" style="display:block;max-width:98%" />
+  </div>
+
+  <!-- Inline splash controller: idempotent hide sequence to avoid double-fade -->
+  <script>
+  (function(){
+    var splash = document.getElementById('splash');
+    if(!splash) return;
+    var storageKey = 'ica:splash-seen';
+    var storageReady = false;
+    try{
+      if('sessionStorage' in window){
+        storageReady = true;
+        if(sessionStorage.getItem(storageKey) === '1'){
+          splash.remove();
+          return;
+        }
+      }
+    }catch(e){ storageReady = false; }
+    var img = splash.querySelector('img');
+    if(img){
+      try{ img.loading = 'eager'; img.setAttribute('fetchpriority','high'); }catch(e){}
+      img.style.maxWidth = '98%';
+      img.style.display = 'block';
+    }
+    function hideOnce(){
+      if(!splash || splash.dataset.hiding) return;
+      splash.dataset.hiding = '1';
+      // add hiding class to trigger CSS transition
+      splash.classList.add('is-hiding');
+      if(storageReady){
+        try{ sessionStorage.setItem(storageKey,'1'); }catch(e){}
+      }
+      // remove splash after transition ends (match CSS transition + small buffer)
+      setTimeout(function(){ if(splash && splash.parentNode) splash.parentNode.removeChild(splash); }, 1600);
+    }
+    // Run once after full load; shorten delay so the splash clears faster on first visit
+    var initialDelay = 1600; // ms visible before starting hide
+    if(document.readyState === 'complete'){
+      setTimeout(hideOnce, initialDelay);
+    } else {
+      window.addEventListener('load', function(){ setTimeout(hideOnce, initialDelay); }, {once:true});
+    }
+    // Safety: if other code attempts to hide, ensure we only hide once
+    // Also listen for transitionend just in case
+    splash.addEventListener('transitionend', function(e){ if(e.propertyName==='opacity' && splash && splash.dataset.hiding){ try{ if(splash.parentNode) splash.parentNode.removeChild(splash); }catch(e){} } });
+  })();
+  </script>
+
+  <!-- Header / Nav -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#services" aria-label="Skip to services section">
+        <span class="brand-logo">⚡</span>
+        <span class="brand-text">RYAN E DAVIS</span>
+      </a>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Menu</span>
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li class="merch-item"><a href="merch.html" aria-label="Visit the merch page">Merch</a><span class="coming-soon-badge" aria-hidden="true">Coming Soon</span></li>
+          <li>
+            <a class="btn btn-small" href="https://github.com/redavi19-asu" target="_blank" rel="noopener" aria-label="Open Ryan Davis GitHub profile in a new tab">GitHub <i class="fa-brands fa-github"></i></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Technology Ticker: All Tech Names & Icons -->
+  <div class="tech-ticker">
+    <div class="tech-ticker-track">
+      <span class="tech-ticker-item">
+        <svg class="icon-windows-quad" viewBox="0 0 24 24" width="22" height="22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <rect x="1" y="1" width="10" height="10" fill="#F25022"/>
+          <rect x="13" y="1" width="10" height="10" fill="#7FBA00"/>
+          <rect x="1" y="13" width="10" height="10" fill="#00A4EF"/>
+          <rect x="13" y="13" width="10" height="10" fill="#FFB900"/>
+        </svg>
+        Microsoft
+      </span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-google"></i> Google</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-amazon"></i> Amazon</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-meta"></i> Meta</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-x-twitter"></i> X</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-github"></i> GitHub</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-docker"></i> Docker</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-spotify"></i> Spotify</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-youtube"></i> YouTube</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-instagram"></i> Instagram</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-uber"></i> Uber</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-tiktok"></i> TikTok</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-apple"></i> Apple</span>
+      <span class="tech-ticker-item">
+        <svg class="icon-linux-tux" viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="7.5" r="4.2" fill="#111"/>
+          <ellipse cx="12" cy="8.3" rx="2.6" ry="2.2" fill="#fff"/>
+          <circle cx="11" cy="7.8" r="0.45" fill="#111"/>
+          <circle cx="13" cy="7.8" r="0.45" fill="#111"/>
+          <polygon points="12,8.9 10.9,10 13.1,10" fill="#FCC624"/>
+          <ellipse cx="12" cy="14.2" rx="6" ry="7.2" fill="#111"/>
+          <ellipse cx="12" cy="15.3" rx="4.2" ry="5.2" fill="#fff"/>
+          <ellipse cx="9.2" cy="20.1" rx="2.1" ry="1.1" fill="#FCC624"/>
+          <ellipse cx="14.8" cy="20.1" rx="2.1" ry="1.1" fill="#FCC624"/>
+        </svg>
+        Linux
+      </span>
+      <span class="tech-ticker-item">
+        <svg class="icon-windows-quad" viewBox="0 0 24 24" width="22" height="22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <rect x="1" y="1" width="10" height="10" fill="#F25022"/>
+          <rect x="13" y="1" width="10" height="10" fill="#7FBA00"/>
+          <rect x="1" y="13" width="10" height="10" fill="#00A4EF"/>
+          <rect x="13" y="13" width="10" height="10" fill="#FFB900"/>
+        </svg>
+        Windows
+      </span>
+      <span class="tech-ticker-item">
+        <svg class="icon-brand icon-ibm" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="#icon-ibm"></use>
+        </svg>
+        IBM
+      </span>
+      <span class="tech-ticker-item">
+        <svg class="icon-brand icon-intel" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="#icon-intel"></use>
+        </svg>
+        Intel
+      </span>
+      <span class="tech-ticker-item">
+        <svg class="icon-brand icon-amd" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="#icon-amd"></use>
+        </svg>
+        AMD
+      </span>
+      <span class="tech-ticker-item">
+        <svg class="icon-brand icon-oracle" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="#icon-oracle"></use>
+        </svg>
+        Oracle
+      </span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-network-wired"></i> Cisco</span>
+      <span class="tech-ticker-item">
+        <svg class="icon-brand icon-dell" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="#icon-dell"></use>
+        </svg>
+        Dell
+      </span>
+      <span class="tech-ticker-item">
+        <svg class="icon-brand icon-hp" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="#icon-hp"></use>
+        </svg>
+        HP
+      </span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-salesforce"></i> Salesforce</span>
+      <span class="tech-ticker-item">
+        <svg class="icon-brand icon-zoom" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="#icon-zoom"></use>
+        </svg>
+        Zoom
+      </span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-slack"></i> Slack</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-stripe"></i> Stripe</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-paypal"></i> PayPal</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-ebay"></i> eBay</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-reddit"></i> Reddit</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-pinterest"></i> Pinterest</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-linkedin"></i> LinkedIn</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-snapchat"></i> Snapchat</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-shopify"></i> Shopify</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-gitlab"></i> GitLab</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-cloud"></i> DigitalOcean</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-cloud"></i> Heroku</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-v"></i> Vercel</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-water"></i> Netlify</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-server"></i> Linode</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-cloud"></i> Cloudflare</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-shield"></i> Proton</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-bolt"></i> Fastly</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-hashtag"></i> HashiCorp</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-database"></i> MongoDB</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-search"></i> Elastic</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-envelope"></i> Postman</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-figma"></i> Figma</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-notion"></i> Notion</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-trello"></i> Trello</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-bolt"></i> Zapier</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-link"></i> IFTTT</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-bitbucket"></i> Bitbucket</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-bug"></i> Sentry</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-chart-line"></i> Segment</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-user-lock"></i> Auth0</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-chart-simple"></i> Plausible</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-rocket"></i> Render</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-train"></i> Railway</span>
+      <span class="tech-ticker-item"><i class="fa-solid fa-plane"></i> Fly.io</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-discord"></i> Discord</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-dribbble"></i> Dribbble</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-stack-overflow"></i> Stack Overflow</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-android"></i> Android</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-firefox"></i> Firefox</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-chrome"></i> Chrome</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-edge"></i> Edge</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-vimeo"></i> Vimeo</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-dropbox"></i> Dropbox</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-skype"></i> Skype</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-aws"></i> AWS</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-raspberry-pi"></i> Raspberry Pi</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-ethereum"></i> Ethereum</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-bitcoin"></i> Bitcoin</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-figma"></i> Figma</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-telegram"></i> Telegram</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-weixin"></i> WeChat</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-whatsapp"></i> WhatsApp</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-yahoo"></i> Yahoo</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-tumblr"></i> Tumblr</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-medium"></i> Medium</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-quora"></i> Quora</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-wordpress"></i> WordPress</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-joomla"></i> Joomla</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-drupal"></i> Drupal</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-magento"></i> Magento</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-prestashop"></i> PrestaShop</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-android"></i> Android</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-apple"></i> iOS</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-waze"></i> Waze</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-slack"></i> Slack</span>
+      <span class="tech-ticker-item">
+        <svg class="icon-brand icon-zoom" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="#icon-zoom"></use>
+        </svg>
+        Zoom
+      </span>
+  <a class="tech-ticker-item" href="https://www.swank.com/" target="_blank" rel="noopener" aria-label="Visit Swank in a new tab"><i class="fa-solid fa-film"></i> Swank</a>
+      <span class="tech-ticker-item"><i class="fa-brands fa-telegram"></i> Telegram</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-signal"></i> Signal</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-viber"></i> Viber</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-snapchat"></i> Snapchat</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-twitch"></i> Twitch</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-steam"></i> Steam</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-spotify"></i> Spotify</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-soundcloud"></i> SoundCloud</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-mastodon"></i> Mastodon</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-apple-pay"></i> Apple Pay</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-google-pay"></i> Google Pay</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-venmo"></i> Venmo</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-creative-commons"></i> Creative Commons</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-osi"></i> OSI</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-free-code-camp"></i> freeCodeCamp</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-hackerrank"></i> HackerRank</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-codepen"></i> CodePen</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-js"></i> JavaScript</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-python"></i> Python</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-java"></i> Java</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-php"></i> PHP</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-rust"></i> Rust</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-golang"></i> Go</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-react"></i> React</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-angular"></i> Angular</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-vuejs"></i> Vue.js</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-node"></i> Node.js</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-docker"></i> Docker</span>
+      <span class="tech-ticker-item">
+        <svg class="icon-brand icon-kubernetes" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <use href="#icon-kubernetes"></use>
+        </svg>
+        Kubernetes
+      </span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-jenkins"></i> Jenkins</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-git"></i> Git</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-github"></i> GitHub</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-gitlab"></i> GitLab</span>
+      <span class="tech-ticker-item"><i class="fa-brands fa-bitbucket"></i> Bitbucket</span>
+    </div>
+  </div>
+
+
+  <main id="main">
+  <script>
+    (function(){
+  const PX_PER_SEC = 100;
+  const MIN_DURATION = 11;
+      const DRAG_THRESHOLD = 10;
+
+      const brandUrls = {
+        'Microsoft':'https://www.microsoft.com/',
+        'Google':'https://www.google.com/',
+        'Amazon':'https://www.amazon.com/',
+        'Meta':'https://about.meta.com/',
+        'X':'https://x.com/',
+        'GitHub':'https://github.com/',
+        'Docker':'https://www.docker.com/',
+        'Spotify':'https://spotify.com/',
+        'YouTube':'https://youtube.com/',
+        'Instagram':'https://instagram.com/',
+        'Uber':'https://uber.com/',
+        'TikTok':'https://www.tiktok.com/',
+        'Apple':'https://apple.com/',
+        'Linux':'https://kernel.org/',
+        'Windows':'https://www.microsoft.com/windows',
+        'IBM':'https://www.ibm.com/',
+        'Intel':'https://www.intel.com/',
+        'AMD':'https://www.amd.com/',
+        'Oracle':'https://www.oracle.com/',
+        'Cisco':'https://www.cisco.com/',
+        'Dell':'https://www.dell.com/',
+        'HP':'https://www.hp.com/',
+        'Salesforce':'https://www.salesforce.com/',
+        'Zoom':'https://zoom.us/',
+        'Slack':'https://slack.com/',
+        'Stripe':'https://stripe.com/',
+        'PayPal':'https://www.paypal.com/',
+        'eBay':'https://www.ebay.com/',
+        'Reddit':'https://www.reddit.com/',
+        'Pinterest':'https://www.pinterest.com/',
+        'LinkedIn':'https://www.linkedin.com/',
+        'Snapchat':'https://www.snapchat.com/',
+        'Shopify':'https://www.shopify.com/',
+        'Tesla':'https://www.tesla.com/',
+        'NVIDIA':'https://www.nvidia.com/',
+        'Netflix':'https://www.netflix.com/',
+        'GitLab':'https://gitlab.com/',
+        'DigitalOcean':'https://www.digitalocean.com/',
+        'Heroku':'https://www.heroku.com/',
+        'Vercel':'https://vercel.com/',
+        'Netlify':'https://www.netlify.com/',
+        'Linode':'https://www.linode.com/',
+        'Cloudflare':'https://www.cloudflare.com/',
+        'Proton':'https://proton.me/',
+        'Fastly':'https://www.fastly.com/',
+        'HashiCorp':'https://www.hashicorp.com/',
+        'MongoDB':'https://www.mongodb.com/',
+        'Elastic':'https://www.elastic.co/',
+        'Postman':'https://www.postman.com/',
+        'Figma':'https://www.figma.com/',
+        'Notion':'https://www.notion.so/',
+        'Trello':'https://trello.com/',
+        'Zapier':'https://zapier.com/',
+        'IFTTT':'https://ifttt.com/',
+        'Bitbucket':'https://bitbucket.org/',
+        'Sentry':'https://sentry.io/',
+        'Segment':'https://segment.com/',
+        'Auth0':'https://auth0.com/',
+        'Plausible':'https://plausible.io/',
+        'Render':'https://render.com/',
+        'Railway':'https://railway.app/',
+        'Fly.io':'https://fly.io/',
+        'Discord':'https://discord.com/',
+        'Dribbble':'https://dribbble.com/',
+        'Stack Overflow':'https://stackoverflow.com/',
+        'Android':'https://www.android.com/',
+        'Firefox':'https://www.mozilla.org/firefox/',
+        'Chrome':'https://www.google.com/chrome/',
+        'Edge':'https://www.microsoft.com/edge',
+        'Vimeo':'https://vimeo.com/',
+        'Dropbox':'https://dropbox.com/',
+        'Skype':'https://www.skype.com/',
+        'AWS':'https://aws.amazon.com/',
+        'Raspberry Pi':'https://www.raspberrypi.com/',
+        'Ethereum':'https://ethereum.org/',
+        'Bitcoin':'https://bitcoin.org/',
+        'Telegram':'https://telegram.org/',
+        'WeChat':'https://www.wechat.com/',
+        'WhatsApp':'https://www.whatsapp.com/',
+        'Yahoo':'https://www.yahoo.com/',
+        'Tumblr':'https://www.tumblr.com/',
+        'Medium':'https://medium.com/',
+        'Quora':'https://www.quora.com/',
+        'WordPress':'https://wordpress.org/',
+        'Joomla':'https://www.joomla.org/',
+        'Drupal':'https://www.drupal.org/',
+        'Magento':'https://magento.com/',
+        'PrestaShop':'https://www.prestashop.com/',
+        'iOS':'https://www.apple.com/ios/',
+        'Waze':'https://www.waze.com/',
+        'Signal':'https://signal.org/',
+        'Viber':'https://www.viber.com/',
+        'Twitch':'https://www.twitch.tv/',
+        'Steam':'https://store.steampowered.com/',
+        'SoundCloud':'https://soundcloud.com/',
+        'Mastodon':'https://joinmastodon.org/',
+        'Apple Pay':'https://www.apple.com/apple-pay/',
+        'Google Pay':'https://pay.google.com/',
+        'Venmo':'https://venmo.com/',
+        'Creative Commons':'https://creativecommons.org/',
+        'OSI':'https://opensource.org/',
+        'freeCodeCamp':'https://www.freecodecamp.org/',
+        'HackerRank':'https://www.hackerrank.com/',
+        'CodePen':'https://codepen.io/',
+        'JavaScript':'https://developer.mozilla.org/docs/Web/JavaScript',
+        'Python':'https://www.python.org/',
+        'Java':'https://www.java.com/',
+        'PHP':'https://www.php.net/',
+        'Rust':'https://www.rust-lang.org/',
+        'Go':'https://go.dev/',
+        'React':'https://react.dev/',
+        'Angular':'https://angular.dev/',
+        'Vue.js':'https://vuejs.org/',
+        'Node.js':'https://nodejs.org/',
+        'Kubernetes':'https://kubernetes.io/',
+        'Jenkins':'https://www.jenkins.io/',
+        'Git':'https://git-scm.com/'
+      };
+
+      let ticker;
+      let track;
+      let loopDistance = 0;
+  let dragging = false;
+  let dragActive = false;
+      let moved = false;
+      let startX = 0;
+      let baseX = 0;
+      let lastDragEnd = 0;
+      let resizeTimer = 0;
+  let setCount = 1;
+  let baseItems = [];
+
+      document.addEventListener('DOMContentLoaded', init);
+
+      function init(){
+        ticker = document.querySelector('.tech-ticker');
+        track = document.querySelector('.tech-ticker-track');
+        if(!ticker || !track) return;
+
+        prepareItems();
+  duplicateItems();
+        loopDistance = calculateLoopDistance();
+        bindEvents();
+        applyAnimation(0);
+
+        window.addEventListener('resize', scheduleRefresh, { passive: true });
+        window.addEventListener('load', refreshFromCurrent, { once: true });
+      }
+
+      function prepareItems(){
+        const originals = Array.from(track.children);
+        originals.forEach(function(el){
+          const name = (el.getAttribute('data-name') || el.textContent || '').trim();
+          if(name) el.setAttribute('data-name', name);
+          const url = brandUrls[name];
+          let target = el;
+          if(url && el.tagName !== 'A'){
+            const link = document.createElement('a');
+            link.className = el.className;
+            link.href = url;
+            link.target = '_blank';
+            link.rel = 'noopener';
+            link.setAttribute('data-name', name);
+            while(el.firstChild) link.appendChild(el.firstChild);
+            el.replaceWith(link);
+            target = link;
+          }
+          if(target.tagName !== 'A' && !target.hasAttribute('tabindex')) target.setAttribute('tabindex', '0');
+          target.setAttribute('role', 'link');
+        });
+      }
+
+      function duplicateItems(){
+        const originals = Array.from(track.children);
+        if(!originals.length) return;
+        baseItems = originals;
+        setCount = 1;
+        const frag = document.createDocumentFragment();
+        originals.forEach(function(node){
+          frag.appendChild(node.cloneNode(true));
+        });
+        track.appendChild(frag);
+        setCount += 1;
+        ensureCoverage();
+      }
+
+      function calculateLoopDistance(){
+        if(!track) return 0;
+        return track.scrollWidth / Math.max(1, setCount);
+      }
+
+      function applyAnimation(offsetPx){
+        loopDistance = calculateLoopDistance();
+        if(!loopDistance) return;
+        const normalized = normalizeOffset(offsetPx || 0);
+        const duration = Math.max(MIN_DURATION, loopDistance / PX_PER_SEC);
+        track.style.animation = 'none';
+        track.offsetWidth;
+        track.style.setProperty('--ticker-loop', `${loopDistance}px`);
+        track.style.animation = `ticker-scroll ${duration}s linear infinite`;
+        track.style.animationDelay = normalized ? `${-(normalized / loopDistance) * duration}s` : '0s';
+        track.style.animationPlayState = 'running';
+      }
+
+      function ensureCoverage(){
+        if(!ticker || !track || !baseItems.length) return;
+        const minWidth = ticker.offsetWidth * 2;
+        while(track.scrollWidth < minWidth){
+          const extraFrag = document.createDocumentFragment();
+          baseItems.forEach(function(node){
+            extraFrag.appendChild(node.cloneNode(true));
+          });
+          track.appendChild(extraFrag);
+          setCount += 1;
+        }
+      }
+
+      function normalizeOffset(px){
+        if(!loopDistance) return 0;
+        let remainder = px % loopDistance;
+        if(remainder < 0) remainder += loopDistance;
+        return remainder;
+      }
+
+      function refreshFromCurrent(){
+        if(!track) return;
+        ensureCoverage();
+        const current = -getCurrentTranslateX();
+        applyAnimation(current);
+      }
+
+      function scheduleRefresh(){
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(refreshFromCurrent, 150);
+      }
+
+      function bindEvents(){
+        ticker.setAttribute('tabindex', '0');
+        ticker.addEventListener('pointerdown', onPointerDown, { passive: false });
+        window.addEventListener('pointermove', onPointerMove, { passive: false });
+        window.addEventListener('pointerup', onPointerUp, { passive: false });
+        window.addEventListener('pointercancel', onPointerUp, { passive: false });
+
+        track.addEventListener('click', onTrackClick);
+        track.addEventListener('keydown', onItemKeyActivate);
+        ticker.addEventListener('keydown', onTickerKeyDown);
+
+        ticker.addEventListener('mouseenter', pauseTicker);
+        ticker.addEventListener('mouseleave', function(){ if(!dragging) resumeTicker(); });
+        ticker.addEventListener('focusin', pauseTicker);
+        ticker.addEventListener('focusout', function(){ if(!dragging) resumeTicker(); });
+
+        window.addEventListener('focus', function(){ ensureScrollRunning(3000); });
+        window.addEventListener('pageshow', function(){ ensureScrollRunning(3000); });
+        document.addEventListener('visibilitychange', function(){
+          if(document.visibilityState === 'visible') ensureScrollRunning(3000);
+        });
+      }
+
+      function onTrackClick(e){
+        if(dragActive || (Date.now() - lastDragEnd) < 80){
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+        const item = e.target.closest('.tech-ticker-item');
+        if(!item) return;
+        ensureScrollRunning(3000);
+        if(item.tagName === 'A' && item.getAttribute('href')) return;
+        const name = (item.getAttribute('data-name') || item.textContent || '').trim();
+        const url = brandUrls[name];
+        if(url){
+          e.preventDefault();
+          e.stopPropagation();
+          openURL(url);
+        }
+      }
+
+      function onItemKeyActivate(e){
+        if(e.key !== 'Enter' && e.key !== ' ') return;
+        const item = e.target.closest('.tech-ticker-item');
+        if(!item) return;
+        ensureScrollRunning(3000);
+        const isAnchor = item.tagName === 'A' && item.getAttribute('href');
+        if(isAnchor){
+          if(e.key === ' '){
+            e.preventDefault();
+            item.click();
+          }
+          return;
+        }
+        const name = (item.getAttribute('data-name') || '').trim();
+        const url = brandUrls[name];
+        if(url){
+          e.preventDefault();
+          openURL(url);
+        }
+      }
+
+      function onTickerKeyDown(e){
+        if(e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+        const current = getCurrentTranslateX();
+        const next = current + (e.key === 'ArrowLeft' ? 40 : -40);
+        track.style.transform = `translateX(${next}px)`;
+        applyAnimation(-next);
+        track.style.transform = '';
+        e.preventDefault();
+      }
+
+      function onPointerDown(e){
+        if(e.pointerType === 'mouse' && e.button !== 0) return;
+        dragging = true;
+        moved = false;
+        startX = e.clientX;
+        ticker.classList.add('dragging');
+      }
+
+      function onPointerMove(e){
+        if(!dragging) return;
+        const dx = e.clientX - startX;
+        const absdx = Math.abs(dx);
+        if(!moved && absdx <= DRAG_THRESHOLD) return;
+        if(!moved){
+          baseX = getCurrentTranslateX();
+          startX = e.clientX;
+          moved = true;
+          dragActive = true;
+          track.style.animation = 'none';
+          track.style.transform = `translateX(${baseX}px)`;
+        }
+        track.style.transform = `translateX(${baseX + dx}px)`;
+        e.preventDefault();
+      }
+
+      function onPointerUp(){
+        if(!dragging) return;
+        dragging = false;
+        ticker.classList.remove('dragging');
+        if(moved){
+          const finalX = getCurrentTranslateX();
+          track.style.transform = '';
+          dragActive = false;
+          lastDragEnd = Date.now();
+          moved = false;
+          applyAnimation(-finalX);
+        } else {
+          dragActive = false;
+          track.style.transform = '';
+          resumeTicker();
+        }
+      }
+
+      function pauseTicker(){
+        track.style.animationPlayState = 'paused';
+      }
+
+      function resumeTicker(){
+        track.style.animationPlayState = 'running';
+      }
+
+      function openURL(url){
+        try{
+          const a = document.createElement('a');
+          a.href = url;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          a.style.display = 'none';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          return;
+        }catch(_e){}
+        try{
+          const win = window.open(url, '_blank', 'noopener');
+          if(!win){ window.location.href = url; }
+        }catch(_e2){
+          window.location.href = url;
+        }
+      }
+
+      function getCurrentTranslateX(){
+        const cs = getComputedStyle(track);
+        const matrix = cs.transform;
+        if(!matrix || matrix === 'none') return 0;
+        const match3d = matrix.match(/matrix3d\(([^)]+)\)/);
+        if(match3d){
+          const parts = match3d[1].split(',').map(parseFloat);
+          return parts[12] || 0;
+        }
+        const match2d = matrix.match(/matrix\(([^)]+)\)/);
+        if(match2d){
+          const parts = match2d[1].split(',').map(parseFloat);
+          return parts[4] || 0;
+        }
+        return 0;
+      }
+
+      function ensureScrollRunning(ms){
+        try{
+          const dur = typeof ms === 'number' ? ms : 3000;
+          ticker.classList.add('force-run');
+          ticker.classList.add('hover-suspended');
+          resumeTicker();
+          setTimeout(function(){ ticker.classList.remove('force-run'); }, dur);
+          const clearHoverSuspended = function(){
+            ticker.classList.remove('hover-suspended');
+            window.removeEventListener('mousemove', clearHoverSuspended);
+          };
+          window.addEventListener('mousemove', clearHoverSuspended, { once: true });
+        }catch(_e){}
+      }
+    })();
+  </script>
+    <!-- Hero -->
+    <section id="home" class="section hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <div class="mini-brand">
+            <img src="images/logo.png" alt="logo" class="mini-logo" />
+            <a href="#services">I Computer Anything</a>
+          </div>
+          <h1>Bringing Practical IT & Web to Life</h1>
+          <p class="tagline">Systems Admin • Networking • Web Dev • Mobile/wireless network Connectivity</p>
+          <p class="mission">
+            I build clean, reliable websites and networks — from home-lab servers to live event Wi-Fi
+             across the DMV area.
+          </p>
+          <div class="cta-row">
+            <a class="btn" href="#projects">View Projects</a>
+            <a class="btn btn-ghost" href="#contact">Get in Touch</a>
+            <button id="liveChatBtn" class="btn btn-live" aria-label="Open Live Chat">Live Chat</button>
+          </div>
+        </div>
+        <div class="hero-card" aria-hidden="true">
+          <img class="avatar" src="images/profile.jpeg" alt="Ryan Davis" loading="lazy" decoding="async">
+            <ul class="hero-badges">
+              <li>
+                <svg class="icon-windows-quad" viewBox="0 0 24 24" width="22" height="22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                  <rect x="1" y="1" width="10" height="10" fill="#F25022"/>
+                  <rect x="13" y="1" width="10" height="10" fill="#7FBA00"/>
+                  <rect x="1" y="13" width="10" height="10" fill="#00A4EF"/>
+                  <rect x="13" y="13" width="10" height="10" fill="#FFB900"/>
+                </svg>
+                Windows
+              </li>
+              <li>
+                <svg class="icon-linux-tux" viewBox="0 0 24 24" width="22" height="22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                  <!-- Head -->
+                  <circle cx="12" cy="7.5" r="4.2" fill="#111"/>
+                  <!-- Face -->
+                  <ellipse cx="12" cy="8.3" rx="2.6" ry="2.2" fill="#fff"/>
+                  <!-- Eyes -->
+                  <circle cx="11" cy="7.8" r="0.45" fill="#111"/>
+                  <circle cx="13" cy="7.8" r="0.45" fill="#111"/>
+                  <!-- Beak -->
+                  <polygon points="12,8.9 10.9,10 13.1,10" fill="#FCC624"/>
+                  <!-- Body -->
+                  <ellipse cx="12" cy="14.2" rx="6" ry="7.2" fill="#111"/>
+                  <!-- Belly -->
+                  <ellipse cx="12" cy="15.3" rx="4.2" ry="5.2" fill="#fff"/>
+                  <!-- Feet -->
+                  <ellipse cx="9.2" cy="20.1" rx="2.1" ry="1.1" fill="#FCC624"/>
+                  <ellipse cx="14.8" cy="20.1" rx="2.1" ry="1.1" fill="#FCC624"/>
+                </svg>
+                Linux
+              </li>
+            <li><i class="fa-brands fa-apple"></i> macOS</li>
+            <li><i class="fa-solid fa-network-wired"></i> Networking</li>
+            <li><i class="fa-solid fa-code"></i> HTML • CSS • JS</li>
+          </ul>
+        </div>
+  <!--Start of Tawk.to Script-->
+  <!-- Replaced with lazy-load so chat stays hidden until clicked -->
+  <!--End of Tawk.to Script-->
+  <!-- Tawk widget will be lazy-loaded when the Live Chat button is pressed -->
+  <script>
+    window._tawk_loaded = window._tawk_loaded || false;
+    window._tawk_open_requested = window._tawk_open_requested || false;
+    document.addEventListener('DOMContentLoaded', function(){
+      var btn = document.getElementById('liveChatBtn');
+      if(!btn) return;
+      btn.addEventListener('click', function(){
+        if(typeof openLiveChat === 'function'){ openLiveChat(); return; }
+        if(!window._tawk_loaded){
+          window._tawk_loaded = true;
+          window._tawk_open_requested = true;
+          window.Tawk_API = window.Tawk_API || {};
+          var s1 = document.createElement('script'), s0 = document.getElementsByTagName('script')[0];
+          s1.async = true;
+          s1.src = 'https://embed.tawk.to/68c4b6410b3548192e8590fb/1j506fs5q';
+          s1.charset = 'UTF-8';
+          s1.setAttribute('crossorigin','*');
+          s1.onload = function(){
+            try{ if(typeof Tawk_API.hideWidget === 'function') Tawk_API.hideWidget(); }catch(e){}
+            try{
+              if(typeof Tawk_API.maximize === 'function') Tawk_API.maximize();
+              else if(typeof Tawk_API.toggle === 'function') Tawk_API.toggle();
+              else Tawk_API.showWidget && Tawk_API.showWidget();
+            }catch(e){}
+            window._tawk_open_requested = false;
+          };
+          s0.parentNode.insertBefore(s1, s0);
+        } else {
+          try{
+            if(typeof Tawk_API.maximize === 'function') Tawk_API.maximize();
+            else if(typeof Tawk_API.toggle === 'function') Tawk_API.toggle();
+            else Tawk_API.showWidget && Tawk_API.showWidget();
+          }catch(e){}
+        }
+      });
+    });
+  </script>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="section">
+      <div class="container">
+        <h2>Services</h2>
+        <p>Practical, hands-on services for home users and small businesses.</p>
+        <p class="service-instruction">Click a service card to request a quote — the chosen service will be pre-filled on the request form.</p>
+        <p class="service-note">A deposit / authorization hold may be required after consultation; an email payment link will be provided. Payments are processed via Square (major credit cards, Apple Pay, Google Pay).</p>
+
+        <div class="grid services-grid">
+          <a class="service-link" href="services-form.html?service=Home%20%26%20Small%20Business%20Network%20Setup" aria-label="Request Home and Small Business Network Setup service">
+            <article class="card service pulse-card">
+              <h3><i class="fa-solid fa-house-laptop"></i> Home & Small Business Network Setup</h3>
+              <p>Setup Wi‑Fi, configure routers and switches, secure networks, and optimize home offices for reliable remote work.</p>
+            </article>
+          </a>
+
+          <a class="service-link" href="services-form.html?service=Server%20%26%20Cloud%20Configuration" aria-label="Request Server and Cloud Configuration service">
+            <article class="card service pulse-card">
+              <h3>
+                <span style="display:inline-block;vertical-align:middle;">
+                  <i class="fa-solid fa-server" style="color:#3b82f6;"></i>
+                  <i class="fa-solid fa-cloud" style="color:#ffd700;position:relative;left:-10px;top:2px;"></i>
+                </span>
+                Server & Cloud Configuration
+              </h3>
+              <p>Install and configure Windows Server, Ubuntu, or Debian systems; set up VMs, cloud storage, and migrations to more robust infrastructure.</p>
+            </article>
+          </a>
+
+          <a class="service-link" href="services-form.html?service=IT%20Support%20%26%20Troubleshooting" aria-label="Request IT Support and Troubleshooting service">
+            <article class="card service pulse-card">
+              <h3><i class="fa-solid fa-headset"></i> IT Support & Troubleshooting</h3>
+              <p>On‑call and scheduled support for PCs, networks, and software—remote assistance or local visits for hands‑on fixes.</p>
+            </article>
+          </a>
+
+          <a class="service-link" href="services-form.html?service=Custom%20Website%20%26%20App%20Development" aria-label="Request Custom Website and App Development service">
+            <article class="card service pulse-card">
+              <h3><i class="fa-solid fa-code"></i> Custom Website & App Development</h3>
+              <p>Custom websites and simple apps for small businesses: clean, responsive design and practical functionality to get you online fast.</p>
+            </article>
+          </a>
+
+          <a class="service-link" href="services-form.html?service=Cybersecurity%20Consulting" aria-label="Request Cybersecurity Consulting service">
+            <article class="card service pulse-card">
+              <h3><i class="fa-solid fa-shield-halved"></i> Cybersecurity Consulting</h3>
+              <p>Security audits, firewall setup, and practical advice to protect small business networks and data—reducing risk with affordable, actionable changes.</p>
+            </article>
+          </a>
+
+          <a class="service-link" href="services-form.html?service=Data%20Backup%20%26%20Recovery" aria-label="Request Data Backup and Recovery service">
+            <article class="card service pulse-card">
+              <h3><i class="fa-solid fa-cloud-arrow-up"></i> Data Backup & Recovery</h3>
+              <p>Design and deploy automated backup systems (cloud or local) and provide fast recovery services so clients can restore lost data when needed.</p>
+            </article>
+          </a>
+
+          <a class="service-link" href="services-form.html?service=Hardware%20Installation%20%26%20Upgrades" aria-label="Request Hardware Installation and Upgrades service">
+            <article class="card service pulse-card">
+              <h3><i class="fa-solid fa-screwdriver-wrench"></i> Hardware Installation & Upgrades</h3>
+              <p>PC upgrades, new workstation builds, hardware installs, and troubleshooting — on-site or remote depending on the client and location.</p>
+            </article>
+          </a>
+
+          <a class="service-link" href="services-form.html?service=Managed%20IT%20Services%20for%20Small%20Businesses" aria-label="Request Managed IT Services for Small Businesses">
+            <article class="card service pulse-card">
+              <h3><i class="fa-solid fa-briefcase"></i> Managed IT Services for Small Businesses</h3>
+              <p>Ongoing IT maintenance, monitoring, and support packages for small businesses that need reliable, outsourced IT without a full-time staff.</p>
+            </article>
+          </a>
+
+          <a class="service-link" href="servers.html" aria-label="See Small Business Servers">
+            <article class="card service pulse-card">
+              <h3><i class="fa-solid fa-database" style="color:#ffb347;text-shadow:0 0 16px #ffb347,0 0 2px #fff;"></i> Small Business Servers</h3>
+              <p>“A server is just a well-configured PC that keeps your files, backups, and users in one safe place.”</p>
+              <ul style="list-style:none;padding:0;margin:0 0 0.7rem 0;font-size:1rem;line-height:1.5;">
+                <li>Central place for files & backups</li>
+                <li>Easy logins for your team</li>
+                <li>Remote access when you’re away</li>
+                <li>Grows with your business</li>
+                <li>Cheaper than paying big companies to host your site</li>
+              </ul>
+              <span class="glow-link pulse-glow" style="cursor:pointer;color:#222;font-weight:700;text-decoration:none;display:inline-block;margin-top:.2rem;font-size:1.08rem;letter-spacing:.5px;background:linear-gradient(90deg,#ffb347 0%,#fffbe6 100%);box-shadow:0 0 18px #ffb347,0 0 2px #fff;border-radius:8px;padding:.18em .7em;">
+                See systems & pricing &rarr;
+              </span>
+            </article>
+          </a>
+
+          <!-- Re-inserted: Event Tech Deployment service card -->
+          <a class="service-link" href="services-form.html?service=Event%20Tech%20Deployment" aria-label="Request Event Tech Deployment service">
+            <article class="card service pulse-card slide-in">
+              <h3>
+                <i class="fa-solid fa-broadcast-tower" style="color:#5cc8ff;text-shadow:0 0 10px rgba(92,200,255,.18);margin-right:.5rem;"></i>
+                Event Tech Deployment
+              </h3>
+              <p>Need tech at your event? We deliver on-site AV, networking, and live-support so your event runs smoothly.</p>
+              <ul style="list-style:none;padding:0;margin:0 0 0.7rem 0;font-size:1rem;line-height:1.5;">
+                <li><i class="fa-solid fa-video" style="color:#87ffa1;width:1.2em;margin-right:.6rem;"></i>Projector & AV setup (screens, sound, mics)</li>
+                <li><i class="fa-solid fa-wifi" style="color:#5cc8ff;width:1.2em;margin-right:.6rem;"></i>On-site Wi‑Fi provisioning & network optimization</li>
+                <li><i class="fa-solid fa-camera-retro" style="color:#ffd36b;width:1.2em;margin-right:.6rem;"></i>Live streaming, recording, and A/V monitoring</li>
+                <li><i class="fa-solid fa-box-open" style="color:#ff9aa2;width:1.2em;margin-right:.6rem;"></i>Equipment coordination & short-term rentals</li>
+                <li><i class="fa-solid fa-clock" style="color:#c7a7ff;width:1.2em;margin-right:.6rem;"></i>Fast setup & teardown with on-site support</li>
+              </ul>
+            </article>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2>About Me</h2>
+        <p>
+          I’m Ryan Davis — an IT student and hands‑on technologist based in the DMV area (30mile radius). I turn ideas into working technology quickly and reliably. I run projects like <strong>Triple C Emergency Charging Services</strong> (mobile EV charging and connectivity) and <strong>I Computer Anything</strong>, and I maintain a home‑lab data center where I host sites, configure servers, and test new tools. I specialize in network setup, server and cloud configuration, and practical web/app development — I learn by building and enjoy taking projects from concept to deployment.
+        </p>
+        <ul class="about-highlights">
+          <li><i class="fa-solid fa-bolt"></i> Quick prototypes, solid foundations</li>
+          <li><i class="fa-solid fa-shield-halved"></i> Practical security & reliability</li>
+          <li><i class="fa-solid fa-people-group"></i> Clear communication with clients</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="section section-alt">
+      <div class="container">
+        <h2>Skills</h2>
+        <div class="grid skills-grid">
+          <article class="card">
+            <h3><i class="fa-brands fa-html5"></i> Web</h3>
+            <p>HTML, CSS, JavaScript, responsive layouts, accessibility, basic SEO.</p>
+          </article>
+          <article class="card">
+            <h3><i class="fa-solid fa-network-wired"></i> Networking</h3>
+            <p>OS and Server deployment TCP/IP, DNS/DHCP, routing basics, VPN (WireGuard), remote access.</p>
+          </article>
+          <article class="card">
+            <h3><i class="fa-solid fa-server"></i> Systems</h3>
+            <p>Windows Server 2025, Debian/Ubuntu, Samba/SMB shares, IIS/Apache basics.</p>
+          </article>
+          <article class="card">
+            <h3><i class="fa-solid fa-cloud"></i> Deploy</h3>
+            <p>Git/GitHub, GitHub Pages, environment setup, troubleshooting.</p>
+          </article>
+          <article class="card">
+            <h3><i class="fa-solid fa-headset"></i> Help Desk</h3>
+            <p>Experience with support ticket systems, troubleshooting hardware/software, and resolving end-user issues.</p>
+          </article>
+          <article class="card">
+            <h3><i class="fa-solid fa-screwdriver-wrench"></i> A+ Technician</h3>
+            <p>Hands-on skills aligned with CompTIA A+ — PC repair, operating systems, and customer-facing technical support.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="section">
+      <div class="container">
+        <h2><i class="fa-solid fa-briefcase"></i> EXPERIENCE</h2>
+        <div class="grid skills-grid">
+          <article class="card">
+            <h3><i class="fa-solid fa-tower-broadcast"></i> Comcast Cable Tech</h3>
+            <p>
+              Installed and troubleshot broadband cable, modems, and in-home networks. 
+              Helped customers get reliable connectivity while learning real-world networking.
+            </p>
+          </article>
+          <article class="card">
+            <h3><i class="fa-solid fa-satellite-dish"></i> DirecTV Satellite Tech</h3>
+            <p>
+              Mounted and configured satellite dishes, aligned signals, and ensured stable TV/Internet service. 
+              Specialized in difficult installs and resolving interference issues.
+            </p>
+          </article>
+          <article class="card">
+            <h3><i class="fa-solid fa-network-wired"></i> Junior Network Admin (Goodwill)</h3>
+            <p>
+              Volunteered as a Junior Network Admin, managing small-scale networks, Active Directory basics, and 
+              hands-on troubleshooting for staff and equipment.
+            </p>
+          </article>
+          <article class="card">
+            <h3><i class="fa-solid fa-envelope"></i> USPS</h3>
+            <p>
+              Current role at the United States Postal Service. Strong focus on reliability, service, and 
+              balancing work with ongoing IT studies.
+            </p>
+          </article>
+          <article class="card">
+            <h3><i class="fa-solid fa-server"></i> Home Lab / Data Center</h3>
+            <p>
+              Maintain multiple Windows Server and Linux machines for web hosting, file sharing, and 
+              network experimentation. Hands-on experience with server admin, Samba shares, and remote access.
+            </p>
+          </article>
+          <article class="card">
+            <h3><i class="fa-solid fa-circle-check"></i> Goodwill Junior Network / Help Desk</h3>
+            <p>
+              Volunteered as a Junior Network Admin and A+ Tech. Supported staff through a help desk
+              ticketing system, diagnosing and resolving hardware/software issues, configuring user
+              accounts, and maintaining small office networks. Strengthened troubleshooting and
+              customer service skills.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2>Projects</h2>
+
+        <div class="grid projects-grid">
+          <article class="card project">
+            <div class="pill"><i class="fa-solid fa-bolt"></i> Featured</div>
+            <h3>Triple C — Emergency Charging</h3>
+            <p>A landing page & dispatch concept for on-demand EV charging and roadside help.</p>
+            <div class="links">
+              <a class="btn" href="https://redavi19-asu.github.io/Triple-C/" target="_blank" rel="noopener">Live Demo</a>
+              <a class="btn btn-outline" href="https://github.com/redavi19-asu" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
+
+            <!-- AI-Powered Tech Solutions Card -->
+            <article class="card project ai-card">
+              <div class="pill" style="background:rgba(92,200,255,.14);border:1px solid rgba(92,200,255,.28);color:#5cc8ff;"><i class="fa-solid fa-robot"></i> AI Solutions</div>
+              <h3>AI-Powered Tech Solutions</h3>
+              <p class="tagline" style="color:#5cc8ff;font-weight:600;">Smarter, Faster IT & Web Services with AI</p>
+              <ul style="margin:0 0 0.7rem 1.2rem;padding:0;list-style:none;font-size:1rem;line-height:1.5;">
+                <li><i class="fa-solid fa-bolt" style="color:#5cc8ff;"></i> Rapid troubleshooting & problem solving</li>
+                <li><i class="fa-solid fa-robot" style="color:#87ffa1;"></i> AI chatbot & automation setup</li>
+                <li><i class="fa-solid fa-laptop-code" style="color:#5cc8ff;"></i> AI-assisted web & app development</li>
+                <li><i class="fa-solid fa-chart-line" style="color:#87ffa1;"></i> Data analysis & smart business tools</li>
+                <li><i class="fa-solid fa-comments" style="color:#5cc8ff;"></i> Real-time support powered by AI</li>
+              </ul>
+              <p style="color:#a8b3c7;font-size:.98rem;margin-bottom:0;">Combining real experience with cutting-edge AI tools</p>
+            </article>
+
+          <!-- Video card (#2) -->
+          <article class="card project video-card" onclick="openVideo()">
+            <div class="video-thumb bg-thumb" style="background-image:url('images/project-thumbnail.jpg');">
+              <div class="overlay">
+                <h3>Portable Event Wi‑Fi</h3>
+                <ul class="promo-list">
+                  <li>High-speed Wi‑Fi anywhere — even in places with no signal.</li>
+                  <li>Reliable internet off the grid: weddings, festivals, job sites, and more.</li>
+                  <li>Bring the connection with you — perfect for remote events and gatherings.</li>
+                  <li>Professional-grade Wi‑Fi on demand, wherever your work takes you.</li>
+                  <li>Stay connected when it matters most — portable Wi‑Fi for any situation.</li>
+                </ul>
+                <span class="play-btn" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project">
+          <div class="service-card">
+            <h3>I Computer Anything</h3>
+            <p>Fast, Reliable Tech Help for Home & Small Business</p>
+            <ul style="list-style:none;padding:0;margin:0 0 0.7rem 0;font-size:1rem;line-height:1.5;">
+              <li><i class="fa-solid fa-desktop" style="color:#5cc8ff;"></i> PC & Laptop Repair</li>
+              <li><i class="fa-solid fa-network-wired" style="color:#87ffa1;"></i> Network Setup & Security</li>
+              <li><i class="fa-solid fa-shield-halved" style="color:#5cc8ff;"></i> Virus Removal</li>
+              <li><i class="fa-solid fa-globe" style="color:#87ffa1;"></i> Custom Websites</li>
+            </ul>
+            <p>Local DMV Tech Expert • Affordable Flat-Rate Pricing</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section section-alt">
+      <div class="container">
+        <h2>Contact</h2>
+        <p>Want to collaborate or have a project in mind? Reach out:</p>
+        <ul class="contact-list">
+          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:redavi19@asu.edu">redavi19@asu.edu</a></li>
+          <li><i class="fa-brands fa-github"></i> <a href="https://github.com/redavi19-asu" target="_blank" rel="noopener">github.com/redavi19-asu</a></li>
+          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:ryanedavis@gmail.com">ryanedavis@gmail.com</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Reflection (included so it shows in your PDF) -->
+    <section id="reflection" class="section section-alt">
+      <div class="container">
+        <h2>Reflection</h2>
+
+        <h3>BUILDING WEBSITES WITH AI</h3>
+        <p>
+          Using AI helped me move faster on layout ideas, semantic HTML, and CSS structure. I still made the key
+          decisions—section order, copy, and how to present my real projects like Triple C and Portable Event Wi-Fi.
+          I also focused on accessibility (skip link, headings, contrast) and responsiveness. The main learning for me
+          was how small details (spacing, icon accents, mobile nav) make a site feel professional. Going forward I’ll
+          use AI for brainstorming and troubleshooting while I deepen fundamentals in CSS and JavaScript.
+        </p>
+
+  <h3>TECHNOLOGY. WE LOVE IT.</h3>
+          <p>
+            Technology has transformed our world from the earliest mechanical inventions to today’s intelligent digital systems. In the past, innovations like the printing press, telegraph, and steam engine revolutionized communication and industry. The 20th century brought rapid advances—radio, television, and the first computers changed how people lived and worked.
+          </p>
+          <p>
+            In recent decades, the rise of the internet, mobile devices, and cloud computing has connected billions and made information instantly accessible. Today, artificial intelligence and automation are shaping the future, making technology more adaptive and powerful than ever. Each era builds on the last, driving progress and opening new possibilities for how we learn, create, and connect.
+          </p>
+
+  <h3>MY MISSION</h3>
+          <p>
+            My mission is to build something great with others—starting a business, growing together, and turning good ideas into real success. If you have a vision or want to become an owner, let’s connect and make it happen. Every strong business begins with a good idea and the drive to see it through.
+          </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Ryan Davis • Built with HTML, CSS & a dash of JS</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+
+  <script>
+  (function(){
+    var brands = [
+      {icon:'fa-brands fa-apple', name:'Apple'},
+      {icon:'fa-brands fa-microsoft', name:'Microsoft'},
+      {icon:'fa-brands fa-google', name:'Google'},
+      {icon:'fa-brands fa-amazon', name:'Amazon'},
+      {icon:'fa-brands fa-meta', name:'Meta'},
+        {icon:'fa-brands fa-x-twitter', name:'X'},
+      {icon:'fa-brands fa-github', name:'GitHub'},
+      {icon:'fa-brands fa-docker', name:'Docker'},
+      {icon:'fa-brands fa-spotify', name:'Spotify'},
+      {icon:'fa-brands fa-youtube', name:'YouTube'},
+      {icon:'fa-brands fa-instagram', name:'Instagram'},
+    {icon:'fa-brands fa-uber', name:'Uber'},
+    {icon:'fa-brands fa-tiktok', name:'TikTok'},
+    {symbol:'icon-ibm', name:'IBM'},
+    {symbol:'icon-intel', name:'Intel'},
+    {symbol:'icon-amd', name:'AMD'},
+    {symbol:'icon-oracle', name:'Oracle'},
+  {icon:'fa-solid fa-network-wired', name:'Cisco'},
+  {symbol:'icon-dell', name:'Dell'},
+  {symbol:'icon-hp', name:'HP'},
+    {icon:'fa-brands fa-salesforce', name:'Salesforce'},
+    {symbol:'icon-zoom', name:'Zoom'},
+      {icon:'fa-brands fa-slack', name:'Slack'},
+      {icon:'fa-brands fa-stripe', name:'Stripe'},
+      {icon:'fa-brands fa-paypal', name:'PayPal'},
+      {icon:'fa-brands fa-ebay', name:'eBay'},
+      {icon:'fa-brands fa-reddit', name:'Reddit'},
+      {icon:'fa-brands fa-pinterest', name:'Pinterest'},
+      {icon:'fa-brands fa-linkedin', name:'LinkedIn'},
+      {icon:'fa-brands fa-snapchat', name:'Snapchat'},
+  {icon:'fa-brands fa-shopify', name:'Shopify'},
+      // smaller / indie / cloud-native brands
+      {icon:'fa-brands fa-gitlab', name:'GitLab'},
+      {icon:'fa-solid fa-cloud', name:'DigitalOcean'},
+      {icon:'fa-solid fa-cloud', name:'Heroku'},
+      {icon:'fa-solid fa-v', name:'Vercel'},
+      {icon:'fa-solid fa-water', name:'Netlify'},
+      {icon:'fa-solid fa-server', name:'Linode'},
+      {icon:'fa-solid fa-cloud', name:'Cloudflare'},
+      {icon:'fa-solid fa-shield', name:'Proton'},
+      {icon:'fa-solid fa-bolt', name:'Fastly'},
+      {icon:'fa-solid fa-hashtag', name:'HashiCorp'},
+      {icon:'fa-solid fa-database', name:'MongoDB'},
+      {icon:'fa-solid fa-search', name:'Elastic'},
+      {icon:'fa-solid fa-envelope', name:'Postman'},
+      {icon:'fa-brands fa-figma', name:'Figma'},
+      {icon:'fa-brands fa-notion', name:'Notion'},
+      {icon:'fa-brands fa-trello', name:'Trello'},
+      {icon:'fa-solid fa-bolt', name:'Zapier'},
+      {icon:'fa-solid fa-link', name:'IFTTT'},
+      {icon:'fa-brands fa-bitbucket', name:'Bitbucket'},
+      {icon:'fa-solid fa-bug', name:'Sentry'},
+      {icon:'fa-solid fa-chart-line', name:'Segment'},
+      {icon:'fa-solid fa-user-lock', name:'Auth0'},
+      {icon:'fa-solid fa-chart-simple', name:'Plausible'},
+      {icon:'fa-solid fa-rocket', name:'Render'},
+      {icon:'fa-solid fa-train', name:'Railway'},
+      {icon:'fa-solid fa-plane', name:'Fly.io'}
+    ];
+  var track = document.querySelector('.logo-track');
+  if(!track) return;
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var xlinkNS = 'http://www.w3.org/1999/xlink';
+
+    function initialsFor(name){ return (name||'').split(/\s+/).map(function(w){return w[0]||'';}).join('').slice(0,2).toUpperCase(); }
+
+    function makeItem(b){
+      var el = document.createElement('div'); el.className = 'logo-item';
+      var iconWrap = document.createElement('span'); iconWrap.className = 'icon-wrap';
+
+      var iconNode;
+      if(b && b.symbol){
+        iconNode = document.createElementNS(svgNS, 'svg');
+        iconNode.classList.add('logo-svg');
+        iconNode.setAttribute('aria-hidden','true');
+        iconNode.setAttribute('focusable','false');
+        iconNode.setAttribute('viewBox','0 0 24 24');
+        var use = document.createElementNS(svgNS, 'use');
+        use.setAttribute('href', '#' + b.symbol);
+        if(use.setAttributeNS){ use.setAttributeNS(xlinkNS, 'xlink:href', '#' + b.symbol); }
+        iconNode.appendChild(use);
+      } else {
+        iconNode = document.createElement('i');
+        iconNode.className = b.icon || '';
+        iconNode.setAttribute('aria-hidden','true');
+      }
+
+      var badge = document.createElement('span'); badge.className = 'logo-badge'; badge.textContent = initialsFor(b.name);
+      // Hide badge by default, show only if icon fails
+      badge.style.display = 'none';
+
+      iconWrap.appendChild(iconNode);
+      iconWrap.appendChild(badge);
+
+      var lname = document.createElement('div'); lname.className = 'lname'; lname.textContent = b.name;
+      el.appendChild(iconWrap);
+      el.appendChild(lname);
+
+      // After inserted into DOM, test if the icon rendered; if not, show the initials badge as fallback
+      requestAnimationFrame(function(){
+        if(b && b.symbol){
+          badge.style.display = 'none';
+          iconNode.style.display = '';
+          return;
+        }
+        var iconVisible = iconNode.offsetWidth > 8 || iconNode.getBoundingClientRect().width > 8;
+        if(iconVisible){ badge.style.display = 'none'; iconNode.style.display = ''; }
+        else { iconNode.style.display = 'none'; badge.style.display = 'inline-flex'; }
+      });
+
+      return el;
+    }
+
+    // append initial items
+    brands.forEach(function(b){ track.appendChild(makeItem(b)); });
+
+    // duplicate until the track is at least twice the region width to ensure a smooth -50% translate
+    var region = document.querySelector('.logo-scroller');
+    function duplicateOnce(){ brands.forEach(function(b){ track.appendChild(makeItem(b)); }); }
+
+    // Duplicate enough items to ensure seamless continuous scroll
+    function ensureLongEnough(){
+      var regionWidth = region ? region.clientWidth : document.documentElement.clientWidth;
+      var iterations = 0;
+      var multiplier = (window.innerWidth || document.documentElement.clientWidth) < 640 ? 4 : 4;
+      // On mobile, fill to at least 4x width for buffer
+      while(track.scrollWidth < regionWidth * multiplier && iterations < 20){
+        duplicateOnce(); iterations++;
+      }
+    }
+
+    // Calculate a smooth animation duration (px/sec) to avoid perceptible jumps
+    function setAnimationSpeed(pxPerSecond){
+      // distance the animation moves is half the track's width (we translateX(-50%))
+      var distance = track.scrollWidth / 2;
+      var duration = Math.max(6, Math.round(distance / (pxPerSecond || 100))); // at least 6s
+      track.style.animation = 'logo-scroll ' + duration + 's linear infinite';
+    }
+
+    // Run measurement after a paint so sizes reflect rendered icons/text
+    requestAnimationFrame(function(){
+      ensureLongEnough();
+      // allow a short delay for fonts/icons to settle then set animation
+      setTimeout(function(){
+  // on narrow screens use a higher px/sec so it feels faster
+  var isNarrow = (window.innerWidth || document.documentElement.clientWidth) < 640;
+  // a little faster: mobile ~120 px/s, desktop ~360 px/s
+  setAnimationSpeed(isNarrow ? 120 : 360);
+      }, 120);
+    });
+
+  // Continuous scroll: do not pause on hover, focus, touch, or keypress.
+  // The marquee runs continuously and will not be stopped by user interaction.
+  })();
+  </script>
+
+  <!-- Video Modal -->
+  <div id="videoModal" class="modal" aria-hidden="true">
+    <span class="close" onclick="closeVideo()" aria-label="Close video">×</span>
+    <video id="projectVideo" controls>
+      <source src="videosproject.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</body>
+</html>

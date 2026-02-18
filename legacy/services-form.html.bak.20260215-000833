@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6N1Y3E0TZK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-6N1Y3E0TZK');
+  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Request Service — Contact</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Return to the home page">
+        <span class="brand-logo">⚡</span>
+        <span class="brand-text">RYAN E DAVIS</span>
+        <span class="brand-return">Back to Home</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container" style="padding:3rem 0;">
+    <nav class="form-nav" aria-label="Form navigation">
+      <a class="btn btn-ghost" href="index.html#services" aria-label="Go back to the services section on the home page">&larr; Back to Services</a>
+    </nav>
+    <h1 id="service-title">Request Service</h1>
+    <p id="service-desc">Please provide some details so I can follow up.</p>
+
+    <form id="contact-form" style="max-width:720px;">
+      <input type="hidden" name="service" id="service-input" value="">
+
+      <input name="name" placeholder="Your name" required style="width:100%; padding:.6rem; margin:.35rem 0 1rem;">
+      <input type="email" name="email" placeholder="Your email" required style="width:100%; padding:.6rem; margin:.35rem 0 1rem;">
+      <input name="phone" placeholder="Phone (optional)" style="width:100%; padding:.6rem; margin:.35rem 0 1rem;">
+      <textarea name="message" placeholder="Describe your needs" required rows="6" style="width:100%; padding:.6rem; margin:.35rem 0 1rem;"></textarea>
+
+      <button class="btn" type="submit">Send</button>
+    </form>
+  <p class="payment-info">After consultation you may be asked to approve a deposit; a secure Square payment link will be emailed to you (accepts major cards, Apple Pay, Google Pay).</p>
+  </main>
+
+  <script>
+    // read ?service= param and fill the form
+    const params = new URLSearchParams(window.location.search);
+    const svc = params.get('service');
+    if (svc) {
+      const decoded = decodeURIComponent(svc);
+      document.getElementById('service-title').textContent = `Request: ${decoded}`;
+      document.getElementById('service-desc').textContent = `You're requesting information about: ${decoded}. Please fill in contact details and a short description of your needs.`;
+      document.getElementById('service-input').value = decoded;
+    }
+
+  // Web app URL
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwrQT9Z54IEEtk4PIMmA5fR52dFFdZoXt1cyVna5xj2lf9nfgu8lP9Ry22k9YDrnwKs/exec';
+
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      // ensure the hidden service input is set
+      document.getElementById('service-input').value = document.getElementById('service-input').value || svc || '';
+
+      const data = new URLSearchParams(new FormData(form));
+
+      try {
+        const res = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: data
+        });
+        const json = await res.json();
+        alert(json.ok ? 'Message sent!' : 'Error: ' + (json.error || res.statusText));
+        if (json.ok) form.reset();
+      } catch (err) {
+        alert('Network error: ' + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
