@@ -82,6 +82,7 @@ function AppClean() {
         <nav className={menuOpen ? "ica-links is-open" : "ica-links"}>
           <a href="#services" onClick={closeMenu}>Services</a>
           <a href="#software" onClick={closeMenu}>Software</a>
+          <a href="#pricing" onClick={closeMenu}>Software Pricing</a>
           <a href="#work" onClick={closeMenu}>Work</a>
           <a href="#about" onClick={closeMenu}>About</a>
           <a className="ica-nav-cta" href="#contact" onClick={closeMenu}>Start a Project</a>
@@ -159,6 +160,7 @@ function AppClean() {
               </div>
               <div className="ica-actions">
                 <a className="ica-button ica-button-primary" href={DISPATCH_URL} target="_blank" rel="noreferrer">View DispatchOS</a>
+                <a className="ica-button ica-button-secondary" href="#pricing">View Software Pricing</a>
                 <a className="ica-button ica-button-secondary" href="#contact">Need a custom version?</a>
               </div>
             </div>
@@ -177,9 +179,75 @@ function AppClean() {
           </article>
         </section>
 
+        <section className="ica-section ica-pricing-section" id="pricing">
+          <div className="ica-section-heading">
+            <span>03 / SOFTWARE PRICING</span>
+            <h2>Custom software priced by scope, not guesswork.</h2>
+            <p>
+              These are professional planning ranges for custom software projects. Final quotes are based on features, platforms, integrations, security, deployment, and ownership requirements.
+            </p>
+          </div>
+
+          <div className="ica-pricing-grid">
+            {[
+              {
+                title: "Starter Custom App",
+                price: "$3,500–$6,000",
+                text: "A focused branded application with a clean customer-facing workflow.",
+                items: ["Single core workflow", "Business branding", "Responsive interface", "Basic forms + data"],
+              },
+              {
+                title: "Business App",
+                price: "$7,500–$12,000",
+                text: "A multi-feature business application prepared for mobile deployment.",
+                items: ["Multiple workflows", "User accounts", "Notifications", "App-store-ready build"],
+              },
+              {
+                title: "App + Backend + Dashboard",
+                price: "$10,000–$18,000",
+                text: "A complete software system connecting users, backend services, and management tools.",
+                items: ["Secure authentication", "Cloud/backend services", "Admin dashboard", "API integrations"],
+                featured: true,
+              },
+              {
+                title: "Advanced Custom Software",
+                price: "$15,000–$30,000+",
+                text: "Operational software with advanced workflows, automation, media, or real-time features.",
+                items: ["Complex workflows", "Desktop + mobile options", "Real-time functionality", "Custom integrations"],
+              },
+              {
+                title: "Operations / Logistics Platform",
+                price: "$20,000–$40,000+",
+                text: "Larger business platforms for dispatch, routing, drivers, customers, tracking, and proof-of-service workflows.",
+                items: ["Multi-role dashboards", "Live operational data", "Driver/mobile workflows", "Custom business logic"],
+              },
+            ].map((plan) => (
+              <article className={plan.featured ? "ica-price-card featured" : "ica-price-card"} key={plan.title}>
+                <span>{plan.title}</span>
+                <h3>{plan.price}</h3>
+                <p>{plan.text}</p>
+                <ul>
+                  {plan.items.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </article>
+            ))}
+          </div>
+
+          <div className="ica-pricing-note">
+            <strong>Project pricing is quoted after scope.</strong>
+            <p>
+              Hosting, domains, Apple or Google developer accounts, SMS, maps, payment processing, and other third-party services are separate when required. Optional maintenance and future feature work can be quoted separately.
+            </p>
+          </div>
+
+          <div className="ica-actions">
+            <a className="ica-button ica-button-primary" href={serviceForm}>Request a Custom Software Quote</a>
+          </div>
+        </section>
+
         <section className="ica-section" id="work">
           <div className="ica-section-heading">
-            <span>03 / SELECTED WORK</span>
+            <span>04 / SELECTED WORK</span>
             <h2>Things already built, shipped, or actively evolving.</h2>
           </div>
           <div className="ica-work-grid">
@@ -196,7 +264,7 @@ function AppClean() {
 
         <section className="ica-section ica-about" id="about">
           <div>
-            <span className="ica-mini-label">04 / ABOUT</span>
+            <span className="ica-mini-label">05 / ABOUT</span>
             <h2>Hands-on IT meets hands-on development.</h2>
           </div>
           <div className="ica-about-copy">
@@ -211,7 +279,7 @@ function AppClean() {
 
         <section className="ica-contact" id="contact">
           <div>
-            <span>05 / LET'S BUILD</span>
+            <span>06 / LET'S BUILD</span>
             <h2>Tell me what you need the technology to do.</h2>
             <p>Website, custom software, network work, support, or a company-specific version of an existing ICA product.</p>
           </div>
