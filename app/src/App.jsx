@@ -103,9 +103,16 @@ export default function App() {
       icon: "🛠️"
     },
     {
-      title: "Custom Website & App Development",
-      desc: "Custom websites and simple apps for small businesses: clean, responsive design + practical functionality.",
+      title: "Custom Website Development",
+      desc: "Professional websites for small businesses, organizations, brands, portfolios, e-commerce, and custom web experiences.",
       icon: "💻"
+    },
+    {
+      title: "Custom App Development",
+      desc: "Custom iOS, Android, Windows, macOS, and web applications built around your business workflow.",
+      icon: "📱",
+      price: "Projects starting at $3,500",
+      pricing: true
     },
     {
       title: "Cybersecurity Consulting",
@@ -134,6 +141,7 @@ export default function App() {
       { key: "home", title: "Home" },
       { key: "resume", title: "Resume" },
       { key: "services", title: "Services", desc: "Tap a service to open the request form." },
+      { key: "pricing", title: "Software Pricing", desc: "Professional custom software project ranges." },
       { key: "about", title: "About" },
       { key: "skills", title: "Skills" },
       { key: "projects", title: "Projects" },
@@ -524,15 +532,125 @@ export default function App() {
                       <div style={styles.serviceIcon}>{svc.icon}</div>
                       <div style={styles.serviceTitle}>{svc.title}</div>
                       <div style={styles.serviceBody}>{svc.desc}</div>
+                      {svc.price ? (
+                        <div style={{ marginTop: 6, color: "#86efac", fontWeight: 900, fontSize: 14 }}>
+                          {svc.price}
+                        </div>
+                      ) : null}
 
                       <button
                         style={styles.serviceCta}
-                        onClick={() => openServiceForm(svc.title)}
+                        onClick={() => svc.pricing ? goKey("pricing") : openServiceForm(svc.title)}
                       >
-                        Open Form
+                        {svc.pricing ? "View Software Pricing" : "Open Form"}
                       </button>
                     </div>
                   ))}
+                </div>
+              </div>
+            ) : s.key === "pricing" ? (
+              <div
+                style={{
+                  width: "min(1180px, calc(100% - 32px))",
+                  maxHeight: "calc(100% - 28px)",
+                  overflowY: "auto",
+                  margin: "0 auto",
+                  padding: isMobile ? "20px 14px 90px" : "28px 28px 90px",
+                  borderRadius: 22,
+                  border: "1px solid rgba(255,255,255,0.14)",
+                  background: "rgba(0,0,0,0.18)",
+                  boxShadow: "0 18px 80px rgba(0,0,0,0.55)",
+                }}
+              >
+                <h2 style={{ ...styles.servicesTitle, ...(isMobile ? styles.servicesTitleMobile : null) }}>
+                  Software Pricing
+                </h2>
+                <p style={{ ...styles.servicesSub, ...(isMobile ? styles.servicesSubMobile : null) }}>
+                  Professional custom software pricing ranges. Final quotes are based on scope, platforms, integrations, security, deployment, and ownership requirements.
+                </p>
+
+                <div
+                  style={{
+                    marginTop: 20,
+                    display: "grid",
+                    gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(210px, 1fr))",
+                    gap: 14,
+                  }}
+                >
+                  {[
+                    {
+                      title: "Starter Custom App",
+                      range: "$3,500–$6,000",
+                      body: "A focused branded application with a clean customer-facing workflow.",
+                      items: ["Single core workflow", "Business branding", "Responsive interface", "Basic forms + data"],
+                    },
+                    {
+                      title: "Business App",
+                      range: "$7,500–$12,000",
+                      body: "A multi-feature business application prepared for mobile deployment.",
+                      items: ["Multiple workflows", "User accounts", "Notifications", "App-store-ready build"],
+                    },
+                    {
+                      title: "App + Backend + Dashboard",
+                      range: "$10,000–$18,000",
+                      body: "A complete software system connecting users, backend services, and management tools.",
+                      items: ["Secure authentication", "Cloud/backend services", "Admin dashboard", "API integrations"],
+                    },
+                    {
+                      title: "Advanced Custom Software",
+                      range: "$15,000–$30,000+",
+                      body: "Operational software with advanced workflows, media, automation, or real-time features.",
+                      items: ["Complex workflows", "Desktop + mobile options", "Real-time functionality", "Custom integrations"],
+                    },
+                    {
+                      title: "Operations / Logistics Platform",
+                      range: "$20,000–$40,000+",
+                      body: "Larger business platforms for dispatch, routing, drivers, customers, tracking, and proof-of-service workflows.",
+                      items: ["Multi-role dashboards", "Live operational data", "Driver/mobile workflows", "Custom business logic"],
+                    },
+                  ].map((plan) => (
+                    <div
+                      key={plan.title}
+                      style={{
+                        borderRadius: 18,
+                        padding: 18,
+                        background: "rgba(255,255,255,0.065)",
+                        border: "1px solid rgba(255,255,255,0.14)",
+                        boxShadow: "0 10px 30px rgba(0,0,0,0.28)",
+                      }}
+                    >
+                      <div style={{ fontWeight: 950, fontSize: 17 }}>{plan.title}</div>
+                      <div style={{ marginTop: 8, color: "#7dd3fc", fontWeight: 950, fontSize: 22 }}>
+                        {plan.range}
+                      </div>
+                      <div style={{ marginTop: 8, opacity: 0.86, fontWeight: 650, lineHeight: 1.45, fontSize: 14 }}>
+                        {plan.body}
+                      </div>
+                      <ul style={{ margin: "12px 0 0", paddingLeft: 18, lineHeight: 1.65, opacity: 0.92, fontSize: 13 }}>
+                        {plan.items.map((item) => <li key={item}>{item}</li>)}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+
+                <div
+                  style={{
+                    marginTop: 18,
+                    padding: 16,
+                    borderRadius: 16,
+                    background: "rgba(125,211,252,0.08)",
+                    border: "1px solid rgba(125,211,252,0.20)",
+                    lineHeight: 1.55,
+                    fontSize: 14,
+                  }}
+                >
+                  <strong>Project pricing is quoted after scope.</strong> Hosting, domains, Apple/Google developer accounts, SMS, maps, payment processing, and other third-party services are separate when required. Optional maintenance and future feature work can be quoted separately.
+                </div>
+
+                <div style={{ marginTop: 18, display: "flex", justifyContent: "center" }}>
+                  <button style={styles.heroBtnPrimary} onClick={() => openServiceForm("Custom App Development")}>
+                    Request a Custom Software Quote
+                  </button>
                 </div>
               </div>
             ) : s.key === "about" ? (
