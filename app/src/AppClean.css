@@ -81,6 +81,18 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .ica-queue-block { display: flex; flex-direction: column; gap: 9px; }
 .ica-queue-block b { padding: 12px; border-radius: 10px; background: rgba(255,255,255,.045); font-size: 11px; color: #cbd5e1; }
 
+.ica-pricing-section { border-top: 1px solid rgba(255,255,255,.06); }
+.ica-pricing-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.ica-price-card { min-height: 330px; display: flex; flex-direction: column; padding: 24px; border: 1px solid rgba(255,255,255,.08); border-radius: 22px; background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.018)); }
+.ica-price-card.featured { border-color: rgba(56,189,248,.28); background: linear-gradient(180deg, rgba(56,189,248,.09), rgba(255,255,255,.02)); box-shadow: 0 18px 50px rgba(14,165,233,.08); }
+.ica-price-card > span { color: #cbd5e1; font-size: 13px; font-weight: 850; line-height: 1.35; }
+.ica-price-card h3 { margin: 18px 0 12px; color: #7dd3fc; font-size: clamp(25px,2.3vw,34px); letter-spacing: -.04em; }
+.ica-price-card p { margin: 0; color: #94a3b8; line-height: 1.62; font-size: 14px; }
+.ica-price-card ul { margin: auto 0 0; padding: 22px 0 0 18px; color: #cbd5e1; line-height: 1.75; font-size: 13px; }
+.ica-pricing-note { max-width: 1000px; margin-top: 22px; padding: 18px 20px; border: 1px solid rgba(125,211,252,.18); border-radius: 16px; background: rgba(56,189,248,.055); color: #cbd5e1; }
+.ica-pricing-note strong { color: #f8fafc; }
+.ica-pricing-note p { margin: 7px 0 0; color: #94a3b8; line-height: 1.65; font-size: 14px; }
+
 .ica-work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .ica-work-card { min-height: 310px; display: flex; flex-direction: column; padding: 26px; border: 1px solid rgba(255,255,255,.08); border-radius: 22px; background: rgba(255,255,255,.025); }
 .ica-work-card.featured { border-color: rgba(56,189,248,.22); background: linear-gradient(180deg, rgba(56,189,248,.08), rgba(255,255,255,.02)); }
@@ -107,6 +119,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .ica-card-grid { grid-template-columns: 1fr 1fr; }
   .ica-dispatch-feature { grid-template-columns: 1fr; }
   .ica-work-grid { grid-template-columns: 1fr 1fr; }
+  .ica-pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 760px) {
@@ -120,7 +133,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .ica-hero h1 { font-size: clamp(44px,13vw,66px); }
   .ica-command-grid { grid-template-columns: 1fr 1fr; }
   .ica-command-grid div { min-height: 104px; padding: 14px; }
-  .ica-card-grid, .ica-work-grid, .ica-about { grid-template-columns: 1fr; }
+  .ica-card-grid, .ica-work-grid, .ica-pricing-grid, .ica-about { grid-template-columns: 1fr; }
   .ica-service-card { min-height: 220px; }
   .ica-screen-body { grid-template-columns: 1fr; }
   .ica-map-block { min-height: 230px; }
