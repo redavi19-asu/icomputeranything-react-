@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./AppClean.css";
 
 const DISPATCH_URL = "https://redavi19-asu.github.io/icomputer-dispatch-platform/";
+const CONTROL_URL = "https://redavi19-asu.github.io/ica-control/";
 const INTRIGUED_MUTTS_URL = "https://www.intriguedmutts.com";
 
 const services = [
@@ -173,6 +174,41 @@ function AppClean() {
                   <b>Emergency Service</b>
                   <b>Scheduled Visit</b>
                   <b>Driver Assigned</b>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article className="ica-dispatch-feature ica-control-feature">
+            <div className="ica-product-copy">
+              <div className="ica-product-label">ENDPOINT MANAGEMENT + SECURITY</div>
+              <h3>ICA Control</h3>
+              <p>
+                Presidential command over every endpoint. Monitor, secure, patch, automate, and support Windows, macOS, Linux, and servers from one powerful control center.
+              </p>
+              <div className="ica-feature-pills">
+                <span>Endpoint Monitoring</span>
+                <span>Patch Management</span>
+                <span>Security Oversight</span>
+                <span>Remote Support</span>
+                <span>Automation</span>
+              </div>
+              <div className="ica-actions">
+                <a className="ica-button ica-button-primary" href={CONTROL_URL} target="_blank" rel="noreferrer">Explore ICA Control</a>
+                <a className="ica-button ica-button-secondary" href={CONTROL_URL} target="_blank" rel="noreferrer">Start 14-Day Trial</a>
+              </div>
+            </div>
+            <div className="ica-product-screen ica-control-screen" aria-label="ICA Control product preview">
+              <div className="ica-screen-bar"><span>ICA Control</span><em>ALL SYSTEMS OPERATIONAL</em></div>
+              <div className="ica-control-preview">
+                <div className="ica-control-metric"><small>DEVICES</small><strong>247</strong><span>231 online</span></div>
+                <div className="ica-control-metric"><small>PATCHES</small><strong>87%</strong><span>23 pending</span></div>
+                <div className="ica-control-metric"><small>SECURITY</small><strong>92</strong><span>Good posture</span></div>
+                <div className="ica-control-metric warning"><small>ALERTS</small><strong>3</strong><span>2 need attention</span></div>
+                <div className="ica-control-health">
+                  <span>ENDPOINT HEALTH</span>
+                  <div><i style={{ width: "92%" }} /></div>
+                  <small>Protected, monitored, and ready.</small>
                 </div>
               </div>
             </div>
