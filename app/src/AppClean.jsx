@@ -161,7 +161,7 @@ function AppClean() {
                 <span>Company Workspace</span>
               </div>
               <div className="ica-actions">
-                <a className="ica-button ica-button-primary" href={DISPATCH_URL} target="_blank" rel="noreferrer">View DispatchOS</a>
+                <a className="ica-button ica-button-primary" href={DISPATCH_URL}>View DispatchOS</a>
                 <a className="ica-button ica-button-secondary" href="#pricing">View Software Pricing</a>
                 <a className="ica-button ica-button-secondary" href="#contact">Need a custom version?</a>
               </div>
@@ -195,8 +195,8 @@ function AppClean() {
                 <span>Automation</span>
               </div>
               <div className="ica-actions">
-                <a className="ica-button ica-button-primary" href={CONTROL_URL}>Open ICA Control</a>
-                <a className="ica-button ica-button-secondary" href={CONTROL_TRIAL_URL}>Start 14-Day Trial</a>
+                <a className="ica-button ica-button-primary" href={CONTROL_URL} onClick={(event) => { event.preventDefault(); window.location.assign(CONTROL_URL); }}>Open ICA Control</a>
+                <a className="ica-button ica-button-secondary" href={CONTROL_TRIAL_URL} onClick={(event) => { event.preventDefault(); window.location.assign(CONTROL_TRIAL_URL); }}>Start 14-Day Trial</a>
               </div>
             </div>
             <div className="ica-product-screen ica-control-screen" aria-label="ICA Control product preview">
@@ -293,7 +293,7 @@ function AppClean() {
                 <span>{item.eyebrow}</span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-                <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noreferrer" : undefined}>{item.cta} →</a>
+                <a href={item.href}>{item.cta} →</a>
               </article>
             ))}
           </div>
