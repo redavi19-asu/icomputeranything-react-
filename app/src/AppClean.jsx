@@ -3,7 +3,7 @@ import "./AppClean.css";
 
 const DISPATCH_URL = "https://redavi19-asu.github.io/icomputer-dispatch-platform/";
 const CONTROL_URL = "https://redavi19-asu.github.io/ica-control/";
-const CONTROL_TRIAL_URL = `${CONTROL_URL}#pricing`;
+const CONTROL_TRIAL_URL = `${CONTROL_URL}#trial`;
 const INTRIGUED_MUTTS_URL = "https://www.intriguedmutts.com";
 
 const services = [
@@ -196,7 +196,7 @@ function AppClean() {
               </div>
               <div className="ica-actions">
                 <a className="ica-button ica-button-primary" href={CONTROL_URL} onClick={(event) => { event.preventDefault(); window.location.assign(CONTROL_URL); }}>Open ICA Control</a>
-                <a className="ica-button ica-button-secondary" href={CONTROL_TRIAL_URL} onClick={(event) => { event.preventDefault(); window.location.assign(CONTROL_TRIAL_URL); }}>Start 14-Day Trial</a>
+                <a className="ica-button ica-button-secondary" href={CONTROL_TRIAL_URL} onClick={(event) => { event.preventDefault(); window.location.assign(CONTROL_TRIAL_URL); }}>Request 14-Day Trial</a>
               </div>
             </div>
             <div className="ica-product-screen ica-control-screen" aria-label="ICA Control product preview">
