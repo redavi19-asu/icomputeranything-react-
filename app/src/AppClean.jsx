@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./AppClean.css";
 
 const DISPATCH_URL = "https://redavi19-asu.github.io/icomputer-dispatch-platform/";
-const CONTROL_URL = "https://redavi19-asu.github.io/ica-control/";
+const CONTROL_URL = "https://control.icomputeranything.com/";
 const CONTROL_TRIAL_URL = `${CONTROL_URL}#trial`;
 const INTRIGUED_MUTTS_URL = "https://www.intriguedmutts.com";
 
