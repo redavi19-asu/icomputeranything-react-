@@ -24,8 +24,9 @@ const services = [
   },
   {
     icon: "◇",
-    title: "Security & Backup",
-    text: "Practical firewall, backup, recovery, hardening, and security improvements without enterprise complexity.",
+    title: "Cybersecurity & Backup",
+    text: "Security engineering, endpoint protection, security operations, firewall review, hardening, backup, recovery, vulnerability awareness, and practical risk reduction for supported environments.",
+    tags: ["Security Engineer", "Endpoint Security Engineer", "SecOps / Security Operations"],
   },
 ];
 
@@ -96,10 +97,10 @@ function AppClean() {
           <div className="ica-glow ica-glow-one" />
           <div className="ica-glow ica-glow-two" />
           <div className="ica-hero-copy">
-            <div className="ica-kicker">IT • DEVELOPMENT • SOFTWARE</div>
+            <div className="ica-kicker">IT • DEVELOPMENT • SOFTWARE • SECURITY</div>
             <h1>Technology that actually does something for your business.</h1>
             <p>
-              I Computer Anything builds software, websites, networks, and practical IT solutions for people who need technology to work — not get in the way.
+              I Computer Anything builds software, websites, networks, security workflows, and practical IT solutions for people who need technology to work — not get in the way.
             </p>
             <div className="ica-actions">
               <a className="ica-button ica-button-primary" href="#software">See the software</a>
@@ -115,7 +116,7 @@ function AppClean() {
             <div className="ica-command-grid">
               <div><small>BUILD</small><b>Web + Apps</b></div>
               <div><small>RUN</small><b>Servers + Networks</b></div>
-              <div><small>SUPPORT</small><b>IT Operations</b></div>
+              <div><small>SECURE</small><b>Endpoints + SecOps</b></div>
               <div><small>SHIP</small><b>SaaS Products</b></div>
             </div>
             <div className="ica-status"><i /> Systems online. New projects open.</div>
@@ -126,7 +127,7 @@ function AppClean() {
           <div className="ica-section-heading">
             <span>01 / SERVICES</span>
             <h2>One technology partner, several ways to help.</h2>
-            <p>From a broken workstation to a custom business application, the goal is the same: solve the problem cleanly and leave you with something dependable.</p>
+            <p>From a broken workstation to a custom business application or endpoint-security workflow, the goal is the same: solve the problem cleanly and leave you with something dependable.</p>
           </div>
           <div className="ica-card-grid">
             {services.map((service) => (
@@ -134,6 +135,11 @@ function AppClean() {
                 <div className="ica-service-icon">{service.icon}</div>
                 <h3>{service.title}</h3>
                 <p>{service.text}</p>
+                {service.tags && (
+                  <div className="ica-feature-pills ica-security-role-pills">
+                    {service.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                  </div>
+                )}
               </article>
             ))}
           </div>
@@ -182,17 +188,17 @@ function AppClean() {
 
           <article className="ica-dispatch-feature ica-control-feature">
             <div className="ica-product-copy">
-              <div className="ica-product-label">ENDPOINT MANAGEMENT + SECURITY</div>
+              <div className="ica-product-label">END-TO-END ENDPOINT SECURITY + SECURITY OPERATIONS</div>
               <h3>ICA Control</h3>
               <p>
-                Presidential command over every endpoint. Monitor, secure, patch, automate, and support Windows, macOS, Linux, and servers from one powerful control center.
+                ICA Control brings Security Engineering, Endpoint Security Engineering, and SecOps / Security Operations into one connected endpoint lifecycle. Monitor supported device health and security posture, inspect updates, create Fix-It Tickets, investigate issues, perform authorized remediation, rescan, verify, and keep the resolution history together.
               </p>
-              <div className="ica-feature-pills">
-                <span>Endpoint Monitoring</span>
-                <span>Patch Management</span>
-                <span>Security Oversight</span>
-                <span>Remote Support</span>
-                <span>Automation</span>
+              <div className="ica-feature-pills ica-security-role-pills">
+                <span>Security Engineer</span>
+                <span>Endpoint Security Engineer</span>
+                <span>SecOps / Security Operations</span>
+                <span>Fix-It Tickets</span>
+                <span>Pay As You Go or Subscription</span>
               </div>
               <div className="ica-actions">
                 <a className="ica-button ica-button-primary" href={CONTROL_URL} onClick={(event) => { event.preventDefault(); window.location.assign(CONTROL_URL); }}>Open ICA Control</a>
@@ -200,16 +206,16 @@ function AppClean() {
               </div>
             </div>
             <div className="ica-product-screen ica-control-screen" aria-label="ICA Control product preview">
-              <div className="ica-screen-bar"><span>ICA Control</span><em>ALL SYSTEMS OPERATIONAL</em></div>
+              <div className="ica-screen-bar"><span>ICA Control</span><em>ENDPOINT SECURITY OPERATIONS</em></div>
               <div className="ica-control-preview">
                 <div className="ica-control-metric"><small>DEVICES</small><strong>247</strong><span>231 online</span></div>
-                <div className="ica-control-metric"><small>PATCHES</small><strong>87%</strong><span>23 pending</span></div>
+                <div className="ica-control-metric"><small>UPDATES</small><strong>87%</strong><span>23 pending</span></div>
                 <div className="ica-control-metric"><small>SECURITY</small><strong>92</strong><span>Good posture</span></div>
-                <div className="ica-control-metric warning"><small>ALERTS</small><strong>3</strong><span>2 need attention</span></div>
+                <div className="ica-control-metric warning"><small>FIX-IT</small><strong>3</strong><span>2 need attention</span></div>
                 <div className="ica-control-health">
-                  <span>ENDPOINT HEALTH</span>
+                  <span>DETECT → FIX → RESCAN → VERIFY</span>
                   <div><i style={{ width: "92%" }} /></div>
-                  <small>Protected, monitored, and ready.</small>
+                  <small>Monitored, reviewed, and ready for technician response.</small>
                 </div>
               </div>
             </div>
@@ -302,11 +308,11 @@ function AppClean() {
         <section className="ica-section ica-about" id="about">
           <div>
             <span className="ica-mini-label">05 / ABOUT</span>
-            <h2>Hands-on IT meets hands-on development.</h2>
+            <h2>Hands-on IT meets hands-on development and security engineering.</h2>
           </div>
           <div className="ica-about-copy">
             <p>
-              I Computer Anything sits between traditional IT support and software development. That means projects can be approached from both sides: what the customer sees and what has to work behind it.
+              I Computer Anything sits between traditional IT support, software development, infrastructure, and endpoint security operations. That means projects can be approached from both sides: what the customer sees and what has to stay secure and reliable behind it.
             </p>
             <p>
               The focus is small businesses, organizations, and practical products that benefit from direct communication, clear solutions, and technology built around the real workflow.
@@ -318,14 +324,14 @@ function AppClean() {
           <div>
             <span>06 / LET'S BUILD</span>
             <h2>Tell me what you need the technology to do.</h2>
-            <p>Website, custom software, network work, support, or a company-specific version of an existing ICA product.</p>
+            <p>Website, custom software, network work, cybersecurity, endpoint support, or a company-specific version of an existing ICA product.</p>
           </div>
           <a className="ica-button ica-button-light" href={serviceForm}>Start a Request</a>
         </section>
       </main>
 
       <footer className="ica-footer">
-        <div><strong>I Computer Anything</strong><span>IT • Development • Software</span></div>
+        <div><strong>I Computer Anything</strong><span>IT • Development • Software • Security</span></div>
         <p>Built to solve real problems.</p>
       </footer>
     </div>
