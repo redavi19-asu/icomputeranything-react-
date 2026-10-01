@@ -4,6 +4,9 @@ import "./AppClean.css";
 const DISPATCH_URL = "https://redavi19-asu.github.io/icomputer-dispatch-platform/";
 const CONTROL_URL = "https://control.icomputeranything.com/";
 const CONTROL_TRIAL_URL = `${CONTROL_URL}#trial`;
+const DIRECTOR_URL = "https://scenepilot.ryanedavis.workers.dev/";
+const UNIFIED_URL = "https://unified.icomputeranything.com/";
+const DC_LIVE_URL = "https://dc-live.pages.dev/";
 const INTRIGUED_MUTTS_URL = "https://www.intriguedmutts.com";
 
 const services = [
@@ -37,12 +40,12 @@ const products = [
     theme: "control",
     featured: true,
     eyebrow: "ENDPOINT MANAGEMENT + SECURITY OPERATIONS",
-    status: "APPLE RELEASE PREP",
+    status: "APP STORE / TESTFLIGHT PREP",
     mark: "IC",
     title: "ICA Control",
     tagline: "One command center for customer onboarding, endpoint health, security operations, support, and service delivery.",
     summary: "ICA Control connects the customer, the device, and the technician workflow. Customers can onboard themselves, choose Subscription or Non-Subscription service, recover their password, use supported social sign-in, and appear in the ICA operator console without a separate account-creation step.",
-    cardPills: ["Windows / macOS / Linux", "Android", "iPhone + iPad companion", "Ask ICA", "Fix-It", "Subscription / Non-Subscription"],
+    cardPills: ["Windows / macOS / Linux", "Android + Apple Companion", "3 Security Engines", "Social Sign-In", "Ask ICA + Fix-It", "Subscription / Non-Subscription"],
     platforms: ["Web operator console", "Windows endpoints", "macOS endpoints", "Linux endpoints", "Android", "iPhone + iPad companion"],
     accountAccess: "Password recovery plus Google, Apple, and Microsoft identity support. Social buttons activate where provider credentials are configured. Customer and operator access remain role-separated; iPhone/iPad is a companion/control client, not a hidden desktop-style endpoint agent.",
     capabilities: [
@@ -66,12 +69,12 @@ const products = [
     id: "urban-director",
     theme: "director",
     eyebrow: "LIVE PRODUCTION + CREATOR EDITING",
-    status: "ACTIVE BUILD",
+    status: "LIVE WEB + APP STORE BUILD",
     mark: "UD",
     title: "Urban Director Studio",
     tagline: "A mobile-first production room for cameras, switching, replay, audio, graphics, recording, and creator editing.",
     summary: "Urban Director Studio brings live-production controls and a creator-friendly editor into one system. Directors can connect compatible sources, run Preview and Program, manage production audio, replay moments, record, add graphics, and move captured media into an editing workflow built for phones and tablets.",
-    cardPills: ["Camera Multiview", "Preview / Program", "Master Audio", "Instant Replay", "Recording", "Creator Editor"],
+    cardPills: ["Camera Multiview", "Preview / Program", "Instant Replay", "Creator Editor", "Social Sign-In", "iPhone + iPad"],
     platforms: ["Web production console", "iPhone / iPad workflow", "Remote camera devices", "Compatible capture/audio sources"],
     accountAccess: "Account portal includes password recovery and Google, Apple, and Microsoft social identity support where provider credentials are configured.",
     capabilities: [
@@ -84,7 +87,9 @@ const products = [
       "Account portal, password recovery, social sign-in support, and protected production access"
     ],
     surfaces: ["Camera Multiview", "Preview + Program", "Master Audio", "Instant Replay", "Creator Editor", "Graphics + Broadcast"],
-    capturePlan: ["Live production console", "Multiview / Program", "Instant Replay", "Editor timeline", "iPhone / iPad production view"]
+    capturePlan: ["Live production console", "Multiview / Program", "Instant Replay", "Editor timeline", "iPhone / iPad production view"],
+    liveUrl: DIRECTOR_URL,
+    liveLabel: "Open Urban Director"
   },
   {
     id: "dispatchos",
@@ -95,7 +100,7 @@ const products = [
     title: "DispatchOS",
     tagline: "Booking, dispatch, drivers, routing, customers, and company controls in one operational workspace.",
     summary: "DispatchOS is a multi-role service-dispatch platform designed around the actual job lifecycle: customer intake, dispatcher decisions, driver assignments, status updates, routing, company settings, and persistent operational records.",
-    cardPills: ["Booking", "Dispatcher Dashboard", "Driver App", "Auto Dispatch", "Routing", "Company Workspace"],
+    cardPills: ["Booking", "Dispatcher Dashboard", "Driver App", "Auto Dispatch", "Routing", "Social Sign-In"],
     platforms: ["Responsive web workspace", "Dispatcher dashboard", "Driver workflow", "Customer booking pages"],
     accountAccess: "Owner and driver account flows support password recovery plus Google, Apple, and Microsoft identity support where provider credentials are configured.",
     capabilities: [
@@ -116,12 +121,12 @@ const products = [
     id: "ica-unified",
     theme: "unified",
     eyebrow: "LMS + AMS BUSINESS OPERATIONS",
-    status: "ACTIVE BUILD",
+    status: "LIVE PLATFORM",
     mark: "IU",
     title: "ICA Unified",
     tagline: "Learning, workforce administration, credentials, documents, onboarding, approvals, and business operations together.",
     summary: "ICA Unified is a multi-tenant LMS + AMS platform designed to reduce the gap between learning systems and day-to-day administration. Organizations can keep people, learning, credentials, documents, onboarding, approvals, and operational workflows in one connected environment.",
-    cardPills: ["LMS + AMS", "Workforce", "Credentials", "Documents", "Onboarding", "Approvals"],
+    cardPills: ["LMS + AMS", "Workforce", "Credentials", "Documents", "Social Sign-In", "Approvals"],
     platforms: ["Multi-tenant web platform", "Responsive business workspace", "Organization / workforce workflows"],
     accountAccess: "Unified account work includes password recovery and Google, Apple, and Microsoft identity support where provider credentials are configured.",
     capabilities: [
@@ -134,18 +139,20 @@ const products = [
       "Unified account recovery and social onboarding support"
     ],
     surfaces: ["Organization Home", "Learning", "Workforce", "Credentials", "Documents", "Approvals"],
-    capturePlan: ["Organization dashboard", "Learning workspace", "Workforce view", "Credentials / documents", "Onboarding / approvals"]
+    capturePlan: ["Organization dashboard", "Learning workspace", "Workforce view", "Credentials / documents", "Onboarding / approvals"],
+    liveUrl: UNIFIED_URL,
+    liveLabel: "Open ICA Unified"
   },
   {
     id: "dc-live",
     theme: "dclive",
     eyebrow: "PROTECTED EVENTS + MEDIA ACCESS",
-    status: "ACTIVE BUILD",
+    status: "LIVE VIEWER APP",
     mark: "DC",
     title: "DC Live",
     tagline: "Events, viewer accounts, entitlements, protected playback, purchases, rentals, and a personal media library.",
     summary: "DC Live is a protected event and media platform with a separate viewer front end and backend control plane. Viewers can create an account, purchase or rent eligible access, return to their library, and play protected media through entitlement-aware playback.",
-    cardPills: ["Events", "Viewer Accounts", "Stripe Access", "Entitlements", "Protected Playback", "My Library"],
+    cardPills: ["Events", "Viewer Accounts", "Stripe Access", "Social Sign-In", "Protected Playback", "My Library"],
     platforms: ["Viewer web app", "Cloudflare Worker backend", "Protected media delivery"],
     accountAccess: "Viewer authentication includes registration, sign-in/out, password recovery, and Google, Apple, and Microsoft social identity support where provider credentials are configured. Owner/master access remains separate.",
     capabilities: [
@@ -158,18 +165,41 @@ const products = [
       "Separated owner/master controls and viewer-facing access"
     ],
     surfaces: ["Events", "Event Detail", "Viewer Sign-In", "Checkout", "My Library", "Protected Player"],
-    capturePlan: ["Events landing page", "Event detail", "Viewer sign-in", "My Library", "Protected playback"]
+    capturePlan: ["Events landing page", "Event detail", "Viewer sign-in", "My Library", "Protected playback"],
+    liveUrl: DC_LIVE_URL,
+    liveLabel: "Open DC Live"
   }
 ];
 
 const work = [
   {
-    eyebrow: "Software Product",
-    title: "DispatchOS",
-    text: "A field-service dispatch platform with booking, driver workflows, company workspaces, job management, and installable driver and dispatcher apps.",
-    href: DISPATCH_URL,
-    cta: "Explore DispatchOS",
+    eyebrow: "Endpoint Security + RMM",
+    title: "ICA Control",
+    text: "Unified onboarding, endpoint health, security operations, customer service, Ask ICA, Fix-It, subscriptions, and non-subscription support across the ICA Control ecosystem.",
+    productId: "ica-control",
+    cta: "View ICA Control",
     accent: true,
+  },
+  {
+    eyebrow: "Live Production",
+    title: "Urban Director Studio",
+    text: "A mobile-first production environment for camera sources, Preview/Program switching, replay, recording, audio, graphics, and creator editing.",
+    productId: "urban-director",
+    cta: "View Urban Director",
+  },
+  {
+    eyebrow: "Field Operations",
+    title: "DispatchOS",
+    text: "Booking, dispatcher workflows, driver assignments, routing, company settings, customer updates, and automated dispatch in one operational system.",
+    productId: "dispatchos",
+    cta: "View DispatchOS",
+  },
+  {
+    eyebrow: "Business Operations",
+    title: "ICA Unified",
+    text: "A connected LMS + AMS platform for learning, workforce administration, credentials, documents, onboarding, approvals, and organization workflows.",
+    productId: "ica-unified",
+    cta: "View ICA Unified",
   },
   {
     eyebrow: "Live Project",
@@ -177,13 +207,6 @@ const work = [
     text: "A live React project combining original merchandise, community ideas, and market-focused interactive features.",
     href: INTRIGUED_MUTTS_URL,
     cta: "Visit Intrigued Mutts",
-  },
-  {
-    eyebrow: "Custom Development",
-    title: "Built for your workflow",
-    text: "Need something closer to DispatchOS but tailored to your company? I Computer Anything can build custom dashboards, intake flows, automations, and internal tools.",
-    href: "#contact",
-    cta: "Request a build",
   },
 ];
 
@@ -244,27 +267,35 @@ function AppClean() {
           <div className="ica-glow ica-glow-one" />
           <div className="ica-glow ica-glow-two" />
           <div className="ica-hero-copy">
-            <div className="ica-kicker">IT • DEVELOPMENT • SOFTWARE • SECURITY</div>
-            <h1>Technology that actually does something for your business.</h1>
+            <div className="ica-kicker">I COMPUTER ANYTHING / PRODUCT STUDIO + IT SERVICES</div>
+            <h1>Real software. Real IT. One company that can build, run, and secure it.</h1>
             <p>
-              I Computer Anything builds software, websites, networks, security workflows, and practical IT solutions for people who need technology to work — not get in the way.
+              ICA builds its own software products and delivers the infrastructure, support, development, and security work behind real business technology. Explore the products, open the live systems, or bring ICA a workflow that needs to be built.
             </p>
             <div className="ica-actions">
-              <a className="ica-button ica-button-primary" href="#software">See the software</a>
-              <a className="ica-button ica-button-secondary" href="#services">View IT services</a>
+              <a className="ica-button ica-button-primary" href="#software">Explore ICA products</a>
+              <a className="ica-button ica-button-secondary" href="#services">Get IT help</a>
+            </div>
+            <div className="ica-hero-products" aria-label="ICA product shortcuts">
+              {products.map((product) => (
+                <button type="button" key={product.id} onClick={() => setSelectedProduct(product)}>
+                  <span>{product.mark}</span>
+                  <b>{product.title}</b>
+                </button>
+              ))}
             </div>
           </div>
 
           <div className="ica-command-card" aria-label="I Computer Anything capabilities">
             <div className="ica-command-top">
               <span /> <span /> <span />
-              <strong>ICA // SYSTEMS</strong>
+              <strong>ICA // PRODUCT + SYSTEMS</strong>
             </div>
             <div className="ica-command-grid">
-              <div><small>BUILD</small><b>Web + Apps</b></div>
-              <div><small>RUN</small><b>Servers + Networks</b></div>
-              <div><small>SECURE</small><b>Endpoints + SecOps</b></div>
-              <div><small>SHIP</small><b>SaaS Products</b></div>
+              <div><small>BUILD</small><b>Custom Software</b></div>
+              <div><small>RUN</small><b>IT + Infrastructure</b></div>
+              <div><small>SECURE</small><b>Endpoint + SecOps</b></div>
+              <div><small>PRODUCTS</small><b>5 Active Systems</b></div>
             </div>
             <div className="ica-status"><i /> Systems online. New projects open.</div>
           </div>
@@ -433,7 +464,7 @@ function AppClean() {
         <section className="ica-section" id="work">
           <div className="ica-section-heading">
             <span>04 / SELECTED WORK</span>
-            <h2>Things already built, shipped, or actively evolving.</h2>
+            <h2>Products and systems ICA is actively building, shipping, and operating.</h2>
           </div>
           <div className="ica-work-grid">
             {work.map((item) => (
@@ -441,7 +472,16 @@ function AppClean() {
                 <span>{item.eyebrow}</span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-                <a href={item.href}>{item.cta} →</a>
+                {item.productId ? (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedProduct(products.find((product) => product.id === item.productId))}
+                  >
+                    {item.cta} →
+                  </button>
+                ) : (
+                  <a href={item.href}>{item.cta} →</a>
+                )}
               </article>
             ))}
           </div>
@@ -554,9 +594,13 @@ function AppClean() {
               </div>
               <div className="ica-capture-grid">
                 {selectedProduct.capturePlan.map((capture) => (
-                  <div key={capture}>
-                    <span>REAL APP CAPTURE</span>
-                    <strong>{capture}</strong>
+                  <div className="ica-capture-frame" key={capture}>
+                    <div className="ica-capture-chrome"><i /><i /><i /></div>
+                    <div className="ica-capture-body">
+                      <span>REAL APP SCREEN</span>
+                      <strong>{capture}</strong>
+                      <small>Capture from the current product build</small>
+                    </div>
                   </div>
                 ))}
               </div>

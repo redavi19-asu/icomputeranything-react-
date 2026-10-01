@@ -425,3 +425,156 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @media(max-width:420px){
   .ica-product-surface-grid,.ica-capture-grid{grid-template-columns:1fr}
 }
+
+
+/* ICA homepage facelift — product studio second pass */
+.ica-hero-products{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:22px;
+}
+.ica-hero-products button{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:38px;
+  padding:7px 11px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:12px;
+  background:rgba(255,255,255,.028);
+  color:#d9e3ed;
+  font:inherit;
+  cursor:pointer;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease;
+}
+.ica-hero-products button:hover,.ica-hero-products button:focus-visible{
+  transform:translateY(-2px);
+  border-color:rgba(125,211,252,.32);
+  background:rgba(56,189,248,.06);
+  outline:none;
+}
+.ica-hero-products button span{
+  width:24px;
+  height:24px;
+  display:grid;
+  place-items:center;
+  border-radius:7px;
+  background:rgba(56,189,248,.09);
+  color:#7dd3fc;
+  font-size:9px;
+  font-weight:950;
+}
+.ica-hero-products button b{font-size:10px;letter-spacing:.02em}
+
+.ica-work-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.ica-work-card{
+  position:relative;
+  overflow:hidden;
+  min-height:275px;
+  background:
+    radial-gradient(circle at 100% 0,rgba(56,189,248,.06),transparent 35%),
+    rgba(255,255,255,.025);
+}
+.ica-work-card.featured{
+  grid-column:1 / -1;
+  min-height:260px;
+}
+.ica-work-card:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:2px;
+  background:linear-gradient(90deg,#38bdf8,transparent 70%);
+  opacity:.45;
+}
+.ica-work-card h3{margin-top:34px;font-size:clamp(25px,3vw,36px)}
+.ica-work-card a,.ica-work-card button{
+  margin-top:auto;
+  padding:24px 0 0;
+  border:0;
+  background:transparent;
+  color:#7dd3fc;
+  font:inherit;
+  font-weight:900;
+  font-size:13px;
+  text-align:left;
+  cursor:pointer;
+}
+.ica-work-card a:hover,.ica-work-card button:hover{color:#bae6fd}
+
+.ica-capture-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.ica-capture-grid>.ica-capture-frame{
+  min-height:185px;
+  padding:0;
+  overflow:hidden;
+  justify-content:stretch;
+  gap:0;
+  border-style:solid;
+  border-color:rgba(255,255,255,.08);
+  background:#050912;
+}
+.ica-capture-chrome{
+  height:34px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:0 12px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.028);
+}
+.ica-capture-chrome i{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#3f4b59;
+}
+.ica-capture-body{
+  flex:1;
+  min-height:150px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  gap:8px;
+  padding:20px;
+  background:
+    linear-gradient(rgba(255,255,255,.018),rgba(255,255,255,.006)),
+    repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,.018) 40px),
+    repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,.018) 40px);
+}
+.ica-capture-body span{
+  color:var(--product-accent);
+  font-size:8px;
+  letter-spacing:.15em;
+  font-weight:950;
+}
+.ica-capture-body strong{
+  max-width:90%;
+  color:#d8e1ea;
+  font-size:15px;
+}
+.ica-capture-body small{
+  color:#586678;
+  font-size:10px;
+}
+
+@media(max-width:1050px){
+  .ica-work-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:760px){
+  .ica-hero-products{display:grid;grid-template-columns:1fr 1fr}
+  .ica-hero-products button{width:100%}
+  .ica-work-grid{grid-template-columns:1fr}
+  .ica-work-card.featured{grid-column:auto}
+  .ica-capture-grid{grid-template-columns:1fr}
+}
+@media(max-width:430px){
+  .ica-hero-products{grid-template-columns:1fr}
+}
