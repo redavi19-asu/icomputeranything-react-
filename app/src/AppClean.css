@@ -578,3 +578,67 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @media(max-width:430px){
   .ica-hero-products{grid-template-columns:1fr}
 }
+
+
+/* Urban Director Studio — centered content at every viewport width. */
+.ica-product-card.ica-product-director,
+.ica-product-modal.ica-product-director {
+  text-align:center;
+}
+.ica-product-card.ica-product-director .ica-product-card-head,
+.ica-product-modal.ica-product-director .ica-product-modal-top>div {
+  justify-content:center;
+}
+.ica-product-card.ica-product-director .ica-product-card-head {
+  align-items:center;
+  flex-wrap:wrap;
+}
+.ica-product-card.ica-product-director .ica-product-card-head>span {max-width:none}
+.ica-product-card.ica-product-director .ica-product-card-core,
+.ica-product-modal.ica-product-director .ica-product-modal-hero {
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.ica-product-card.ica-product-director .ica-product-summary,
+.ica-product-modal.ica-product-director .ica-product-modal-summary {
+  margin-left:auto;
+  margin-right:auto;
+}
+.ica-product-card.ica-product-director .ica-product-card-pills,
+.ica-product-modal.ica-product-director .ica-modal-pills,
+.ica-product-modal.ica-product-director .ica-product-modal-actions,
+.ica-product-card.ica-product-director .ica-product-card-foot {
+  justify-content:center;
+}
+.ica-product-modal.ica-product-director .ica-product-detail-block ul {
+  justify-items:center;
+}
+.ica-product-modal.ica-product-director .ica-product-detail-block li {
+  padding-left:0;
+}
+.ica-product-modal.ica-product-director .ica-product-detail-block li:before {
+  display:none;
+}
+.ica-product-modal.ica-product-director .ica-product-preview-title {
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.ica-product-modal.ica-product-director .ica-product-preview-title>div {
+  align-items:center;
+}
+.ica-product-modal.ica-product-director .ica-product-surface-grid>div,
+.ica-product-modal.ica-product-director .ica-capture-body {
+  align-items:center;
+  text-align:center;
+}
+.ica-product-modal.ica-product-director .ica-capture-chrome {
+  justify-content:center;
+}
+@media(max-width:650px) {
+  .ica-product-card.ica-product-director .ica-product-card-core,
+  .ica-product-modal.ica-product-director .ica-product-modal-hero,
+  .ica-product-card.ica-product-director .ica-product-card-foot {
+    align-items:center;
+  }
+}
