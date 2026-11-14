@@ -580,64 +580,37 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 
 
-/* Urban Director Studio — centered content at every viewport width. */
-.ica-product-card.ica-product-director,
-.ica-product-modal.ica-product-director {
+/* Center only the Urban Director Studio advertisement card on the homepage. */
+.ica-product-card.ica-product-director {
   text-align:center;
-}
-.ica-product-card.ica-product-director .ica-product-card-head,
-.ica-product-modal.ica-product-director .ica-product-modal-top>div {
-  justify-content:center;
+  align-items:stretch;
 }
 .ica-product-card.ica-product-director .ica-product-card-head {
+  justify-content:center;
   align-items:center;
   flex-wrap:wrap;
 }
-.ica-product-card.ica-product-director .ica-product-card-head>span {max-width:none}
-.ica-product-card.ica-product-director .ica-product-card-core,
-.ica-product-modal.ica-product-director .ica-product-modal-hero {
+.ica-product-card.ica-product-director .ica-product-card-head>span {
+  max-width:none;
+}
+.ica-product-card.ica-product-director .ica-product-card-core {
   justify-content:center;
+  align-items:center;
   flex-wrap:wrap;
 }
-.ica-product-card.ica-product-director .ica-product-summary,
-.ica-product-modal.ica-product-director .ica-product-modal-summary {
+.ica-product-card.ica-product-director .ica-product-summary {
   margin-left:auto;
   margin-right:auto;
 }
-.ica-product-card.ica-product-director .ica-product-card-pills,
-.ica-product-modal.ica-product-director .ica-modal-pills,
-.ica-product-modal.ica-product-director .ica-product-modal-actions,
+.ica-product-card.ica-product-director .ica-product-card-pills {
+  justify-content:center;
+}
 .ica-product-card.ica-product-director .ica-product-card-foot {
   justify-content:center;
-}
-.ica-product-modal.ica-product-director .ica-product-detail-block ul {
-  justify-items:center;
-}
-.ica-product-modal.ica-product-director .ica-product-detail-block li {
-  padding-left:0;
-}
-.ica-product-modal.ica-product-director .ica-product-detail-block li:before {
-  display:none;
-}
-.ica-product-modal.ica-product-director .ica-product-preview-title {
-  justify-content:center;
-  align-items:center;
   flex-wrap:wrap;
-}
-.ica-product-modal.ica-product-director .ica-product-preview-title>div {
-  align-items:center;
-}
-.ica-product-modal.ica-product-director .ica-product-surface-grid>div,
-.ica-product-modal.ica-product-director .ica-capture-body {
-  align-items:center;
-  text-align:center;
-}
-.ica-product-modal.ica-product-director .ica-capture-chrome {
-  justify-content:center;
 }
 @media(max-width:650px) {
   .ica-product-card.ica-product-director .ica-product-card-core,
-  .ica-product-modal.ica-product-director .ica-product-modal-hero,
   .ica-product-card.ica-product-director .ica-product-card-foot {
     align-items:center;
   }
