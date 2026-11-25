@@ -169,6 +169,29 @@ const products = [
     capturePlan: ["Events landing page", "Event detail", "Viewer sign-in", "My Library", "Protected playback"],
     liveUrl: DC_LIVE_URL,
     liveLabel: "Open DC Live"
+  },
+  {
+    id: "boxroute-usa",
+    theme: "boxroute",
+    eyebrow: "IPHONE DELIVERY SOFTWARE",
+    status: "IPHONE PILOT",
+    mark: "BR",
+    title: "BoxRoute USA",
+    tagline: "Scan labels, plan your stops, and follow turn-by-turn directions on iPhone.",
+    summary: "BoxRoute USA helps delivery drivers go from a stack of packages to a stop-by-stop route. Scan a shipping label with Apple Vision, check the saved address, and use the built-in MapKit driving view to get to each delivery.",
+    cardPills: ["Apple Vision", "Turn-by-turn", "Route planning", "Apple Maps + Google Maps"],
+    platforms: ["Native iPhone app"],
+    accountAccess: "BoxRoute USA is in field testing. Public App Store availability and subscription pricing will be announced at launch.",
+    capabilities: [
+      "Live label scanning with a focus box, scanner flashlight, and manual address entry",
+      "Same-address confirmation adds a separate package to the existing stop",
+      "Route planning from your current location with a return trip or a different finish address",
+      "Tap a map pin to choose your next stop, then follow spoken turns and an adaptive driving view",
+      "Confirm each delivery, save your progress, and resume your route later",
+      "Open remaining stops in Apple Maps or Google Maps, with longer routes divided into segments"
+    ],
+    surfaces: ["Scanner", "Saved deliveries", "Route planner", "Driving view"],
+    screenshot: { src: "products/boxroute-usa-iphone.png", alt: "BoxRoute USA iPhone home screen with Scanner, route controls, and saved deliveries" }
   }
 ];
 
@@ -328,14 +351,14 @@ function AppClean() {
         <section className="ica-section ica-software-section" id="software">
           <div className="ica-section-heading ica-software-heading">
             <span>02 / ICA PRODUCT STUDIO</span>
-            <h2>Five products. One ICA ecosystem.</h2>
+            <h2>Six products. One ICA ecosystem.</h2>
             <p>
               Every card below reflects the product that exists now — not an old MVP description. Click any product for a full capability preview, platform notes, account/onboarding details, and the real screens we need to capture next.
             </p>
           </div>
 
           <div className="ica-product-proof" aria-label="ICA product catalog summary">
-            <div><strong>5</strong><span>active software products</span></div>
+            <div><strong>{products.length}</strong><span>software products</span></div>
             <div><strong>1</strong><span>parent technology company</span></div>
             <div><strong>Web + Mobile + Desktop</strong><span>platform-aware workflows</span></div>
           </div>
@@ -368,6 +391,10 @@ function AppClean() {
                   </div>
                 </div>
                 <p className="ica-product-summary">{product.summary}</p>
+                {product.screenshot && (
+                  <img className="ica-boxroute-card-image" src={import.meta.env.BASE_URL + product.screenshot.src}
+                    alt={product.screenshot.alt} loading="lazy" />
+                )}
                 <div className="ica-feature-pills ica-product-card-pills">
                   {product.cardPills.map((pill) => <span key={pill}>{pill}</span>)}
                 </div>
@@ -585,6 +612,13 @@ function AppClean() {
               </div>
             </div>
 
+            {selectedProduct.screenshot ? (
+              <figure className="ica-boxroute-screenshot">
+                <img src={import.meta.env.BASE_URL + selectedProduct.screenshot.src}
+                  alt={selectedProduct.screenshot.alt} />
+                <figcaption>BoxRoute USA running on an iPhone simulator</figcaption>
+              </figure>
+            ) : (
             <div className="ica-product-captures">
               <div className="ica-product-preview-title">
                 <div>
@@ -606,6 +640,8 @@ function AppClean() {
                 ))}
               </div>
             </div>
+
+            )}
 
             <div className="ica-product-modal-actions">
               {selectedProduct.liveUrl && (
